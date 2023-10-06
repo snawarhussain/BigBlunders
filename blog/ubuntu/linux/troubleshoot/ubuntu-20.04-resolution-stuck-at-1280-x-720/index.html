@@ -1,0 +1,715 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Ubuntu 20.04 resolution stuck at 1280x720, permanent fix - Snawar Hussain</title>
+<meta name="description" content="permanently saving the resolution settings on Ubuntu 20.04">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Ubuntu 20.04 resolution stuck at 1280x720, permanent fix">
+<meta property="og:url" content="/blog/ubuntu/linux/troubleshoot/ubuntu-20.04-resolution-stuck-at-1280-x-720/">
+
+
+  <meta property="og:description" content="permanently saving the resolution settings on Ubuntu 20.04">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-07-02T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="/blog/ubuntu/linux/troubleshoot/ubuntu-20.04-resolution-stuck-at-1280-x-720/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Ubuntu 20.04 resolution stuck at 1280x720, permanent fix">
+    <meta itemprop="description" content="permanently saving the resolution settings on Ubuntu 20.04">
+    <meta itemprop="datePublished" content="2021-07-02T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="/blog/ubuntu/linux/troubleshoot/ubuntu-20.04-resolution-stuck-at-1280-x-720/" class="u-url" itemprop="url">Ubuntu 20.04 resolution stuck at 1280x720, permanent fix
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list"></i> Contents of this post</h4></header>
+              <ul class="toc__menu"><li><a href="#creating-a-new-modeline">Creating a new modeline</a></li><li><a href="#make-the-fix-permanent">Make the fix permanent</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="creating-a-new-modeline">Creating a new modeline</h1>
+
+<p>create a new modeline according to your monitor resolution.</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="n">sudo</span><span class="w"> </span><span class="n">cvt</span><span class="w"> </span><span class="m">1920</span><span class="w"> </span><span class="m">1080</span><span class="w">
+</span></code></pre></div></div>
+<p>the output to this will be something like:
+<code class="language-plaintext highlighter-rouge">Modeline "1920x1080_60.00" 173.00 1920 2048 2248 2576 1080 1083 1088 1120 -hsync +vsync</code></p>
+
+<p>copy everthing after <code class="language-plaintext highlighter-rouge">Modeline</code> from the output to add new mode to xrandr.</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span><span class="w"> </span><span class="n">xrandr</span><span class="w"> </span><span class="o">--</span><span class="n">newmode</span><span class="w"> </span><span class="s2">"1920x1080_60.00"</span><span class="w"> </span><span class="m">173.00</span><span class="w"> </span><span class="m">1920</span><span class="w"> </span><span class="m">2048</span><span class="w"> </span><span class="m">2248</span><span class="w"> </span><span class="m">2576</span><span class="w"> </span><span class="m">1080</span><span class="w"> </span><span class="m">1083</span><span class="w"> </span><span class="m">1088</span><span class="w"> </span><span class="m">1120</span><span class="w"> </span><span class="o">-</span><span class="n">hsync</span><span class="w"> </span><span class="o">+</span><span class="n">vsync</span><span class="err">`</span><span class="w">
+</span></code></pre></div></div>
+<p>type <code class="language-plaintext highlighter-rouge">xrandr</code> or <code class="language-plaintext highlighter-rouge">xrandr -q</code> to see all the available outputs including the one that is connected. for example <code class="language-plaintext highlighter-rouge">VGA1</code> or <code class="language-plaintext highlighter-rouge">DP-1</code>.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ xrandr
+Screen 0: minimum 320 x 200, current 1280 x 800, maximum 4096 x 4096
+VGA1 disconnected (normal left inverted right x axis y axis)
+LVDS1 connected 1280x800+0+0 inverted X and Y axis (normal left inverted right x axis y axis) 261mm x 163mm
+   1280x800       59.8*+
+   1024x768       60.0
+   800x600        60.3     56.2
+   640x480        59.9
+DVI1 disconnected (normal left inverted right x axis y axis)
+TV1 disconnected (normal left inverted right x axis y axis)
+</code></pre></div></div>
+
+<p>after that type the command:</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span><span class="w"> </span><span class="n">xrandr</span><span class="w"> </span><span class="o">--</span><span class="n">addmode</span><span class="w"> </span><span class="n">LVDS1</span><span class="w"> </span><span class="s2">"1920x1080_60.00"</span><span class="w">
+
+</span></code></pre></div></div>
+
+<p>change the <code class="language-plaintext highlighter-rouge">LVSD1</code> with your connected device name that you found using <code class="language-plaintext highlighter-rouge">xrandr</code> command and the mode name with the text that appear after <code class="language-plaintext highlighter-rouge">Modeline</code> in the output of <code class="language-plaintext highlighter-rouge">cvt</code> command.
+this should change the resolution of the screen.</p>
+
+<h1 id="make-the-fix-permanent">Make the fix permanent</h1>
+<p>if you leave it here, the resolution’s gonna switch back to whatever it was before after a reboot. TO make this fix permanent
+we need to add these configuration in <code class="language-plaintext highlighter-rouge">xorg.conf</code> file so they will excecute at each start up</p>
+
+<p>for that open up <code class="language-plaintext highlighter-rouge">xorg.conf</code> file located at <code class="language-plaintext highlighter-rouge">/etc/X11/xorg.conf</code> with a text editor like <code class="language-plaintext highlighter-rouge">vim</code></p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span><span class="w"> </span><span class="n">vim</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">X11</span><span class="o">/</span><span class="n">xorg.conf</span><span class="w">
+</span></code></pre></div></div>
+<p>this command will make a new xorg.conf file if it wasn’t there already.
+and copy these line into the file</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Section</span><span class="w"> </span><span class="s2">"Monitor"</span><span class="w">
+</span><span class="n">Identifier</span><span class="w">  </span><span class="s2">"LVSD1"</span><span class="w">
+</span><span class="n">Modeline</span><span class="w"> </span><span class="s2">"1920x1080_60.00"</span><span class="w">  </span><span class="m">173.00</span><span class="w">  </span><span class="m">1920</span><span class="w"> </span><span class="m">2048</span><span class="w"> </span><span class="m">2248</span><span class="w"> </span><span class="m">2576</span><span class="w">  </span><span class="m">1080</span><span class="w"> </span><span class="m">1083</span><span class="w"> </span><span class="m">1088</span><span class="w"> </span><span class="m">1120</span><span class="w"> </span><span class="o">-</span><span class="n">hsync</span><span class="w"> </span><span class="o">+</span><span class="n">vsync</span><span class="w">
+</span><span class="n">EndSection</span><span class="w">
+</span></code></pre></div></div>
+<p>where the <code class="language-plaintext highlighter-rouge">Modeline</code> configurations should be replaced with the output of <code class="language-plaintext highlighter-rouge">cvt</code>.</p>
+
+<p>the <code class="language-plaintext highlighter-rouge">xorg.conf</code> file is excecuted rather later on after startup so once you log in with your user account the resolution will be changed according to the configurations added. you might see the initial low resolution at the login page.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#screen-resolution" class="page__taxonomy-item p-category" rel="tag">screen resolution</a><span class="sep">, </span>
+    
+      <a href="/tags/#ubuntu-20-04" class="page__taxonomy-item p-category" rel="tag">ubuntu 20.04</a><span class="sep">, </span>
+    
+      <a href="/tags/#xorg-conf" class="page__taxonomy-item p-category" rel="tag">xorg.conf</a><span class="sep">, </span>
+    
+      <a href="/tags/#xrandr" class="page__taxonomy-item p-category" rel="tag">xrandr</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#linux" class="page__taxonomy-item p-category" rel="tag">Linux</a><span class="sep">, </span>
+    
+      <a href="/categories/#troubleshoot" class="page__taxonomy-item p-category" rel="tag">troubleshoot</a><span class="sep">, </span>
+    
+      <a href="/categories/#ubuntu" class="page__taxonomy-item p-category" rel="tag">Ubuntu</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2021-07-02T00:00:00+00:00">July 2, 2021</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Ubuntu+20.04+resolution+stuck+at+1280x720%2C+permanent+fix%20%2Fblog%2Fubuntu%2Flinux%2Ftroubleshoot%2Fubuntu-20.04-resolution-stuck-at-1280-x-720%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2Fubuntu%2Flinux%2Ftroubleshoot%2Fubuntu-20.04-resolution-stuck-at-1280-x-720%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fblog%2Fubuntu%2Flinux%2Ftroubleshoot%2Fubuntu-20.04-resolution-stuck-at-1280-x-720%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/djnago/apache/linux/ububtu/django3.2.5-with-apache2-and-mod-wsgi/" class="pagination--pager" title="Django3.2.5 with Apache2 and mod_wsgi
+">Previous</a>
+    
+    
+      <a href="/blog/python/pytorch/deep%20learning/Loading-custom-datasets-in-Pytorch/" class="pagination--pager" title="Working with custom datasets in PyTorch
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="permalink">Understanding Probability Theory: A Primer for Computational Neuroethologists
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of d...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="permalink">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          29 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds an...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>

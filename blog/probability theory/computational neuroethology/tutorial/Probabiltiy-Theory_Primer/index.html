@@ -1,0 +1,874 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Understanding Probability Theory: A Primer for Computational Neuroethologists - Snawar Hussain</title>
+<meta name="description" content="This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of designing experiments, analyzing data, and building/testing models of neural systems.">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Understanding Probability Theory: A Primer for Computational Neuroethologists">
+<meta property="og:url" content="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/">
+
+
+  <meta property="og:description" content="This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of designing experiments, analyzing data, and building/testing models of neural systems.">
+
+
+
+  <meta property="og:image" content="/assets/images/prob_for_neuro/cover.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2023-06-08T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/assets/images/prob_for_neuro/cover.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Understanding Probability Theory: A Primer for Computational Neuroethologists
+
+        
+      </h1>
+      
+        <p class="page__lead">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of designing experiments, analyzing data, and building/testing models of neural systems.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Understanding Probability Theory: A Primer for Computational Neuroethologists">
+    <meta itemprop="description" content="This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of designing experiments, analyzing data, and building/testing models of neural systems.">
+    <meta itemprop="datePublished" content="2023-06-08T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list"></i> Contents of this post</h4></header>
+              <ul class="toc__menu"><li><a href="#sample-space-and-events">Sample Space and Events</a></li><li><a href="#probability-measure">Probability Measure</a></li><li><a href="#random-variables">Random Variables</a></li><li><a href="#cumulative-distribution-functions-cdfs">Cumulative Distribution Functions (CDFs)</a><ul><li><a href="#example">Example</a></li></ul></li><li><a href="#probability-mass-functions-pmfs">Probability Mass Functions (PMFs)</a><ul><li><a href="#example-1">Example</a></li></ul></li><li><a href="#probability-density-functions-pdfs">Probability Density Functions (PDFs)</a><ul><li><a href="#example-2">Example</a></li></ul></li><li><a href="#joint-and-marginal-probability-mass-functions">Joint and Marginal Probability Mass Functions</a><ul><li><a href="#example-3">Example</a></li></ul></li><li><a href="#joint-and-marginal-probability-density-functions">Joint and Marginal Probability Density Functions</a><ul><li><a href="#example-4">Example</a></li></ul></li><li><a href="#conditional-distributions">Conditional Distributions</a><ul><li><a href="#example-5">Example</a></li></ul></li><li><a href="#independence">Independence</a></li><li><a href="#bayess-rule">Bayes’s Rule</a><ul><li><a href="#example-6">Example</a></li></ul></li><li><a href="#conclusion">Conclusion</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>Probability theory is the mathematical framework that underpins statistical analysis. It’s a field that has its roots in the study of gambling and uncertainty, but it’s now an essential tool for a wide range of disciplines. For computational neuroethologists, understanding probability theory is crucial for everything from designing experiments and analyzing data, to building and testing models of neural systems. In this post, we’ll cover the basics of probability theory, using examples from the field of computational neuroethology to illustrate key concepts.</p>
+
+<h2 id="sample-space-and-events">Sample Space and Events</h2>
+
+<p>The <strong>sample space</strong> \(Ω\) is the set of all possible outcomes of a random experiment. Each outcome \(ω ∈ Ω\) can be thought of as a complete description of the state of the world at the end of the experiment. For example, in a study of rat behavior, the sample space might be the set of all possible sequences of a rat’s movements in a maze.</p>
+
+<p>An <strong>event</strong> \(A\) is a subset of the sample space, i.e., \(A ⊆ Ω\). It’s a collection of possible outcomes of an experiment. For example, an event might be that a rat reaches the end of a maze.</p>
+
+<h2 id="probability-measure">Probability Measure</h2>
+
+<p>A <strong>probability measure</strong> \(P\) is a function \(P : F → R\) that assigns a probability to each event. It satisfies the following properties:</p>
+
+<ul>
+  <li>\(P(A) ≥ 0\), for all \(A ∈ F\)</li>
+  <li>
+\[P(Ω) = 1\]
+  </li>
+  <li>If \(A_1, A_2, ...\) are disjoint events (i.e., \(A_i ∩ A_j = ∅\) whenever \(i ≠ j\)), then \(P(∪_iA_i) = ∑_iP(A_i)\)</li>
+</ul>
+
+<p>These are known as the Axioms of Probability.</p>
+
+<h2 id="random-variables">Random Variables</h2>
+
+<p>A <strong>random variable</strong> \(X\) is a function \(X : Ω → R\). Typically, random variables are denoted using upper case letters \(X(ω)\) or more simply \(X\) (where the dependence on the random outcome \(ω\) is implied). The value that a random variable may take on is denoted using lower case letters \(x\).</p>
+
+<p>For example, in a study of rat behavior, the elements of the sample space \(Ω\) are sequences of the rat’s movements. Suppose that \(X(ω)\) is the time it takes for the rat to reach the end of the maze. Given that the maze has a fixed length, \(X(ω)\) can take only a finite number of values, so it is known as a discrete random variable.</p>
+
+<h2 id="cumulative-distribution-functions-cdfs">Cumulative Distribution Functions (CDFs)</h2>
+
+<p>A cumulative distribution function (CDF) is a function \(F_X : R → [0, 1]\) which specifies a probability measure as, \(F_X(x) ≜ P(X ≤ x)\). Here, \(F_X(x)\) is the CDF of the random variable \(X\), \(R\) represents the set of real numbers, and \(P(X ≤ x)\) is the probability that the random variable \(X\) takes a value less than or equal to \(x\).</p>
+
+<h3 id="example">Example</h3>
+
+<p>Consider a rat navigating through a maze. Let \(X\) be the time it takes for the rat to reach the end of the maze. The CDF \(F_X(t)\) gives the probability that the rat will reach the end of the maze in time less than or equal to \(t\).</p>
+
+<p align="center">
+<img src="/assets/images/prob_for_neuro/rat_maze.jpg" width="400" />
+ <center> <figcaption>Illustration generated by DALL-E</figcaption> </center>
+</p>
+
+<h2 id="probability-mass-functions-pmfs">Probability Mass Functions (PMFs)</h2>
+
+<p>When a random variable \(X\) takes on a finite set of possible values (i.e., \(X\) is a discrete random variable), a simpler way to represent the probability measure associated with a random variable is to directly specify the probability of each value that the random variable can assume. In particular, a probability mass function (PMF) is a function \(p_X : Ω → R\) such that</p>
+
+\[p_X(x) ≜ P(X = x)\]
+
+<p>In the case of discrete random variable, we use the notation \(Val(X)\) for the set of possible values that the random variable \(X\) may assume. For example, if \(X(ω)\) is a random variable indicating the number of heads out of ten tosses of coin, then \(Val(X) = {0, 1, 2, . . . , 10}\).</p>
+
+<h3 id="example-1">Example</h3>
+
+<p>Consider a rat navigating through a maze. Let \(X\) be the number of turns it takes for the rat to reach the end of the maze. The PMF \(p_X(k)\) gives the probability that the rat will reach the end of the maze in \(k\) turns.</p>
+
+<h2 id="probability-density-functions-pdfs">Probability Density Functions (PDFs)</h2>
+
+<p>For some continuous random variables, the cumulative distribution function \(F_X(x)\) is differentiable everywhere. In these cases, we define the Probability Density Function or PDF as the derivative of the CDF, i.e.,</p>
+
+\[f_X(x) ≜ \frac{dF_X(x)}{dx}\]
+
+<p>Note here, that the PDF for a continuous random variable may not always exist (i.e., if \(F_X(x)\) is not differentiable everywhere).</p>
+
+<p>According to the properties of differentiation, for very small $∆x$,</p>
+
+\[P(x ≤ X ≤ x + ∆x) ≈ f_X(x)∆x\]
+
+<h3 id="example-2">Example</h3>
+
+<p>Consider a rat navigating through a maze. Let \(X\) be the time it takes for the rat to reach the end of the maze. The PDF \(f_X(t)\) gives the probability density function of the time it takes for the rat to reach the end of the maze.</p>
+
+<h2 id="joint-and-marginal-probability-mass-functions">Joint and Marginal Probability Mass Functions</h2>
+
+<p>If \(X\) and \(Y\) are discrete random variables, then the joint probability mass function \(p_{XY} : R×R → [0, 1]\) is defined by</p>
+
+\[p_{XY}(x, y) = P(X = x, Y = y)\]
+
+<p>Here, \(0 ≤ p_{XY}(x, y) ≤ 1\) for all \(x, y\), and \(\sum_{x∈Val(X)}\sum_{y∈Val(Y)} p_{XY}(x, y) = 1\).</p>
+
+<p>How does the joint PMF over two variables relate to the probability mass function for each variable separately? It turns out that</p>
+
+\[p_X(x) = \sum_{y} p_{XY}(x, y)\]
+
+<p>and similarly for \(p_Y(y)\). In this case, we refer to \(p_X(x)\) as the marginal probability mass function of \(X\). In statistics, the process of forming the marginal distribution with respect to one variable by summing out the other variable is often known as “marginalization”.</p>
+
+<h3 id="example-3">Example</h3>
+
+<p>Consider a rat navigating through a maze. Let \(X\) be the number of turns it takes for the rat to reach the end of the maze, and let \(Y\) be the number of times the rat retraces its steps. The joint PMF \(p_{XY}(k, l)\) gives the probability that the rat will reach the end of the maze in \(k\) turns and retrace its steps l times. The marginal PMF \(p_X(k)\) gives the probability that the rat will reach the end of the maze in \(k\) turns, regardless of how many times it retraces its steps.</p>
+
+<h2 id="joint-and-marginal-probability-density-functions">Joint and Marginal Probability Density Functions</h2>
+
+<p>Let \(X\) and \(Y\) be two continuous random variables with joint distribution function \(F_{XY}\). In the case that \(F_{XY}(x, y)\) is everywhere differentiable in both \(x\) and \(y\), then we can define the joint probability density function as,</p>
+
+\[f_{XY}(x, y) = \frac{\partial^2 F_{XY}(x, y)}{\partial x \partial y}\]
+
+<p>Like in the single-dimensional case, \(f_{XY}(x, y) ≠ P(X = x, Y = y)\), but rather,</p>
+
+\[\int_{x \in A} f_{XY}(x, y) dx dy = P((X, Y) ∈ A)\]
+
+<p>Note that the values of the probability density function \(f_{XY}(x, y)\) are always nonnegative, but they may be greater than 1. Nonetheless, it must be the case that,</p>
+
+\[\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{XY}(x, y) dx dy = 1\]
+
+<p>Analogous to the discrete case, we define</p>
+
+\[f_X(x) = \int_{-\infty}^{\infty} f_{XY}(x, y) dy\]
+
+<p>as the marginal probability density function (or marginal density) of \(X\), and similarly for \(f_Y(y)\).</p>
+
+<h3 id="example-4">Example</h3>
+
+<p>Consider a rat navigating through a maze. Let \(X\) be the time it takes for the rat to reach the end of the maze, and let \(Y\) be the speed of the rat. The joint PDF \(f_{XY}(t, v)\) gives the probability density function of the time and speed it takes for the rat to reach the end of the maze. The marginal PDF \(f_X(t)\) gives the probability density function of the time it takes for the rat to reach the end of the maze, regardless of its speed.</p>
+
+<h2 id="conditional-distributions">Conditional Distributions</h2>
+
+<p>Conditional distributions seek to answer the question, what is the probability distribution over \(Y\), when we know that \(X\) must take on a certain value \(x\)? In the discrete case, the conditional probability mass function of \(X\) given \(Y\) is simply:</p>
+
+\[p_{Y|X}(y|x) = \frac{p_{XY}(x, y)}{p_X(x)}\]
+
+<p>assuming that \(p_X(x) ≠ 0\).</p>
+
+<p>In the continuous case, the situation is technically a little more complicated because the probability that a continuous random variable \(X\) takes on a specific value \(x\) is equal to zero. Ignoring this technical point, we simply define, by analogy to the discrete case, the conditional probability density of \(Y\) given \(X = x\) to be:</p>
+
+\[f_{Y|X}(y|x) = \frac{f_{XY}(x, y)}{f_X(x)}\]
+
+<p>provided \(f_X(x) ≠ 0\).</p>
+
+<h3 id="example-5">Example</h3>
+
+<p>Consider a rat navigating through a maze. Let \(X\) be the time it takes for the rat to reach the end of the maze, and let \(Y\) be the speed of the rat. The conditional PDF \(f_{Y|X}(y|x)\)
+gives the probability density function of the speed of the rat given that it reaches the end of the maze in time \(t\)</p>
+
+<h2 id="independence">Independence</h2>
+
+<p>Two random variables \(X\) and \(Y\) are independent if \(F_{XY}(x, y)= FX(x)FY (y)\) for all values of \(x\) and \(y\). Equivalently,</p>
+
+<ul>
+  <li>For discrete random variables, \(p_{XY}(x, y) = p_X(x)p_Y(y)\) for all \(x ∈ Val(X)\), \(y ∈ Val(Y)\).</li>
+  <li>For discrete random variables,
+\(p_{Y|X}(y|x) = p_Y(y)\) whenever \(p_X(x) ≠ 0\) for all \(y ∈ Val(Y)\).</li>
+  <li>For continuous random variables, \(f_{XY}(x, y) = f_X(x)f_Y(y)\) for all \(x, y ∈ R\).</li>
+  <li>For continuous random variables,
+\(f_{Y|X}(y|x) = f_Y(y)\) whenever \(f_X(x) ≠ 0\) for all \(y ∈ R\).</li>
+</ul>
+
+<p>Independent random variables often arise in machine learning algorithms where we assume that the training examples belonging to the training set represent independent samples from some unknown probability distribution. To make the significance of independence clear, consider a “bad” training set in which we first sample a single training example \((x^{(1)}, y^{(1)})\) from some unknown distribution, and then add \(m - 1\) copies of the exact same training example to the training set. In this case, we have (with some abuse of notation)</p>
+
+\[P((x^{(1)}, y^{(1)}), . . . .(x^{(m)}, y^{(m)})) ≠ \sum_{i=1}^{m} P(x^{(i)}, y^{(i)}).\]
+
+<p>Despite the fact that the training set has size \(m\), the examples are not independent! While clearly the procedure described here is not a sensible method for building a training set for a machine learning algorithm, it turns out that in practice, non-independence of samples does come up often, and it has the effect of reducing the “effective size” of the training set.</p>
+
+<h2 id="bayess-rule">Bayes’s Rule</h2>
+
+<p>A useful formula that often arises when trying to derive expression for the conditional probability of one variable given another, is Bayes’s rule.</p>
+
+<p>In the case of discrete random variables \(X\) and \(Y\),</p>
+
+\[P_{Y|X}(y|x) = \frac{P_{XY}(x, y)}{P_X(x)} = \frac{P_{X|Y}(x|y)P_Y(y)}{\sum_{y' ∈ Val(Y)} P_{X|Y}(x|y')P_Y(y')}.\]
+
+<p>If the random variables \(X\) and \(Y\) are continuous,</p>
+
+\[f_{Y|X}(y|x) = \frac{f_{XY}(x, y)}{f_X(x)} = \frac{f_{X|Y}(x|y)f_Y(y)}{\int_{-\infty}^{\infty} f_{X|Y}(x|y')f_Y(y')dy'}.\]
+
+<h3 id="example-6">Example</h3>
+
+<p>In a Brain-Computer Interface (BCI) experiment, suppose \(X\) is the event that a rat successfully performs a task, and \(Y\) is the event that a specific pattern of neural activity is observed. We are interested in \(P(X|Y)\),
+the probability that the rat successfully performs the task given that the specific pattern of neural activity is observed. According to Bayes’ rule, we can calculate this as:</p>
+
+\[P(X|Y) = \frac{P(Y|X)P(X)}{P(Y|X)P(X) + P(Y|\neg X)P(\neg X)}\]
+
+<p>Here, \(P(Y|X)\)
+is the probability that the specific pattern of neural activity is observed given that the rat successfully performs the task, \(P(X)\)
+is the prior probability that the rat successfully performs the task, \(P(Y|\neg X)\) is the probability that the specific pattern of neural activity is observed given that the rat does not successfully perform the task, and \(P(\neg X)\) is the prior probability that the rat does not successfully perform the task.</p>
+
+<p>This formula allows us to update our belief about the rat’s performance based on the observed neural activity. If the specific pattern of neural activity is highly indicative of successful task performance and the rat is generally successful at performing the task, \(P(X|Y)\)
+will be high. If the specific pattern of neural activity is not very indicative of successful task performance or the rat is generally not successful at performing the task, \(P(X|Y)\)
+will be lower.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In this post, we’ve covered the basics of probability theory, using examples from the field of computational neuroethology to illustrate key concepts. We’ve seen how these concepts can be applied to understand and analyze the behavior of rats in a maze and in a BCI experiment. Understanding these concepts is crucial for designing experiments, analyzing data, and building models in computational neuroethology. I hope that this post has provided a useful introduction to these topics and has sparked your interest in further study.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#computational-neuroethology" class="page__taxonomy-item p-category" rel="tag">Computational Neuroethology</a><span class="sep">, </span>
+    
+      <a href="/tags/#data-analysis" class="page__taxonomy-item p-category" rel="tag">Data Analysis</a><span class="sep">, </span>
+    
+      <a href="/tags/#experimental-design" class="page__taxonomy-item p-category" rel="tag">Experimental Design</a><span class="sep">, </span>
+    
+      <a href="/tags/#neural-systems-modeling" class="page__taxonomy-item p-category" rel="tag">Neural Systems Modeling</a><span class="sep">, </span>
+    
+      <a href="/tags/#probability-theory" class="page__taxonomy-item p-category" rel="tag">Probability Theory</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#computational-neuroethology" class="page__taxonomy-item p-category" rel="tag">Computational Neuroethology</a><span class="sep">, </span>
+    
+      <a href="/categories/#probability-theory" class="page__taxonomy-item p-category" rel="tag">Probability Theory</a><span class="sep">, </span>
+    
+      <a href="/categories/#tutorial" class="page__taxonomy-item p-category" rel="tag">Tutorial</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-06-08T00:00:00+00:00">June 8, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Understanding+Probability+Theory%3A+A+Primer+for+Computational+Neuroethologists%20%2Fblog%2Fprobability%2520theory%2Fcomputational%2520neuroethology%2Ftutorial%2FProbabiltiy-Theory_Primer%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2Fprobability%2520theory%2Fcomputational%2520neuroethology%2Ftutorial%2FProbabiltiy-Theory_Primer%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fblog%2Fprobability%2520theory%2Fcomputational%2520neuroethology%2Ftutorial%2FProbabiltiy-Theory_Primer%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" class="pagination--pager" title="Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+">Previous</a>
+    
+    
+      <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" class="pagination--pager" title="Visualizing and Animating 3D Motion Capture Data with PyVista
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="permalink">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          28 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds an...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/linux/linux-managing-users-shared-data-folders-on-local-drive/" rel="permalink">How to Create a Data Folder for Each User and Move Conda Packages to a Shared Storage Drive
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to creating a data folder for each user on a shared storage drive and moving Conda packages to conserve space.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>

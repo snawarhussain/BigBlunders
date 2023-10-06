@@ -1,0 +1,1056 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Photometric Stereo: estimating surface normals and albedo - Snawar Hussain</title>
+<meta name="description" content="Python tutorial to perform Photometric stereo for a lambertian case">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Photometric Stereo: estimating surface normals and albedo">
+<meta property="og:url" content="/blog/computer%20vision/python/tutorial/photometric-stereo-lambertian-model/">
+
+
+  <meta property="og:description" content="Python tutorial to perform Photometric stereo for a lambertian case">
+
+
+
+  <meta property="og:image" content="/assets/images/photometric_stereo/title.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2022-12-07T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="/blog/computer%20vision/python/tutorial/photometric-stereo-lambertian-model/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/assets/images/photometric_stereo/title.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Photometric Stereo: estimating surface normals and albedo
+
+        
+      </h1>
+      
+        <p class="page__lead">Python tutorial to perform Photometric stereo for a lambertian case
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          18 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Photometric Stereo: estimating surface normals and albedo">
+    <meta itemprop="description" content="Python tutorial to perform Photometric stereo for a lambertian case">
+    <meta itemprop="datePublished" content="2022-12-07T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list"></i> Contents of this post</h4></header>
+              <ul class="toc__menu"><li><a href="#photometric-stereo">Photometric Stereo</a><ul><li><a href="#assumptions">Assumptions:</a></li><li><a href="#basic-idea">Basic Idea</a></li></ul></li><li><a href="#lambertian-surface-case">Lambertian surface case</a><ul><li><a href="#photometric-stereo-lambertian-case">Photometric stereo: Lambertian Case</a></li></ul></li><li><a href="#code-implementation">Code Implementation</a><ul><li><a href="#understanding-the-data">Understanding the data</a></li><li><a href="#loading-dataset-and-normalizing-it-with-the-intensity-values">Loading dataset and normalizing it with the intensity values</a></li><li><a href="#applying-the-mask-to-the-image">Applying the mask to the image</a></li><li><a href="#photometric-stereo-code-implementation">Photometric Stereo code implementation</a></li><li><a href="#sample-3-images-randomly-from-data-for-constructing-surface-normals-and-albedo">Sample 3 images randomly from data for constructing surface normals and albedo</a></li><li><a href="#plotting">Plotting…</a></li></ul></li><li><a href="#4-using-more-than-3-images">4. Using more than 3 images</a><ul><li><a href="#results-are-improved-after-using-more-images">Results are improved after using more images</a></li></ul></li></ul></li><li><a href="#similarly-results-for-the-rest-of-the-objects">Similarly results for the rest of the objects</a></li></ul></li><li><a href="#4-conclusion">4. Conclusion</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="photometric-stereo">Photometric Stereo</h1>
+<p>Given the intensity of one pixel in an image does not provide information about the surface orientation or surface normal \(n\) of the object at that particular point. Photometric stereo uses multiple images of an object taken under different light conditions from different angles to get the surface orientation. The images of an object taken under different light conditions \(S\) gives us the measure of multiple intensities values of each pixel under these lighting conditions. Given that We have measured the image intensity values \(i\) produced by each of the light source \(S_i\)
+These intensities values help resolve the ambiguity to estimate the surface orientation.
+In simpler words, Photometric stereo is a way to estimate the 3D shape of an object from images of the same object taken with different light sources oriented at different positions.</p>
+
+<p align="center">
+<img src="/assets/images/photometric_stereo/pms.png" width="300" /> </p>
+
+<h2 id="assumptions">Assumptions:</h2>
+<ul>
+  <li>The camera viewing angle \(V\) is same for all points on the surface</li>
+  <li>For each individual light source \(S\) the direction is same for all points on the surface.</li>
+</ul>
+
+<p>in other words, the camera is far away and the light sources are far away.</p>
+
+<h2 id="basic-idea">Basic Idea</h2>
+
+<p><strong>Step 1:</strong>  Acquire \(K\) images with \(K\) known light sources</p>
+
+<p><strong>Step 2:</strong>  Using known source direction and \(BRDF\), construct reflectance map for each source direction.</p>
+
+<p><strong>Step 3:</strong>  For each pixel location \((x, y)\), find \((p, q)\) as the intersection of \(K\) reflectance curves from different light sources. This \((p, q)\) gives the surface normal at pixel \((x, y)\)</p>
+
+<p><strong>The smallest \(K\) values depends on the surface properties of a material.</strong></p>
+
+<h1 id="lambertian-surface-case">Lambertian surface case</h1>
+<p>For a lambertian surface three light sources ( \(K = 3)\) is enough to compute the surface normals \(n\) and the albedo. The assumption for a lambertian surface is that light from each source can reach each point on the surface.</p>
+
+<h2 id="photometric-stereo-lambertian-case">Photometric stereo: Lambertian Case</h2>
+<p>For doing photometric stereo with the lambertian model of the diffused reflections we model the equation so such that:
+ Image intensities measure at a point \((x, y)\) of the object or at the pixel of the image under three different light sources is given as:</p>
+
+<p align="center">
+<img src="/assets/images/photometric_stereo/eq1.png" width="400" /> </p>
+
+<p>Where \(I_i\) is the image intensity for each light source <strong>\(s_i\)</strong>.  Here \(n\) is the unit normal vector that is normal to the surface or in this case, normal to the particular pixel in the image. \(\rho\) is the albedo of the image. the \(\pi\) can be ignored for the simplicity</p>
+
+<p>The above three equations can be expressed as in matrix form as shown in below:</p>
+<p align="center">
+<img src="/assets/images/photometric_stereo/eq2.png" width="400" /> </p>
+
+<p>The image intensities values are given as a vector \([I_1 ... I_3]\)  that we had measured on each point in the image. and the \(S\) is a <strong>known</strong> \(3*3\) matrix for three different light sources that are known to us.  from this set of equation the we have 2 <strong>unknowns</strong> that are the image <strong>albedo</strong> and the <strong>surface normal vector \(n\)</strong>
+We speculate that the image albedo is not constant rather vary from point to point.</p>
+
+<p>Given these measurements and set of assumptions we can solve the matrix equation for \(n\) and the albedo the solution is given below:</p>
+
+<p align="center">
+<img src="/assets/images/photometric_stereo/eq3.png" width="500" />
+ </p>
+
+<h1 id="code-implementation">Code Implementation</h1>
+
+<h2 id="understanding-the-data">Understanding the data</h2>
+<p>The given data consists of  individual objects (bear, buddha, cat, and pot) that are captured under 96 unique light sources. the object under each light source corresponds to a 16 bit RGB image. The light source directions for each source are given in ‘light_directions.txt’. After loading, Images are normalized by dividing each channel to their corresponding intensity value given in ‘light_intensities.txt’. each object comes with a binary mask as well.</p>
+
+<h2 id="loading-dataset-and-normalizing-it-with-the-intensity-values">Loading dataset and normalizing it with the intensity values</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="k">def</span> <span class="nf">numerical_sort</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">numbers</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s">'(\d+)'</span><span class="p">)</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">parts</span>
+
+<span class="k">def</span> <span class="nf">imread</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">intensities</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">flag</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">img_names</span> <span class="o">=</span> <span class="n">glob</span><span class="p">.</span><span class="n">glob</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+    <span class="n">img_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"[No {} images]"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span>
+        <span class="nb">exit</span><span class="p">()</span>
+    <span class="n">img_names</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">img_names</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">numerical_sort</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">img_names</span><span class="p">):</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">flag</span><span class="p">),</span> <span class="bp">None</span><span class="p">,</span> <span class="n">fx</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+        <span class="k">if</span>  <span class="n">np</span><span class="p">.</span><span class="nb">any</span><span class="p">(</span><span class="n">intensities</span><span class="p">):</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">img</span> <span class="o">/</span> <span class="n">intensities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">img_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img_list</span>
+
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">loadtxt</span>
+
+<span class="n">dataPath</span> <span class="o">=</span> <span class="s">"data/"</span>
+<span class="nb">object</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">obj</span>  <span class="ow">in</span> <span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dataPath</span><span class="p">)):</span>
+    <span class="nb">object</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+<span class="n">L_direction</span> <span class="o">=</span> <span class="n">loadtxt</span><span class="p">(</span><span class="sa">f</span><span class="s">"data/</span><span class="si">{</span><span class="nb">object</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s">/info/light_directions.txt"</span><span class="p">)</span>
+<span class="n">intensities</span> <span class="o">=</span> <span class="n">loadtxt</span><span class="p">(</span><span class="sa">f</span><span class="s">"data/</span><span class="si">{</span><span class="nb">object</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s">/info/light_intensities.txt"</span><span class="p">)</span>
+<span class="n">path_img</span> <span class="o">=</span> <span class="s">"data/bearPNG"</span>
+
+<span class="n">imgs</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="n">path_img</span> <span class="o">+</span> <span class="sa">f</span><span class="s">"/</span><span class="si">{</span><span class="nb">object</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s">/*"</span><span class="p">,</span> <span class="n">intensities</span><span class="o">=</span><span class="n">intensities</span><span class="p">)</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="sa">f</span><span class="s">"data/</span><span class="si">{</span><span class="nb">object</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s">/info/mask.png"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h2 id="applying-the-mask-to-the-image">Applying the mask to the image</h2>
+
+<p>Applying the mask to the images, makes anything outside the boundry of our object of interest zero. this makes the subsequent computations a bit faster as well as  allows us to only compute surface normals of the object and not for the background in the image.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">bear</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">imgs</span><span class="p">):</span>
+    <span class="n">imgs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">bear</span><span class="p">,</span> <span class="n">bear</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">imgs</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="photometric-stereo-code-implementation">Photometric Stereo code implementation</h2>
+
+<p>Given the masked images and the light source direction  \(S_i\) corresponding to each image. We can calculate the photometric stereo in lambertian model using the equations described in Section 2 above.
+Since these given equations are for computing surface normals and albedo for a given point or pixel in the image. The acutal coding implementation is much more complex since we have an RGB 16 bit image that has 3 channels  R, G  and B with each channel having <code class="language-plaintext highlighter-rouge">512 x 612</code> pixels. this makes the computation much harder. since we have to loop through the given 3 RGB images pixel by pixel . Since we require at least 3 images to compute the surface normal for a given pixel.</p>
+
+<p>For given images the intensities</p>
+
+<p>After solving the matrix equation for each pixel in the set of 3 images we get our albedo and surface normal matrix \(n\) for each pixel.</p>
+
+<p>The (x y z) coordinate of the  surface normal need to be converted to RGB coordinates for that we use</p>
+
+<p align="center">
+<img src="/assets/images/photometric_stereo/eq4.png" width="200" />
+</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">PMS</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">L_list</span><span class="p">):</span>
+    <span class="s">"""
+    This is the main function for performing photometric stereo using three images.
+
+        Parameters
+        ----------
+        imgs: np.ndarray
+            ndarray of all the images of an object taken with different light sources
+        L_list: list
+            the list of the light sources directions S for each image. for each image the S is a vector matrix with 3  positional elements (x,y,z)
+        return:
+            returns the computed albedos and the surface normals of the object
+    """</span>
+
+
+    <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">L_list</span><span class="p">)</span>
+    <span class="n">Lt</span> <span class="o">=</span> <span class="n">L</span><span class="p">.</span><span class="n">T</span>
+    <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">img_normal</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">img_albedo</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">L_list</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">imgs</span><span class="p">)):</span>
+                <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>                           <span class="c1">#getting intensities for the 3 images to construct the Intensity vecotr
+</span>
+            <span class="n">tmp1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Lt</span><span class="p">)</span>
+
+            <span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">tmp1</span><span class="p">,</span> <span class="n">I</span><span class="p">).</span><span class="n">T</span>
+            <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">img_albedo</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">rho</span>
+
+            <span class="n">N_gray</span> <span class="o">=</span> <span class="n">N</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.0722</span><span class="o">+</span><span class="n">N</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mf">0.7152</span><span class="o">+</span><span class="n">N</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="mf">0.2126</span>  <span class="c1">#luminosity formula
+</span>            <span class="n">Nnorm</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">Nnorm</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">img_normal</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">N_gray</span><span class="o">/</span><span class="n">Nnorm</span>
+
+    <span class="n">img_normal_rgb</span> <span class="o">=</span> <span class="p">((</span><span class="n">img_normal</span><span class="o">*</span><span class="mf">0.5</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="mi">255</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>  <span class="c1">#(x y z) cooridinate to RGB coordinate converstion.
+</span>    <span class="n">img_normal_rgb</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img_normal_rgb</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>  <span class="c1">#converting from BGR to RGB for correct visualization. cv2 uses BGR format.
+</span>    <span class="n">img_albedo</span> <span class="o">=</span> <span class="p">(</span><span class="n">img_albedo</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">img_albedo</span><span class="p">)</span><span class="o">*</span><span class="mi">255</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img_normal</span><span class="p">,</span> <span class="n">img_albedo</span><span class="p">,</span> <span class="n">img_normal_rgb</span>
+</code></pre></div></div>
+
+<h2 id="sample-3-images-randomly-from-data-for-constructing-surface-normals-and-albedo">Sample 3 images randomly from data for constructing surface normals and albedo</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">96</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">img_normal</span><span class="p">,</span> <span class="n">img_albedo</span><span class="p">,</span> <span class="n">img_normal_rgb</span> <span class="o">=</span> <span class="n">PMS</span><span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">index</span><span class="p">),:],</span> <span class="n">L_direction</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">index</span><span class="p">),:])</span>
+
+</code></pre></div></div>
+
+<h2 id="plotting">Plotting…</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">#
+</span><span class="n">img</span> <span class="o">=</span> <span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>  <span class="c1">#normalizing image between 0-1 for visualization
+</span><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Example image with one light source'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="c1">#plt.plot([1,2,3,4])
+</span><span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1">#plt.plot([1,2,3,4])
+</span><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_albedo</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Image Albedo'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1">#plt.plot([1,2,3,4])
+</span><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_normal_rgb</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Surface Normals'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/photometric_stereo/Photometric%20Stereo_16_0.png" alt="png" /></p>
+
+<h1 id="4-using-more-than-3-images">4. Using more than 3 images</h1>
+
+<p>what if we can use more than 3 images or all the available images for photometric stereo?<br />
+<strong>Probelm:</strong> The matrix \(N\) becomes non-square and non-invertable so it’s inverser can not be found.<br />
+<strong>Solution:</strong> Use pusedo inverse of matrix \(N\) where we multiply both side of the equation given in section 2 with the transpose of the \(N\) matrix</p>
+
+<p align="center">
+<img src="/assets/images/photometric_stereo/eq5.png" width="500" /> </p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">PMS_all</span><span class="p">(</span><span class="n">imgss</span><span class="p">,</span> <span class="n">L_list</span><span class="p">):</span>
+    <span class="s">"""
+    This is the main function for performing photometric stereo using three images.
+
+        Parameters
+        ----------
+        imgs: np.ndarray
+            ndarray of all the images of an object taken with different light sources
+        L_list: list
+            the list of the light sources directions S for each image. for each image the S is a vector matrix with 3  positional elements (x,y,z)
+        return:
+            returns the computed albedos and the surface normals of the object
+    """</span>
+
+
+    <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">L_list</span><span class="p">)</span>
+    <span class="n">Lt</span> <span class="o">=</span> <span class="n">L</span><span class="p">.</span><span class="n">T</span>
+    <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">imgss</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">img_normal</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">img_albedo</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">L_list</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">imgss</span><span class="p">)):</span>
+                <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">imgss</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>
+
+
+            <span class="n">tmp1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Lt</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span>   <span class="c1">#inverse of L
+</span>            <span class="n">tmp2</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Lt</span><span class="p">,</span> <span class="n">I</span><span class="p">)</span>       <span class="c1"># L_inv * I
+</span>
+            <span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">tmp1</span><span class="p">,</span> <span class="n">tmp2</span><span class="p">).</span><span class="n">T</span>
+            <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">img_albedo</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">rho</span>
+
+            <span class="n">N_gray</span> <span class="o">=</span> <span class="n">N</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.0722</span><span class="o">+</span><span class="n">N</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mf">0.7152</span><span class="o">+</span><span class="n">N</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="mf">0.2126</span>  <span class="c1">#luminosity formula for converting datato RGB colorspace.
+</span>            <span class="n">Nnorm</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">Nnorm</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">img_normal</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">N_gray</span><span class="o">/</span><span class="n">Nnorm</span>
+
+    <span class="n">img_normal_rgb</span> <span class="o">=</span> <span class="p">((</span><span class="n">img_normal</span><span class="o">*</span><span class="mf">0.5</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="mi">255</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>  <span class="c1">#converting the 16 bit data to 8bit ranging from 0-255 for visualization
+</span>    <span class="n">img_normal_rgb</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img_normal_rgb</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>  <span class="c1">#converting from BGR to RGB for correct visualization. cv2 uses BGR format.
+</span>    <span class="n">img_albedo</span> <span class="o">=</span> <span class="p">(</span><span class="n">img_albedo</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">img_albedo</span><span class="p">)</span><span class="o">*</span><span class="mi">255</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img_normal</span><span class="p">,</span> <span class="n">img_albedo</span><span class="p">,</span> <span class="n">img_normal_rgb</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img_normal</span><span class="p">,</span> <span class="n">img_albedo</span><span class="p">,</span> <span class="n">img_normal_rgb</span> <span class="o">=</span> <span class="n">PMS_all</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">L_direction</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="results-are-improved-after-using-more-images">Results are improved after using more images</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">#
+</span><span class="n">img</span> <span class="o">=</span> <span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>  <span class="c1">#normalizing image between 0-1 for visualization
+</span><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Example image with one light source'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="c1">#plt.plot([1,2,3,4])
+</span><span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1">#plt.plot([1,2,3,4])
+</span><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_albedo</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Image Albedo'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1">#plt.plot([1,2,3,4])
+</span><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_normal_rgb</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Surface Normals'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/photometric_stereo/Photometric%20Stereo_21_0.png" alt="png" /></p>
+
+<h2 id="similarly-results-for-the-rest-of-the-objects">Similarly results for the rest of the objects</h2>
+<p>The Photometric stereo is iteratively applied to each of the object. The code loads data related to each object, estimate the photometric stereo paramerters (albedo, surface normal) and appends them to a list. The results saved in the list are then can be unrolled and visualized and can be used for post-hoc analysis.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">dataPath</span> <span class="o">=</span> <span class="s">"data/"</span>
+<span class="nb">object</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">obj</span>  <span class="ow">in</span> <span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dataPath</span><span class="p">)):</span>
+    <span class="nb">object</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">L_direction</span> <span class="o">=</span><span class="p">[]</span>
+<span class="n">intensities</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ob</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">L_direction</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">loadtxt</span><span class="p">(</span><span class="sa">f</span><span class="s">"data/</span><span class="si">{</span><span class="n">ob</span><span class="si">}</span><span class="s">/info/light_directions.txt"</span><span class="p">))</span>
+    <span class="n">intensities</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">loadtxt</span><span class="p">(</span><span class="sa">f</span><span class="s">"data/</span><span class="si">{</span><span class="n">ob</span><span class="si">}</span><span class="s">/info/light_intensities.txt"</span><span class="p">))</span>
+    <span class="n">path_img</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"data/</span><span class="si">{</span><span class="n">ob</span><span class="si">}</span><span class="s">"</span>
+    <span class="n">imgs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">imread</span><span class="p">(</span><span class="n">path_img</span> <span class="o">+</span> <span class="sa">f</span><span class="s">"/</span><span class="si">{</span><span class="n">ob</span><span class="si">}</span><span class="s">/*"</span><span class="p">,</span> <span class="n">intensities</span><span class="o">=</span><span class="n">intensities</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="n">mask</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">imread</span><span class="p">(</span><span class="sa">f</span><span class="s">"data/</span><span class="si">{</span><span class="n">ob</span><span class="si">}</span><span class="s">/info/mask.png"</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="nb">object</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+        <span class="n">imgs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="n">imgs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="n">results</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">PMS_all</span><span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">L_direction</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">25</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">):</span>
+    <span class="c1"># plt.subplot(4,3, i+1)
+</span>    <span class="c1"># plt.imshow(imgs[i][0])
+</span>    <span class="c1"># plt.xticks([])
+</span>    <span class="c1"># plt.yticks([])
+</span>    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">):</span>
+        <span class="n">loop</span> <span class="o">=</span> <span class="n">j</span><span class="o">+</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">loop</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">]:</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="n">loop</span><span class="p">)</span>
+            <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([])</span>
+            <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([])</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/photometric_stereo/Photometric%20Stereo_24_0.png" alt="png" /></p>
+
+<h1 id="4-conclusion">4. Conclusion</h1>
+<p>In this tutorial,</p>
+<ul>
+  <li>
+    <p>First, the concept of photometric was briefly described. It was demonstrated that under the constraints of certain assumptions, the equations for the photometric stereo for a lambertian reflectance model can be easily derived. These equations can be solved for estimating the surface normals and the albedo at each point of an object given its \(K\) set of images under different lighting conditions.</p>
+  </li>
+  <li>
+    <p>Algorithm for the photometric stereo was then implemented and the output results were shown after performing various transforms (namely: luminosity weighting, RGB color space conversion, RGB to BGR conversion etc.) to make the output suitable for visualization.</p>
+  </li>
+  <li>
+    <p>Then the photometric stereo was modified to include more than 3 images.Taking advantage of the fact that we have 96 images of each object taken under different light conditions. The resultant albedo and surface normal map looks much better than the ones estimated using 3 images.</p>
+  </li>
+</ul>
+
+<p>Give the surface normals, next thing that can be done is heightMap or depth estimation and 3D re-randering of the object.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#3d-reconstruction" class="page__taxonomy-item p-category" rel="tag">3D reconstruction</a><span class="sep">, </span>
+    
+      <a href="/tags/#lambertian" class="page__taxonomy-item p-category" rel="tag">lambertian</a><span class="sep">, </span>
+    
+      <a href="/tags/#photometric-stereo" class="page__taxonomy-item p-category" rel="tag">photometric stereo</a><span class="sep">, </span>
+    
+      <a href="/tags/#python3" class="page__taxonomy-item p-category" rel="tag">Python3</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#computer-vision" class="page__taxonomy-item p-category" rel="tag">Computer Vision</a><span class="sep">, </span>
+    
+      <a href="/categories/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
+    
+      <a href="/categories/#tutorial" class="page__taxonomy-item p-category" rel="tag">Tutorial</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-12-07T00:00:00+00:00">December 7, 2022</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Photometric+Stereo%3A+estimating+surface+normals+and+albedo%20%2Fblog%2Fcomputer%2520vision%2Fpython%2Ftutorial%2Fphotometric-stereo-lambertian-model%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2Fcomputer%2520vision%2Fpython%2Ftutorial%2Fphotometric-stereo-lambertian-model%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fblog%2Fcomputer%2520vision%2Fpython%2Ftutorial%2Fphotometric-stereo-lambertian-model%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/tensorflow/DataLoading-in-TensorFlow-2/" class="pagination--pager" title="Different ways to load custom dataset in TensorFlow 2 for classification
+">Previous</a>
+    
+    
+      <a href="/blog/computer%20vision/python/tutorial/image-stitching/" class="pagination--pager" title="Image Stitching: Combining multiple images of an overlapping scene
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="permalink">Understanding Probability Theory: A Primer for Computational Neuroethologists
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of d...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="permalink">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          29 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds an...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>

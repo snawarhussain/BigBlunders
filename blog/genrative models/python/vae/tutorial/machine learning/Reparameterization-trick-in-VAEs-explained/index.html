@@ -1,0 +1,750 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Understanding the Reparameterization Trick in Variational Autoencoders - Snawar Hussain</title>
+<meta name="description" content="Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ingenious technique circumvents the challenges posed by stochastic sampling operations, paving the way for the application of backpropagation and gradient-based optimization methods.">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Understanding the Reparameterization Trick in Variational Autoencoders">
+<meta property="og:url" content="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/">
+
+
+  <meta property="og:description" content="Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ingenious technique circumvents the challenges posed by stochastic sampling operations, paving the way for the application of backpropagation and gradient-based optimization methods.">
+
+
+
+  <meta property="og:image" content="/assets/images/mocap/mocap.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2023-07-27T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/mocap/mocap.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Understanding the Reparameterization Trick in Variational Autoencoders
+
+        
+      </h1>
+      
+        <p class="page__lead">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ingenious technique circumvents the challenges posed by stochastic sampling operations, paving the way for the application of backpropagation and gradient-based optimization methods.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Understanding the Reparameterization Trick in Variational Autoencoders">
+    <meta itemprop="description" content="Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ingenious technique circumvents the challenges posed by stochastic sampling operations, paving the way for the application of backpropagation and gradient-based optimization methods.">
+    <meta itemprop="datePublished" content="2023-07-27T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list"></i> Contents of this Post</h4></header>
+              <ul class="toc__menu"><li><a href="#what-is-the-reparameterization-trick">What is the Reparameterization Trick?</a></li><li><a href="#why-do-we-need-the-reparameterization-trick">Why Do We Need the Reparameterization Trick?</a></li><li><a href="#the-reparameterization-trick-unveiled">The Reparameterization Trick Unveiled</a></li><li><a href="#why-not-μ--σ">Why Not \(μ + σ\)?</a></li><li><a href="#conclusion">Conclusion</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>Variational Autoencoders (VAEs) have become increasingly popular in the machine learning field for their ability to perform effective unsupervised learning. They have found a wide range of applications, from image generation to anomaly detection. A key component of VAEs that differentiates them from standard autoencoders is the use of the so-called “reparameterization trick”. This article aims to demystify this concept and provide a clear understanding of its purpose and operation.</p>
+
+<h2 id="what-is-the-reparameterization-trick">What is the Reparameterization Trick?</h2>
+
+<p>The reparameterization trick is a mathematical operation used in the training process of VAEs. It’s a technique that helps bypass a significant problem in training VAEs: the backpropagation algorithm cannot be applied directly through random nodes.</p>
+
+<p>The VAE architecture includes a sampling operation where we sample latent variables from a distribution parameterized by the outputs of the encoder. The direct application of backpropagation here is problematic because of the inherent randomness of the sampling operation.
+In other words, since computing the latent \(z\) involve sampling from a (multivariate normal) distribution. This sampling operation introduce stochasticity and therefore cannot be differentiated.</p>
+<p align="center">
+<img src="/assets/images/vae/vae.png" />
+ <figcaption>VAE illustration. The gray part of the model is the reparameterization trick to compute the latent z</figcaption>
+</p>
+
+<p class="notice--info"><strong>Note:</strong> The reason this operation is stochastic, or random, is because drawing a sample from a probability distribution is a random process. Even though the parameters of the distribution (the mean and variance) are fixed output of the encoder for a given input, the actual samples that you draw from the distribution will vary each time you draw a sample. This is the nature of sampling from a probability distribution</p>
+
+<h2 id="why-do-we-need-the-reparameterization-trick">Why Do We Need the Reparameterization Trick?</h2>
+
+<p>Let’s consider once again the structure of a VAE: it comprises an encoder, a decoder, and a latent space in between. The encoder’s role is to map inputs to a distribution in the latent space, defined by two parameters: a mean \((μ)\) and a standard deviation \((σ)\).</p>
+
+<p>This latent distribution represents the learned representation of the input data. The decoder then generates an output by sampling points from this distribution. However, if we were to sample these points directly, this operation introduces a stochastic element that prevents the direct application of backpropagation.</p>
+
+<p>Backpropagation relies on computing gradients of deterministic (i.e., non-random) operations. Therefore, we need a method that introduces the necessary randomness for sampling while preserving the differentiability of the operations involved. This is where the reparameterization trick comes in.</p>
+
+<p class="notice--info">The backpropagation algorithm, which is used to train neural networks, requires the ability to compute exact gradients. Because the sampling operation is random, it doesn’t have a well-defined gradient (weights always randomly changing). This means that we can’t use the backpropagation algorithm to train the encoder and decoder networks in a VAE.</p>
+
+<h2 id="the-reparameterization-trick-unveiled">The Reparameterization Trick Unveiled</h2>
+
+<p>The reparameterization trick works by separating the deterministic and the stochastic parts of the sampling operation. Instead of directly sampling from the distribution \(N(μ, σ^2)\), we sample ε from a standard Normal distribution \(N(0, 1)\) and compute the desired sample z as:</p>
+
+\[z = μ + σ * ε\]
+
+<p>Here, \(ε\) introduces the necessary randomness. The operation \(μ + σ * ε\) is entirely deterministic and differentiable, meaning we can apply backpropagation through it.</p>
+
+<p>This method allows us to incorporate the random element required for sampling from the latent distribution while preserving the chain of differentiable operations needed for backpropagation.</p>
+
+<h2 id="why-not-μ--σ">Why Not \(μ + σ\)?</h2>
+
+<p>You might be wondering why we can’t simply compute \(z\) as \(μ + σ\). Without the randomness introduced by \(ε\), every time we run the encoder with the same input, we’d get the exact same output \(z\). This does not reflect the probabilistic nature of the latent space that we’re trying to model.</p>
+
+<p>In addition, during training, we want the model to learn to map an input to a region in the latent space, not just to a single point. This is made possible by the randomness introduced by \(ε\), which is key to the model’s ability to generate diverse outputs during the decoding process.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The reparameterization trick is a powerful method that makes the training of VAEs possible and efficient. By cleverly separating the random and deterministic elements of the sampling operation in the VAE, it allows us to leverage the power of backpropagation while maintaining the stochastic nature of the model. Understanding this trick is key to gaining a deeper insight into the workings of VAEs and their various applications in machine learning.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#3d-visualization" class="page__taxonomy-item p-category" rel="tag">3D Visualization</a><span class="sep">, </span>
+    
+      <a href="/tags/#animation" class="page__taxonomy-item p-category" rel="tag">Animation</a><span class="sep">, </span>
+    
+      <a href="/tags/#generative-models" class="page__taxonomy-item p-category" rel="tag">Generative Models</a><span class="sep">, </span>
+    
+      <a href="/tags/#high-fps-3d-plotting" class="page__taxonomy-item p-category" rel="tag">High FPS 3D plotting</a><span class="sep">, </span>
+    
+      <a href="/tags/#math-for-ai" class="page__taxonomy-item p-category" rel="tag">Math for AI</a><span class="sep">, </span>
+    
+      <a href="/tags/#motion-capture" class="page__taxonomy-item p-category" rel="tag">Motion Capture</a><span class="sep">, </span>
+    
+      <a href="/tags/#python3" class="page__taxonomy-item p-category" rel="tag">Python3</a><span class="sep">, </span>
+    
+      <a href="/tags/#vae" class="page__taxonomy-item p-category" rel="tag">VAE</a><span class="sep">, </span>
+    
+      <a href="/tags/#variational-autoencoder" class="page__taxonomy-item p-category" rel="tag">Variational Autoencoder</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#genrative-models" class="page__taxonomy-item p-category" rel="tag">Genrative Models</a><span class="sep">, </span>
+    
+      <a href="/categories/#machine-learning" class="page__taxonomy-item p-category" rel="tag">Machine Learning</a><span class="sep">, </span>
+    
+      <a href="/categories/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
+    
+      <a href="/categories/#tutorial" class="page__taxonomy-item p-category" rel="tag">Tutorial</a><span class="sep">, </span>
+    
+      <a href="/categories/#vae" class="page__taxonomy-item p-category" rel="tag">VAE</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-27T00:00:00+00:00">July 27, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=+Understanding+the+Reparameterization+Trick+in+Variational+Autoencoders%20%2Fblog%2Fgenrative%2520models%2Fpython%2Fvae%2Ftutorial%2Fmachine%2520learning%2FReparameterization-trick-in-VAEs-explained%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2Fgenrative%2520models%2Fpython%2Fvae%2Ftutorial%2Fmachine%2520learning%2FReparameterization-trick-in-VAEs-explained%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fblog%2Fgenrative%2520models%2Fpython%2Fvae%2Ftutorial%2Fmachine%2520learning%2FReparameterization-trick-in-VAEs-explained%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" class="pagination--pager" title="Visualizing and Animating 3D Motion Capture Data with PyVista
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="permalink">Understanding Probability Theory: A Primer for Computational Neuroethologists
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of d...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="permalink">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          28 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds an...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/linux/linux-managing-users-shared-data-folders-on-local-drive/" rel="permalink">How to Create a Data Folder for Each User and Move Conda Packages to a Shared Storage Drive
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to creating a data folder for each user on a shared storage drive and moving Conda packages to conserve space.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,790 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Knowledge Distillation: An Overview - Snawar Hussain</title>
+<meta name="description" content="Brief Intro to the Knowledge Distillation appraoch in Deep Learning">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Knowledge Distillation: An Overview">
+<meta property="og:url" content="/blog/computer%20vision/nlp/python/tutorial/Knowledge-Distillation/">
+
+
+  <meta property="og:description" content="Brief Intro to the Knowledge Distillation appraoch in Deep Learning">
+
+
+
+  <meta property="og:image" content="/assets/images/KD/KD_title.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2023-02-07T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="/blog/computer%20vision/nlp/python/tutorial/Knowledge-Distillation/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/assets/images/KD/KD_title.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Knowledge Distillation: An Overview
+
+        
+      </h1>
+      
+        <p class="page__lead">Brief Intro to the Knowledge Distillation appraoch in Deep Learning
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Knowledge Distillation: An Overview">
+    <meta itemprop="description" content="Brief Intro to the Knowledge Distillation appraoch in Deep Learning">
+    <meta itemprop="datePublished" content="2023-02-07T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list"></i> Contents of this post</h4></header>
+              <ul class="toc__menu"><li><a href="#introduction">Introduction</a></li><li><a href="#what-is-knowledge-distillation">What is Knowledge Distillation?</a></li><li><a href="#difference-between-transfer-learning-and-knowledge-distillation">Difference between Transfer Learning and Knowledge Distillation</a></li><li><a href="#benefits-of-knowledge-distillation">Benefits of Knowledge Distillation</a></li><li><a href="#applications-of-knowledge-distillation">Applications of Knowledge Distillation</a></li><li><a href="#implementing-knowledge-distillation-in-code">Implementing Knowledge Distillation in Code</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="introduction">Introduction</h2>
+
+<p>Machine learning models are becoming increasingly complex and sophisticated, with the aim of achieving high accuracy on complex tasks. However, with the increasing complexity comes the drawback of large computational resources and memory requirements. Knowledge distillation provides a solution to this problem by allowing us to transfer the knowledge from a large, more complex model to a smaller, more computationally efficient one.</p>
+
+<h2 id="what-is-knowledge-distillation">What is Knowledge Distillation?</h2>
+
+<p>Knowledge distillation is the process of training a smaller model to imitate the behavior of a larger, more complex model. The smaller model, also known as the student model, is trained on the outputs of the larger, more complex model, also known as the teacher model. The student model learns to replicate the outputs of the teacher model, in effect, acquiring its knowledge.</p>
+<p align="center">
+<img src="/assets/images/KD/KD.jpeg" width="300" /> </p>
+
+<h2 id="difference-between-transfer-learning-and-knowledge-distillation">Difference between Transfer Learning and Knowledge Distillation</h2>
+
+<p>It is important to note that while knowledge distillation and transfer learning both aim to transfer knowledge from one model to another, they are not the same thing.</p>
+
+<p>In transfer learning, a pre-trained model is fine-tuned on a new task with a different dataset. The pre-trained model already has knowledge of general features and patterns learned from the original task, which can be transferred and adapted to the new task.</p>
+
+<p>In contrast, knowledge distillation is a process of training a smaller model to imitate the behavior of a larger, more complex model. The knowledge transferred from the larger model is specific to the task it was trained on and does not take into account any general features or patterns.</p>
+
+<h2 id="benefits-of-knowledge-distillation">Benefits of Knowledge Distillation</h2>
+
+<ul>
+  <li>
+    <p><strong>Computational Efficiency:</strong> By transferring the knowledge from a larger, more complex model to a smaller model, we can significantly reduce the computational resources and memory requirements of the smaller model, making it more suitable for deployment on edge devices and other resource-constrained environments.</p>
+  </li>
+  <li>
+    <p><strong>Performance Improvement:</strong> Knowledge distillation can result in improved performance on unseen data, especially in cases where the student model has a different architecture than the teacher model.</p>
+  </li>
+  <li>
+    <p><strong>Regularization:</strong> The process of knowledge distillation can also act as a form of regularization, reducing overfitting and improving the generalization ability of the student model.</p>
+  </li>
+</ul>
+
+<h2 id="applications-of-knowledge-distillation">Applications of Knowledge Distillation</h2>
+
+<ul>
+  <li>
+    <p><strong>Compression of Deep Neural Networks:</strong> Knowledge distillation can be used to reduce the size of deep neural networks, making them more suitable for deployment on resource-constrained devices.</p>
+  </li>
+  <li>
+    <p><strong>Transfer Learning:</strong> Knowledge distillation can also be used as a form of transfer learning, allowing a pre-trained model to be fine-tuned for a specific task with a smaller, more computationally efficient model.</p>
+  </li>
+  <li>
+    <p><strong>Ensemble Methods:</strong> Knowledge distillation can be used to combine the predictions of multiple models, resulting in a more robust and accurate model.</p>
+  </li>
+</ul>
+<p align="center">
+<img src="/assets/images/KD/KD_Usage.png" width="300" /> </p>
+
+<h2 id="implementing-knowledge-distillation-in-code">Implementing Knowledge Distillation in Code</h2>
+
+<p>Here is a code snippet in PyTorch to demonstrate the implementation of knowledge distillation:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+
+<span class="k">class</span> <span class="nc">DistillationLoss</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DistillationLoss</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="n">temperature</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_softmax_outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">KLDivLoss</span><span class="p">()(</span><span class="n">nn</span><span class="p">.</span><span class="n">LogSoftmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)(</span><span class="n">log_softmax_outputs</span><span class="o">/</span><span class="bp">self</span><span class="p">.</span><span class="n">temperature</span><span class="p">),</span> <span class="n">targets</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+<span class="c1"># define the student model and the teacher model
+</span><span class="n">student_model</span> <span class="o">=</span> <span class="p">...</span>
+<span class="n">teacher_model</span> <span class="o">=</span> <span class="p">...</span>
+
+<span class="c1"># set the temperature for the distillation loss
+</span><span class="n">temperature</span> <span class="o">=</span> <span class="p">...</span>
+
+<span class="c1"># set the optimizer for the student model
+</span><span class="n">optimizer</span> <span class="o">=</span> <span class="p">...</span>
+
+<span class="c1"># define the distillation loss
+</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">DistillationLoss</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+
+<span class="c1"># training loop
+</span><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        
+        <span class="n">student_outputs</span> <span class="o">=</span> <span class="n">student_model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">teacher_outputs</span> <span class="o">=</span> <span class="n">teacher_model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)(</span><span class="n">teacher_outputs</span><span class="o">/</span><span class="n">temperature</span><span class="p">)</span>
+        
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">student_outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+        
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div></div>
+<h1 id="conclusion">Conclusion</h1>
+<p>Knowledge distillation is a powerful technique for transferring the knowledge from a large, more complex model to a smaller, more computationally efficient model. It has numerous applications, including compression of deep neural networks, transfer learning, and ensemble methods. The implementation of knowledge distillation is straightforward, with a number of well-documented techniques and code snippets available to help with the implementation.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#fast-inference" class="page__taxonomy-item p-category" rel="tag">Fast Inference</a><span class="sep">, </span>
+    
+      <a href="/tags/#model-efficiency" class="page__taxonomy-item p-category" rel="tag">Model Efficiency</a><span class="sep">, </span>
+    
+      <a href="/tags/#optimization" class="page__taxonomy-item p-category" rel="tag">Optimization</a><span class="sep">, </span>
+    
+      <a href="/tags/#python3" class="page__taxonomy-item p-category" rel="tag">Python3</a><span class="sep">, </span>
+    
+      <a href="/tags/#transfer-learning" class="page__taxonomy-item p-category" rel="tag">Transfer Learning</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#computer-vision" class="page__taxonomy-item p-category" rel="tag">Computer Vision</a><span class="sep">, </span>
+    
+      <a href="/categories/#nlp" class="page__taxonomy-item p-category" rel="tag">NLP</a><span class="sep">, </span>
+    
+      <a href="/categories/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
+    
+      <a href="/categories/#tutorial" class="page__taxonomy-item p-category" rel="tag">Tutorial</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-02-07T00:00:00+00:00">February 7, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Knowledge+Distillation%3A+An+Overview%20%2Fblog%2Fcomputer%2520vision%2Fnlp%2Fpython%2Ftutorial%2FKnowledge-Distillation%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2Fcomputer%2520vision%2Fnlp%2Fpython%2Ftutorial%2FKnowledge-Distillation%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fblog%2Fcomputer%2520vision%2Fnlp%2Fpython%2Ftutorial%2FKnowledge-Distillation%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/computer%20vision/python/tutorial/image-stitching/" class="pagination--pager" title="Image Stitching: Combining multiple images of an overlapping scene
+">Previous</a>
+    
+    
+      <a href="/blog/linux/linux-managing-users-shared-data-folders-on-local-drive/" class="pagination--pager" title="How to Create a Data Folder for Each User and Move Conda Packages to a Shared Storage Drive
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="permalink">Understanding Probability Theory: A Primer for Computational Neuroethologists
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of d...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="permalink">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          29 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds an...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>

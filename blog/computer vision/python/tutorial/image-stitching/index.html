@@ -1,0 +1,835 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Image Stitching: Combining multiple images of an overlapping scene - Snawar Hussain</title>
+<meta name="description" content="Python tutorial for detecting features and computing homography using RANSAC algorithms from scratch">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Image Stitching: Combining multiple images of an overlapping scene">
+<meta property="og:url" content="/blog/computer%20vision/python/tutorial/image-stitching/">
+
+
+  <meta property="og:description" content="Python tutorial for detecting features and computing homography using RANSAC algorithms from scratch">
+
+
+
+  <meta property="og:image" content="/assets/images/image_stitched/image_stiching.webp">
+
+
+
+
+
+  <meta property="article:published_time" content="2022-12-28T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="/blog/computer%20vision/python/tutorial/image-stitching/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/assets/images/image_stitched/image_stiching.webp');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Image Stitching: Combining multiple images of an overlapping scene
+
+        
+      </h1>
+      
+        <p class="page__lead">Python tutorial for detecting features and computing homography using RANSAC algorithms from scratch
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          13 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Image Stitching: Combining multiple images of an overlapping scene">
+    <meta itemprop="description" content="Python tutorial for detecting features and computing homography using RANSAC algorithms from scratch">
+    <meta itemprop="datePublished" content="2022-12-28T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list"></i> Contents of this post</h4></header>
+              <ul class="toc__menu"><li><a href="#image-stitching">Image Stitching</a><ul><li><a href="#feature-detection-and-description">Feature Detection and Description</a></li><li><a href="#feature-matching">Feature Matching</a></li><li><a href="#ransac-algorithm-for-computing-homography">RANSAC Algorithm for Computing Homography</a><ul><li><a href="#pitfalls">Pitfalls:</a></li></ul></li></ul></li><li><a href="#image-transforming-and-stitching">Image transforming and Stitching</a><ul><li><a href="#horizonal-stitching">Horizonal Stitching</a></li><li><a href="#vertical-stitching">Vertical Stitching</a><ul><li><a href="#closing-remarks">Closing Remarks</a></li></ul></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="image-stitching">Image Stitching</h1>
+
+<p>Image stitching is a classis computer vision problem where given the multiple images of a scene taken from a same view point but with slightly different panning (rotating the camera). Given that few regions in the images overlap, we are required to synthesize an image (panorama) that is combination of all the given images and provides the whole scene covered by them.</p>
+
+<p>The process of image stitching involves following steps.</p>
+
+<ol>
+  <li>Recognizing different features of the images using algorithms like SIFT.</li>
+  <li>Calculating descriptors for the detected features.</li>
+  <li>Matching corresponding features across multiple images.</li>
+  <li>Applying RANSAC to detect the outliers or false positive matches.</li>
+  <li>Computing Homography using the inliers or true positive matches.</li>
+  <li>Transforming the source image(s) using the homography matrix</li>
+  <li>Fusing source image(s) with the destination image and performing Image blending</li>
+</ol>
+
+<p>This reports contains the observations  and understanding of the above steps made while implementing the image stitching code</p>
+
+<h2 id="feature-detection-and-description">Feature Detection and Description</h2>
+
+<p>For feature detection and description we can use the SIFT feature detector and descriptor. python opencv package has pre-implemented this.  First we use SIFT algorithm to detect various important and distinct regions of interest in the image as features.</p>
+
+<p>Along with normalized detected features, SIFT also returns a computed description of each of the feature/keypoint as a <code class="language-plaintext highlighter-rouge">128</code> dimensional vector.</p>
+
+<p>Once we have the features and their description, the next step is to match these features across.</p>
+
+<p><img src="/assets/images/image_stitched/sift_keypoints.webp" alt="Fig1: Detected sift features drawn on the image" /></p>
+
+<p>Fig1: Detected sift features drawn on the image</p>
+
+<h2 id="feature-matching">Feature Matching</h2>
+
+<p>Feature matching refers to recognize the correspondence between features of two different images with overlapping regions of a scene. Feature matching is a one-to-one correspondence. Given two images of a scene. SIFT can recognize up to 1000+ features and their description for each single image. Having features of such great magnitude, to find a one to one correspondence between these features is computationally an expensive task.</p>
+
+<p>One naive implementation would be to take each feature descriptor from the source image and calculate L2 norm of all the descriptors in the destination image for that specific source descriptor. The descriptor with the lowest L2 norm in the destination image indicates greater similarity with the source features. This way of feature matching is usually called “Brute Force matching”.</p>
+
+<p>In this code, Brute Force matching was implemented.  Since python is an interpreted language therefore, the run time of this algorithm is very long given we have 10000+ features in each image. The code implementation is given below:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">matchFeatures01</span><span class="p">(</span><span class="n">kp1</span><span class="p">,</span> <span class="n">kp2</span><span class="p">,</span> <span class="n">des1</span><span class="p">,</span> <span class="n">des2</span><span class="p">,</span> <span class="n">img1</span><span class="p">,</span> <span class="n">img2</span><span class="p">):</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">{</span><span class="s">'queryIndx'</span><span class="p">:</span> <span class="p">[],</span>
+               <span class="s">'trainIndx'</span><span class="p">:</span> <span class="p">[]</span>
+               <span class="p">}</span>
+    <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">idx2</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">des2</span><span class="p">)),</span> <span class="mi">7000</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">idx1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">des1</span><span class="p">)),</span> <span class="mi">7000</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">des2</span> <span class="o">=</span> <span class="n">des2</span><span class="p">[</span><span class="n">idx2</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">des</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">des1</span><span class="p">[</span><span class="n">idx1</span><span class="p">]):</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">((</span><span class="n">des</span> <span class="o">-</span> <span class="n">des2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">sorted_dist</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">dists</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sorted_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="n">sorted_dist</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">matches</span><span class="p">[</span><span class="s">'queryIndx'</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">idx1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">matches</span><span class="p">[</span><span class="s">'trainIndx'</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">idx2</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">dists</span><span class="p">)][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">continue</span>
+    <span class="k">return</span> <span class="n">matches</span>
+</code></pre></div></div>
+
+<p>For each source feature, two closest features in the destination image are considered. Because in many cases, the second closest-match may be very near to the first. It may happen due to noise or some other reasons. In that case, ratio of closest-distance to second-closest distance is taken. If it is greater than 0.75, they are rejected. This can eliminate around 90% of false matches (source: <a href="https://docs.opencv.org/4.x/da/df5/tutorial_py_sift_intro.html">opencv-website</a>)</p>
+
+<h2 id="ransac-algorithm-for-computing-homography">RANSAC Algorithm for Computing Homography</h2>
+
+<p>Once the feature matching is done and correspondence between source to destination features is made. Next step is to apply RANSAC algorithm to compute homography matrix.</p>
+
+<h3 id="pitfalls">Pitfalls:</h3>
+
+<p>Although RANSAC algorithm may seem straightforward, there are several pitfalls when it comes to implementing it from scratch in the context of computing homography matrix.</p>
+
+<p>First of all, there is a confusion related to the choice of model for detecting inliers and outliers. In the context of machine learning, RANSAC is commonly used for curve fitting like Linear Regression where we are given with input samples \(x\) and some labels \(y\). However, for homography we don’t have these so called labels and not everything is laid out.Step by step RANSAC algorithm implementation for homography is given as followed:</p>
+
+<p>From  feature matching output,  randomly select 4 of the correspondence. Correspondence is given as feature points from source image \([x_s  y_s  1]\)  and destination image \([x_d  y_d  1]\) . We get 8 of these points from 4 randomly select matching pairs or correspondences.</p>
+
+<ol>
+  <li>Give these 8 points construct the 8 x 9  \(A\) matrix  and compute the eigen vectors using <code class="language-plaintext highlighter-rouge">svd</code> decomposition.</li>
+  <li>Compute the Homography matrix \(H\) as the last eigen vector and reshape it into a 3x3 matrix of \(H\)</li>
+  <li>Once homography is computed, transform all the key points of source using homography and compute the geometric distance (error) between the  estimated transformed of source  and the actual keypoint in the destination image.</li>
+  <li>source keypoints with error below a threshold are inliers while the rest are outliers.</li>
+  <li>Keep Repeating the process from step 1  until the total number of inliers reach a certain threshold.</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Corr</span> <span class="n">size</span><span class="p">:</span>  <span class="mi">5851</span>  <span class="n">NumInliers</span><span class="p">:</span>  <span class="mi">5</span> <span class="n">Max</span> <span class="n">inliers</span><span class="p">:</span>  <span class="mi">15</span>
+<span class="n">Corr</span> <span class="n">size</span><span class="p">:</span>  <span class="mi">5851</span>  <span class="n">NumInliers</span><span class="p">:</span>  <span class="mi">747</span> <span class="n">Max</span> <span class="n">inliers</span><span class="p">:</span>  <span class="mi">747</span>
+<span class="n">Corr</span> <span class="n">size</span><span class="p">:</span>  <span class="mi">5851</span>  <span class="n">NumInliers</span><span class="p">:</span>  <span class="mi">1066</span> <span class="n">Max</span> <span class="n">inliers</span><span class="p">:</span>  <span class="mi">1066</span>
+<span class="n">Corr</span> <span class="n">size</span><span class="p">:</span>  <span class="mi">5851</span>  <span class="n">NumInliers</span><span class="p">:</span>  <span class="mi">9</span> <span class="n">Max</span> <span class="n">inliers</span><span class="p">:</span>  <span class="mi">1066</span>
+<span class="n">Corr</span> <span class="n">size</span><span class="p">:</span>  <span class="mi">5851</span>  <span class="n">NumInliers</span><span class="p">:</span>  <span class="mi">2729</span> <span class="n">Max</span> <span class="n">inliers</span><span class="p">:</span>  <span class="mi">2729</span>
+<span class="n">Corr</span> <span class="n">size</span><span class="p">:</span>  <span class="mi">5851</span>  <span class="n">NumInliers</span><span class="p">:</span>  <span class="mi">11</span> <span class="n">Max</span> <span class="n">inliers</span><span class="p">:</span>  <span class="mi">2729</span>
+<span class="n">Corr</span> <span class="n">size</span><span class="p">:</span>  <span class="mi">5851</span>  <span class="n">NumInliers</span><span class="p">:</span>  <span class="mi">1180</span> <span class="n">Max</span> <span class="n">inliers</span><span class="p">:</span>  <span class="mi">2729</span>
+<span class="n">Corr</span> <span class="n">size</span><span class="p">:</span>  <span class="mi">5851</span>  <span class="n">NumInliers</span><span class="p">:</span>  <span class="mi">4120</span> <span class="n">Max</span> <span class="n">inliers</span><span class="p">:</span>  <span class="mi">4120</span>
+</code></pre></div></div>
+
+<p>Caption: RANSAC algorithm in action.</p>
+
+<p>Once RANSAC has done it’s job. Compute the homography matrix again with all inliers found using RANSAC instead of just using 4 matching pairs.</p>
+
+<h1 id="image-transforming-and-stitching">Image transforming and Stitching</h1>
+
+<p>The final computed homography matrix \(H\) can now be used to tranform the whole image using a pixel by pixel transform.</p>
+
+<p>Next step is to merge the transformed source image and the destination image. Which may seem easier but turns out to be quite complicated.</p>
+
+<p>In this code implementation. First the source image was transformed and empty region was added to either left or right depending on the relative direction of it from the destination image. Source and destination images were chosen arbitrarily and the according to the most convenient format. For example in the Fig2, after looking at the image it can be noticed that image <code class="language-plaintext highlighter-rouge">112_1299.JPG</code>  can be transformed and stitched with <code class="language-plaintext highlighter-rouge">112_1298.JPG</code>   in the left direction.</p>
+
+<p>Additionally it is required to adopt  different strategies for  stitching  the images in horizontal and vertical direction. For that an argument <code class="language-plaintext highlighter-rouge">orient</code> is passed to the function <code class="language-plaintext highlighter-rouge">main()</code>  to determine the orientation.</p>
+
+<p><img src="/assets/images/image_stitched/output.webp" alt="output.webp" /></p>
+
+<h2 id="horizonal-stitching">Horizonal Stitching</h2>
+
+<p>Based on intuition, first the images that can be horizontally stitched are stitched together. As shown in Fig 03</p>
+
+<p><img src="/assets/images/image_stitched/stitched01-hori.webp" alt="stitched01-hori.webp" /></p>
+
+<p><img src="/assets/images/image_stitched/stitched02-hori.webp" alt="stitched02-hori.webp" /></p>
+
+<p><img src="/assets/images/image_stitched/stitched03-hori.webp" alt="Fig 03: Horizontally stitched images  " /></p>
+
+<p>Fig 03: Horizontally stitched images</p>
+
+<h2 id="vertical-stitching">Vertical Stitching</h2>
+
+<p>Horizontally stitched images are then again taken and stitched vertically to form the complete image of the church. for the choice of blending, the simple pixel replacement was used in horizontal stitching and it proves to be quite effective  given that the images don’t have high difference in exposer. For vertical stitching the pixel replacement this strategy ends up poorly performing as empty regions of the source image might replace/hide some regions in the destination image since there are no masks to be used. For vertical stitching , bitwise logical operations can reveal the overlapped regions better but the color integrity is gone as shown in Fig04 (a). The other options is to  weighted addition of images using <code class="language-plaintext highlighter-rouge">opencv</code> built-in function <code class="language-plaintext highlighter-rouge">addWeighted()</code> Fig04 (b). Both of them don’t quite work well. However image blending might be a complete assignment in itself so any advance blending options were left out for convenience and simplicity.</p>
+
+<p><img src="/assets/images/image_stitched/test.webp" alt="Fig04 (a): Vertical stitching with `bitwise OR` operation blending" /></p>
+
+<p>Fig04 (a): Vertical stitching with <code class="language-plaintext highlighter-rouge">bitwise OR</code> operation blending</p>
+
+<p><img src="/assets/images/image_stitched/stitched02-vert.webp" alt="Fig04 (b): Final vertical stitching with `weighted blending` " /></p>
+
+<p>Fig04 (b): Final vertical stitching with <code class="language-plaintext highlighter-rouge">weighted blending</code></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">img2</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">:</span><span class="n">img1</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">img1_color</span>
+</code></pre></div></div>
+
+<p>Code Caption pixel replacement blending/merging</p>
+
+<h3 id="closing-remarks">Closing Remarks</h3>
+
+<ul>
+  <li>It was particularly difficult to figure out the right blending option and implement orientation based stitching.</li>
+  <li>Many concept related to RANSAC for computing homography are not made clear so it can be challenging to determine the right steps to achieve it.</li>
+  <li>Feature matching though was easier, but it’s vectorized and more optimized version could not be implemented and the current version of brute force matching is painfully slow.</li>
+  <li>Due to the long running time of feature matching, only a portion of SIFT descriptors are considered (7000 to be precise) this means that many important descriptors might be missed. and the errors from matching are carried forward to the  end results.</li>
+  <li>The Full code for image stitching from scratch can be found on my <a href="https://github.com/snawarhussain/Image_Stitching">Github</a></li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#featue-matching" class="page__taxonomy-item p-category" rel="tag">Featue Matching</a><span class="sep">, </span>
+    
+      <a href="/tags/#homography" class="page__taxonomy-item p-category" rel="tag">Homography</a><span class="sep">, </span>
+    
+      <a href="/tags/#image-stitching" class="page__taxonomy-item p-category" rel="tag">Image Stitching</a><span class="sep">, </span>
+    
+      <a href="/tags/#python3" class="page__taxonomy-item p-category" rel="tag">Python3</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#computer-vision" class="page__taxonomy-item p-category" rel="tag">Computer Vision</a><span class="sep">, </span>
+    
+      <a href="/categories/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
+    
+      <a href="/categories/#tutorial" class="page__taxonomy-item p-category" rel="tag">Tutorial</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-12-28T00:00:00+00:00">December 28, 2022</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Image+Stitching%3A+Combining+multiple+images+of+an+overlapping+scene%20%2Fblog%2Fcomputer%2520vision%2Fpython%2Ftutorial%2Fimage-stitching%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2Fcomputer%2520vision%2Fpython%2Ftutorial%2Fimage-stitching%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fblog%2Fcomputer%2520vision%2Fpython%2Ftutorial%2Fimage-stitching%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/computer%20vision/python/tutorial/photometric-stereo-lambertian-model/" class="pagination--pager" title="Photometric Stereo: estimating surface normals and albedo
+">Previous</a>
+    
+    
+      <a href="/blog/computer%20vision/nlp/python/tutorial/Knowledge-Distillation/" class="pagination--pager" title="Knowledge Distillation: An Overview
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="permalink">Understanding Probability Theory: A Primer for Computational Neuroethologists
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of d...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="permalink">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          29 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds an...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>

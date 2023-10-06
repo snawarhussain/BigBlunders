@@ -1,0 +1,927 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Working with custom datasets in PyTorch - Snawar Hussain</title>
+<meta name="description" content="Pytorch dataloader tutorial for custom datasets where both inputs and labels are images">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Working with custom datasets in PyTorch">
+<meta property="og:url" content="/blog/python/pytorch/deep%20learning/Loading-custom-datasets-in-Pytorch/">
+
+
+  <meta property="og:description" content="Pytorch dataloader tutorial for custom datasets where both inputs and labels are images">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-07-12T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="/blog/python/pytorch/deep%20learning/Loading-custom-datasets-in-Pytorch/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Working with custom datasets in PyTorch">
+    <meta itemprop="description" content="Pytorch dataloader tutorial for custom datasets where both inputs and labels are images">
+    <meta itemprop="datePublished" content="2021-07-12T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="/blog/python/pytorch/deep%20learning/Loading-custom-datasets-in-Pytorch/" class="u-url" itemprop="url">Working with custom datasets in PyTorch
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          12 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-cog"></i> Contents of this post</h4></header>
+              <ul class="toc__menu"><li><a href="#subclassing-torchutilsdatadataset-to-generate-samples-and-labels">Subclassing torch.utils.data.Dataset to generate samples and labels</a><ul><li><a href="#dataset-subclass">Dataset subclass:</a></li><li><a href="#writing-the-customdataset-class">Writing the CustomDataset class:</a></li></ul></li><li><a href="#make-a-subclass-from-dataset-and-initializing-it">make a subclass from Dataset and initializing it</a><ul><li><a href="#breaking-down-__getitem__">Breaking down __getitem__:</a></li><li><a href="#__len__-method">__len__ method:</a></li><li><a href="#preprocessing-method">preprocessing method:</a></li></ul></li><li><a href="#perparing--data-for-training-with-dataloader">Perparing  data for training with DataLoader:</a><ul><li><a href="#dataloader-to-load-customdataset">DataLoader to load CustomDataset:</a></li></ul></li><li><a href="#iterate-through-the-dataloader">Iterate through the dataloader:</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>Most PyTorch courses and tutorials show how to train a model using the pre-loaded datasets (such as MNIST) that subclass the <code class="language-plaintext highlighter-rouge">torch.utils.data.Dataset</code>. But in realistic scenarios, we have to train models on our own datasets and implement functions specific to them. Therefore, many of us don’t know the underlying operations and functions to implement to get PyTorch to work with our own dataset.</p>
+
+<p>PyTorch provides two data primitives: <code class="language-plaintext highlighter-rouge">torch.utils.data.DataLoader</code> and <code class="language-plaintext highlighter-rouge">torch.utils.data.Dataset</code> that allow you to use pre-loaded datasets as well as your own data. <code class="language-plaintext highlighter-rouge">Dataset</code> stores the samples and their corresponding labels, and <code class="language-plaintext highlighter-rouge">DataLoader</code> wraps an iterable around the Dataset to enable easy access to the samples.</p>
+
+<p>In this post, we will learn how to use the <code class="language-plaintext highlighter-rouge">Dataset</code> and <code class="language-plaintext highlighter-rouge">DataLoader</code> class. make subclasses from them to use for our custom dataset where samples and labels both are images. for classification training, we have samples as images and their class annotations in a CSV file (0 or 1). Pytorch official documentation provides a <a href="https://pytorch.org/tutorials/beginner/basics/data_tutorial.html#creating-a-custom-dataset-for-your-files">tutorial</a>
+ to work with that sort of dataset</p>
+
+<p class="notice--info"><strong>Note:</strong> In this particular example, i used <a href="https://paperswithcode.com/dataset/drive#:~:text=The%20Digital%20Retinal%20Images%20for,including%207%20abnormal%20pathology%20cases.&amp;text=to%2045%20degrees.-,Each%20image%20resolution%20is%20584*565%20pixels%20with%20eight%20bits,color%20channel%20(3%20channels).">DRIVE</a> dataset. DRIVE is a fundus images datset where samples are the retinal images and the labels are the corresponding segmentation map of retinal blood vessels (samples and labels are both images). With slight changes, this example can be used to load any type of dataset for training in pytorch</p>
+
+<h1 id="subclassing-torchutilsdatadataset-to-generate-samples-and-labels">Subclassing <code class="language-plaintext highlighter-rouge">torch.utils.data.Dataset</code> to generate samples and labels</h1>
+
+<p>The whole code for making a dataset generator using <code class="language-plaintext highlighter-rouge">torch.utils.data.Dataset</code> that will be explained line by line:</p>
+
+<h2 id="dataset-subclass"><code class="language-plaintext highlighter-rouge">Dataset</code> subclass:</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">natsort</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+
+<span class="k">class</span> <span class="nc">CustomDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="s">"""the class for loading the dataset from the directories
+    Arguments:
+
+        img_dir: directory for the dataset images
+
+        label_dir: labels of the images directory
+
+        transform: transforms applied to inputs
+
+        transform_label: transforms applied to the labels
+    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_dir</span><span class="p">,</span> <span class="n">label_dir</span><span class="p">,</span> 
+                <span class="n">transform_image</span><span class="p">,</span><span class="n">transform_label</span><span class="p">,</span>
+                <span class="n">image_scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">image_scale</span> <span class="o">=</span> <span class="n">image_scale</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">img_dir</span> <span class="o">=</span> <span class="n">img_dir</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">label_dir</span> <span class="o">=</span> <span class="n">label_dir</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">transform_image</span> <span class="o">=</span> <span class="n">transform_image</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">transform_label</span> <span class="o">=</span> <span class="n">transform_label</span>
+        <span class="n">all_images</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">img_dir</span><span class="p">)</span>
+        <span class="n">all_lables</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">label_dir</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">total_imgs</span> <span class="o">=</span> <span class="n">natsort</span><span class="p">.</span><span class="n">natsorted</span><span class="p">(</span><span class="n">all_images</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">total_labels</span> <span class="o">=</span> <span class="n">natsort</span><span class="p">.</span><span class="n">natsorted</span><span class="p">(</span><span class="n">all_lables</span><span class="p">)</span>
+    
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">total_imgs</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="nb">classmethod</span>
+    <span class="k">def</span> <span class="nf">preprocessing</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""class method for preprocessing of the image 
+        and label
+        usage: preprocessing the images before feeding
+        to the network for training as well as before
+        making predictions dataset class dishes out 
+        pre-processed bathes of images and labels """</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="s">""" Generator to yield a tuple of image and
+        label
+        idx: the index to iterate over the dataset in
+        directories of both images and labels
+        ---------------------
+
+        :return:  image, label
+        :rtype: torch tensor
+        """</span>
+
+        <span class="n">img_loc</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">img_dir</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="p">.</span><span class="n">total_imgs</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">label_loc</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">label_dir</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="p">.</span><span class="n">total_labels</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="c1"># opening image using cv2 function
+</span>        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="n">img_loc</span><span class="p">)</span>
+        <span class="c1"># opening image with PIL package
+</span>        <span class="n">label</span> <span class="o">=</span> <span class="n">Image</span><span class="p">.</span><span class="nb">open</span><span class="p">(</span><span class="n">label_loc</span><span class="p">)</span>  
+
+
+        <span class="n">image</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">preprocessing</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span>
+                         <span class="n">mask</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">image_scale</span><span class="p">)</span>
+
+        <span class="n">label</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">label</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
+
+
+        <span class="s">'''=====applying transformations ======='''</span>
+
+        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">transform_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">transform_label</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">image</span><span class="p">,</span> <span class="n">label</span>
+
+</code></pre></div></div>
+
+<h2 id="writing-the-customdataset-class">Writing the <code class="language-plaintext highlighter-rouge">CustomDataset</code> class:</h2>
+
+<p>import <code class="language-plaintext highlighter-rouge">torch.utils.data.Dataset</code> and all the other necessary packages according to  your data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">natsort</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+</code></pre></div></div>
+
+<h1 id="make-a-subclass-from-dataset-and-initializing-it">make a subclass from <code class="language-plaintext highlighter-rouge">Dataset</code> and initializing it</h1>
+
+<p><code class="language-plaintext highlighter-rouge">__init__</code> function is a class constructor that is run once to initializing the class instance</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_dir</span><span class="p">,</span> <span class="n">label_dir</span><span class="p">,</span> <span class="n">transform_image</span><span class="p">,</span> <span class="n">transform_label</span><span class="p">,</span> <span class="n">image_scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">image_scale</span> <span class="o">=</span> <span class="n">image_scale</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">img_dir</span> <span class="o">=</span> <span class="n">img_dir</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">label_dir</span> <span class="o">=</span> <span class="n">label_dir</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">transform_image</span> <span class="o">=</span> <span class="n">transform_image</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">transform_label</span> <span class="o">=</span> <span class="n">transform_label</span>
+        <span class="n">all_images</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">img_dir</span><span class="p">)</span>
+        <span class="n">all_lables</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">label_dir</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">total_imgs</span> <span class="o">=</span> <span class="n">natsort</span><span class="p">.</span><span class="n">natsorted</span><span class="p">(</span><span class="n">all_images</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">total_labels</span> <span class="o">=</span> <span class="n">natsort</span><span class="p">.</span><span class="n">natsorted</span><span class="p">(</span><span class="n">all_lables</span><span class="p">)</span>
+
+</code></pre></div></div>
+<p>we are providing the image and labels directories along with separate transforms for images and labels as parameters to the class <code class="language-plaintext highlighter-rouge">__ini__</code> function.
+ we list samples and labels from their respective directories and then sort them according to their names with <code class="language-plaintext highlighter-rouge">natsort</code>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">all_images</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">img_dir</span><span class="p">)</span>
+        <span class="n">all_lables</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">label_dir</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">total_imgs</span> <span class="o">=</span> <span class="n">natsort</span><span class="p">.</span><span class="n">natsorted</span><span class="p">(</span><span class="n">all_images</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">total_labels</span> <span class="o">=</span> <span class="n">natsort</span><span class="p">.</span><span class="n">natsorted</span><span class="p">(</span><span class="n">all_lables</span><span class="p">)</span>
+</code></pre></div></div>
+<p>these sorted lists will be used to get each individual image and its corresponding label (labels are also images for segmentation tasks).</p>
+
+<h2 id="breaking-down-__getitem__">Breaking down <code class="language-plaintext highlighter-rouge">__getitem__</code>:</h2>
+<p><code class="language-plaintext highlighter-rouge">__getitem__</code> loads the images and labels and iterated through them using the <code class="language-plaintext highlighter-rouge">idx</code> index. in this function we can apply necessary transforms from <code class="language-plaintext highlighter-rouge">torchvision.transforms</code> or other necessary pre-processing steps with a withing this function (or using a separate class method)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+
+        <span class="n">img_loc</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">img_dir</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">total_imgs</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">label_loc</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">label_dir</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">total_labels</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="c1"># opening image using cv2 function
+</span>        <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="n">img_loc</span><span class="p">)</span>
+        <span class="c1"># opening image with PIL package
+</span>        <span class="n">label</span> <span class="o">=</span> <span class="n">Image</span><span class="p">.</span><span class="nb">open</span><span class="p">(</span><span class="n">label_loc</span><span class="p">)</span>  
+
+        <span class="n">image</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">preprocessing</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">image_scale</span><span class="p">)</span>
+
+        <span class="s">'''===============applying transformations ===================='''</span>
+
+        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">transform_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">transform_label</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">image</span><span class="p">,</span> <span class="n">label</span>
+</code></pre></div></div>
+<p>i used the <code class="language-plaintext highlighter-rouge">cv2</code> as well as <code class="language-plaintext highlighter-rouge">PIL.Image</code> to load images from the label or image directory just to demonstrate the flexibility and how you can use either of the two you are most comfortable with.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">img_loc</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">img_dir</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">total_imgs</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">label_loc</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">label_dir</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">total_labels</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+</code></pre></div></div>
+<p>we join paths of the image/label directory with the image/label list we sorted earlier.
+for example: <code class="language-plaintext highlighter-rouge">total_images</code> is the list of all the sorted images in the <code class="language-plaintext highlighter-rouge">img_dir</code> and <code class="language-plaintext highlighter-rouge">idx</code> provides an index for each individual image so that we have a complete path to the image/label to be loaded.</p>
+
+<p>we can invoke the <code class="language-plaintext highlighter-rouge">preprocessing()</code> class method to perform some additional processing steps and then finally apply the transforms to the image and label and then return an image with its corresponding label.</p>
+<h2 id="__len__-method"><code class="language-plaintext highlighter-rouge">__len__</code> method:</h2>
+<p>returns the len of the sample size so that the <code class="language-plaintext highlighter-rouge">Dataset</code> class knows how the number of iterations to be performed to load the entire dataset.</p>
+
+<h2 id="preprocessing-method"><code class="language-plaintext highlighter-rouge">preprocessing</code> method:</h2>
+<p>a class method implemented which is exclusively not a part of the <code class="language-plaintext highlighter-rouge">torch.utils.data.Dataset</code> class but additionally added to the <code class="language-plaintext highlighter-rouge">CustomDataset</code> class as a class method. can be excluded if not needed.
+ I intentionally left it empty however it can be used to perform some preprocessing using cv2 for example: resizing, grayscale conversion, applying CLAHE, gemma correction and other similar cv2 operations.</p>
+
+<h1 id="perparing--data-for-training-with-dataloader">Perparing  data for training with DataLoader:</h1>
+
+<h2 id="dataloader-to-load-customdataset">DataLoader to load <code class="language-plaintext highlighter-rouge">CustomDataset</code>:</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">CustomDataset</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">random_split</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span> <span class="k">as</span> <span class="n">transforms</span>
+
+<span class="n">transform_label</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">()</span> <span class="p">])</span>
+
+<span class="n">transform_image</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">()])</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">CustomDataset</span><span class="p">(</span><span class="n">img_dir</span><span class="p">,</span> <span class="n">label_dir</span><span class="p">,</span> 
+                        <span class="n">transform_image</span><span class="o">=</span> <span class="n">transform_image</span><span class="p">,</span>
+                        <span class="n">transform_label</span><span class="o">=</span><span class="n">transform_label</span><span class="p">,</span>
+                        <span class="n">image_scale</span><span class="o">=</span><span class="p">.</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">n_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">n_train</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span> <span class="o">-</span> <span class="n">n_val</span><span class="p">)</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="n">n_train</span><span class="p">,</span> <span class="n">n_val</span><span class="p">])</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pin_memory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pin_memory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>importing all the necessary packages</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">CustomDataset</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">random_split</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span> <span class="k">as</span> <span class="n">transforms</span>
+</code></pre></div></div>
+<p>transforms like random rotation, resize, random crop and other PyTorch transforms can be applied with `torchvision. transform. Here I only applied the tensor conversion that converts the data to a PyTorch tensor.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transform_label</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">()</span> <span class="p">])</span>
+
+<span class="n">transform_image</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">()])</span>
+</code></pre></div></div>
+<p>Now the next step is to make an instance of our <code class="language-plaintext highlighter-rouge">CustomDataset</code> class with all the necessary parameters.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataset</span> <span class="o">=</span> <span class="n">CustomDataset</span><span class="p">(</span><span class="n">img_dir</span><span class="p">,</span> <span class="n">label_dir</span><span class="p">,</span> 
+                        <span class="n">transform_image</span><span class="o">=</span> <span class="n">transform_image</span><span class="p">,</span>
+                        <span class="n">transform_label</span><span class="o">=</span><span class="n">transform_label</span><span class="p">,</span>
+                        <span class="n">image_scale</span><span class="o">=</span><span class="p">.</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>we can split our data set into <code class="language-plaintext highlighter-rouge">train</code> and <code class="language-plaintext highlighter-rouge">validation</code> set using random split</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">n_train</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span> <span class="o">-</span> <span class="n">n_val</span><span class="p">)</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="n">n_train</span><span class="p">,</span> <span class="n">n_val</span><span class="p">])</span>
+
+</code></pre></div></div>
+<p>make an iteratable generator from dataset for train and validation for training.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pin_memory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pin_memory</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+</code></pre></div></div>
+<h1 id="iterate-through-the-dataloader">Iterate through the dataloader:</h1>
+
+<p>dataloader can be iterated and returns an image, label pair with the specified batch size.</p>
+
+<p>for example, we defined our batch size to be 15 for <code class="language-plaintext highlighter-rouge">train_loader</code>. Considering our images are all grey-scaled (1 channelled) with a size of <code class="language-plaintext highlighter-rouge">512x512</code>, This will yield a PyTorch tensor of (15,1,512,512) 
+with 15 samples each sample of 1 channel and 512 height and width</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+    
+    <span class="n">n</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">w</span> <span class="o">=</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1">#shape of tensor = (15,1,512,512)
+</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:].</span><span class="n">numpy</span><span class="p">())</span>
+        <span class="n">la</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:].</span><span class="n">numpy</span><span class="p">())</span>
+        <span class="n">visualize</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">la</span><span class="p">)</span>
+
+
+</code></pre></div></div>
+<p>we can convert the tensors to NumPy arrays and plot them or use them straight for training just like pre-loaded datasets.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#dataloader" class="page__taxonomy-item p-category" rel="tag">DataLoader</a><span class="sep">, </span>
+    
+      <a href="/tags/#dataset" class="page__taxonomy-item p-category" rel="tag">Dataset</a><span class="sep">, </span>
+    
+      <a href="/tags/#deep-learning" class="page__taxonomy-item p-category" rel="tag">Deep Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#pytorch" class="page__taxonomy-item p-category" rel="tag">Pytorch</a><span class="sep">, </span>
+    
+      <a href="/tags/#training" class="page__taxonomy-item p-category" rel="tag">Training</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#deep-learning" class="page__taxonomy-item p-category" rel="tag">Deep Learning</a><span class="sep">, </span>
+    
+      <a href="/categories/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
+    
+      <a href="/categories/#pytorch" class="page__taxonomy-item p-category" rel="tag">Pytorch</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2021-07-12T00:00:00+00:00">July 12, 2021</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Working+with+custom+datasets+in+PyTorch%20%2Fblog%2Fpython%2Fpytorch%2Fdeep%2520learning%2FLoading-custom-datasets-in-Pytorch%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2Fpython%2Fpytorch%2Fdeep%2520learning%2FLoading-custom-datasets-in-Pytorch%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fblog%2Fpython%2Fpytorch%2Fdeep%2520learning%2FLoading-custom-datasets-in-Pytorch%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/ubuntu/linux/troubleshoot/ubuntu-20.04-resolution-stuck-at-1280-x-720/" class="pagination--pager" title="Ubuntu 20.04 resolution stuck at 1280x720, permanent fix
+">Previous</a>
+    
+    
+      <a href="/blog/tensorflow/DataLoading-in-TensorFlow-2/" class="pagination--pager" title="Different ways to load custom dataset in TensorFlow 2 for classification
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="permalink">Understanding Probability Theory: A Primer for Computational Neuroethologists
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of d...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="permalink">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          29 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds an...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>

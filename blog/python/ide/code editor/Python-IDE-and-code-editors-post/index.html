@@ -1,0 +1,752 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Code editors and IDEs for Python - Snawar Hussain</title>
+<meta name="description" content="The python set up with visual studio code and pycharm for development environment">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Code editors and IDEs for Python">
+<meta property="og:url" content="/blog/python/ide/code%20editor/Python-IDE-and-code-editors-post/">
+
+
+  <meta property="og:description" content="The python set up with visual studio code and pycharm for development environment">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-07-01T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="/blog/python/ide/code%20editor/Python-IDE-and-code-editors-post/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Code editors and IDEs for Python">
+    <meta itemprop="description" content="The python set up with visual studio code and pycharm for development environment">
+    <meta itemprop="datePublished" content="2021-07-01T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="/blog/python/ide/code%20editor/Python-IDE-and-code-editors-post/" class="u-url" itemprop="url">Code editors and IDEs for Python
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-cog"></i> Contents of this post</h4></header>
+              <ul class="toc__menu"><li><a href="#visual-studio-code">VISUAL STUDIO CODE</a><ul><li><a href="#python-set-up">Python set up</a><ul><li><a href="#1-downloading-vs-code">1. Downloading vs code</a></li><li><a href="#2-installing-python-extension">2. Installing python extension</a></li></ul></li></ul></li><li><a href="#pycharm">PyCharm</a><ul><li><a href="#getting-started-with-pycharm">Getting Started with Pycharm</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>A code editor is a software tool that can help writing code, editing it. A code editor differs from an IDE in the sense that IDE (Integrated Development Environment) mostly specialize in one language and provide all kinds of a tool like automatic code suggestion, debugging and version control system. Most of the times IDE support a specific language while in code editor can support more than one programming language but you need to set it up individually for each programming language. While most IDEs come pre-installed with the languages they support. That being said, the gap between IDEs and code editors is being narrowed down to the point where it’s hard to differentiate them. And now code editors have extensions like IntelliSense for code auto-completion and suggestions and other extensions to debug the code.  So there are no strict implications of these two terms. Nonetheless, both IDEs and code editors help us in writing code.</p>
+
+<p>There are a number of code editors and IDEs for python and we will be only looking at 2 of them. That’s right 2. Both of them are by far, the best choices for python development for beginners and professionals alike.</p>
+
+<h1 id="visual-studio-code">VISUAL STUDIO CODE</h1>
+
+<p>Visual Studio Code (vs code) is an excellent choice for python as well as many other programming languages. It is a free open-source code editor/IDE  developed by microsoft.
+For vs code to work with python, Python needs to be installed on the system, preferably in a conda virtual environment.</p>
+
+<p>Then you need to install a number of plug-ins/extensions for running, debugging and autocompletion of the python code. Vs code can automatically detect the conda activated virtual environment and sets it up as the default python interpreter for the project.</p>
+
+<p>There is an excellent guide <a href="https://code.visualstudio.com/docs/python/python-tutorial">guide</a> on vs code official site for setting it up for python development. I will be providing some additional walkthrough steps for the procedure.</p>
+
+<h2 id="python-set-up">Python set up</h2>
+
+<p>Steps to follow:</p>
+
+<ol>
+  <li>Download vs code <a href="https://code.visualstudio.com/Download">vs code</a> from official site</li>
+  <li>Install Python extension for vs code</li>
+  <li>select python interpreter and run the code</li>
+</ol>
+
+<h3 id="1-downloading-vs-code">1. Downloading vs code</h3>
+<p>go to the official website and download vs code <a href="https://code.visualstudio.com/Download">vs code</a> according to your OS and install it. accept the recommended configurations and prompts if there are any and install it.</p>
+
+<p><img src="/assets/images/python-IDE/vscode_download.png" alt="downloading page" /></p>
+
+<h3 id="2-installing-python-extension">2. Installing python extension</h3>
+
+<p>Once its finisehd installing. fire it up and  in the left panel search for the extentions icon and click on it. then in the search bar search for python.</p>
+
+<p><img src="/assets/images/python-IDE/vscode.png" alt="python extension" /></p>
+
+<p>install the extention and make sure it’s enabled. follwo the rest of the tutorial on the extesion page that showed up to select python iterpretor as well as  to run and debug code.</p>
+
+<p class="notice--info"><strong>Notice:</strong> installing python extention does not install python programming language in the system. It’s basically just a bridge for vscode to communicate with the python installed in the system.It also has some editional features like code completion and debugging. If you don’t have python installed already, then please refer to the <a href="/blog/python/conda/Python-conda-virtual-environment/">Python and virtual environment</a>post</p>
+
+<h1 id="pycharm">PyCharm</h1>
+
+<p>Pycharm is an IDE for python developed by JetBrains and  used by many, including professionals. it has a community version and a professional version. community version is free and you can apply for a free lincese for professional version if you are a student
+It has an integrated support for conda and conda environments.</p>
+
+<p>setting up Pycharm for first python project can be a little confusing since it offers many configurations.</p>
+
+<h2 id="getting-started-with-pycharm">Getting Started with Pycharm</h2>
+
+<p>Steps to follow:</p>
+<ul>
+  <li>Go to the official pycharm <a href="https://www.jetbrains.com/pycharm/download/#section=windows">pycharm</a> website  and download the comminity version (  or professional if you got the lincese) and install it</li>
+</ul>
+
+<p><img src="/assets/images/python-IDE/pycharm_down.png" alt="pycharm download page" /></p>
+
+<p>after you are done installing pycharm. create a new project</p>
+
+<p><img src="/assets/images/python-IDE/welcome_pycharm.png" alt="pycharm download page" /></p>
+
+<p>select python in the left panel for project. i am using pycharm professional so it’s giving me all those options to select from. python is available on both community and professional version.</p>
+
+<p>since we already have conda environment we created earlier in the previous post, therefore on the right panel we will select
+“previously configure interpreter”
+you’ll notice the drop down menu is empty,
+click the three dots <code class="language-plaintext highlighter-rouge">...</code> next to it it will take to you the next panel for selecting and interpreter.</p>
+
+<p><img src="/assets/images/python-IDE/select_python.png" alt="pycharm download page" /></p>
+
+<p>pycharm will look for different python inpreters installed on system.</p>
+
+<p>here on the left panel select <code class="language-plaintext highlighter-rouge">Conda Environment</code> and then on the right panel the drop down list will give you all the conda virtual envs present on the system.
+from here i am selecting <code class="language-plaintext highlighter-rouge">new_environment</code> made in earlier in previous post.</p>
+
+<p><img src="/assets/images/python-IDE/conda_env.png" alt="pycharm download page" /></p>
+
+<p>and then accept all the prompts. the project will be loaded in with a <code class="language-plaintext highlighter-rouge">main.py</code> file that can be run by clicking the <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path></svg> on the top right corner.</p>
+
+<p><img src="/assets/images/python-IDE/project_loaded.png" alt="pycharm download page" /></p>
+
+<p>The output of the code will be show in the 
+pycharm’s itegrated terminal</p>
+
+<p>You can add more files by right clicking the project panel on the left and selecting <code class="language-plaintext highlighter-rouge">New</code>.</p>
+
+<p>if you play around the pycharm settings you will find that you can search and install python packages in the conda environments from within pycharm. pycharm also have smart code suggestions and will automatically suggest to install the packages that you are using in your code but are missing from the python interpreter you are using.
+Pycharm is a full-fledged IDE so it has so many other options and configuration that you can explore by yourself or reading the official documentation of pycharm.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#pycharm" class="page__taxonomy-item p-category" rel="tag">pycharm</a><span class="sep">, </span>
+    
+      <a href="/tags/#python3" class="page__taxonomy-item p-category" rel="tag">Python3</a><span class="sep">, </span>
+    
+      <a href="/tags/#virtual-environments" class="page__taxonomy-item p-category" rel="tag">virtual environments</a><span class="sep">, </span>
+    
+      <a href="/tags/#vs-code" class="page__taxonomy-item p-category" rel="tag">vs code</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#code-editor" class="page__taxonomy-item p-category" rel="tag">Code editor</a><span class="sep">, </span>
+    
+      <a href="/categories/#ide" class="page__taxonomy-item p-category" rel="tag">IDE</a><span class="sep">, </span>
+    
+      <a href="/categories/#python" class="page__taxonomy-item p-category" rel="tag">Python</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2021-07-01T00:00:00+00:00">July 1, 2021</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Code+editors+and+IDEs+for+Python%20%2Fblog%2Fpython%2Fide%2Fcode%2520editor%2FPython-IDE-and-code-editors-post%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2Fpython%2Fide%2Fcode%2520editor%2FPython-IDE-and-code-editors-post%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fblog%2Fpython%2Fide%2Fcode%2520editor%2FPython-IDE-and-code-editors-post%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/python/conda/Python-conda-virtual-environment/" class="pagination--pager" title="Python, conda and virtual environments
+">Previous</a>
+    
+    
+      <a href="/blog/djnago/apache/linux/ububtu/django3.2.5-with-apache2-and-mod-wsgi/" class="pagination--pager" title="Django3.2.5 with Apache2 and mod_wsgi
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="permalink">Understanding Probability Theory: A Primer for Computational Neuroethologists
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of d...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="permalink">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          29 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds an...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>

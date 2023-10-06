@@ -1,0 +1,1098 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction - Snawar Hussain</title>
+<meta name="description" content="A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds and modes in neuroscience">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction">
+<meta property="og:url" content="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/">
+
+
+  <meta property="og:description" content="A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds and modes in neuroscience">
+
+
+
+  <meta property="og:image" content="/assets/images/neural_modes/cover.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2023-06-08T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/assets/images/neural_modes/cover.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+
+        
+      </h1>
+      
+        <p class="page__lead">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds and modes in neuroscience
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          28 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction">
+    <meta itemprop="description" content="A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds and modes in neuroscience">
+    <meta itemprop="datePublished" content="2023-06-08T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list-ul"></i> Contents</h4></header>
+              <ul class="toc__menu"><li><a href="#introduction">Introduction</a></li><li><a href="#preprocessing-of-neural-spike-data">Preprocessing of Neural Spike Data</a><ul><li><a href="#binning">Binning</a></li><li><a href="#smoothing">Smoothing</a></li></ul></li><li><a href="#principle-component-analysis">Principle Component Analysis</a></li><li><a href="#conclusion">Conclusion</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <table>
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(X\)</td>
+      <td>The original data matrix, where each row corresponds to a neuron and each column corresponds to a time point</td>
+    </tr>
+    <tr>
+      <td>\(N\)</td>
+      <td>The number of neurons</td>
+    </tr>
+    <tr>
+      <td>\(M\)</td>
+      <td>The number of observations (time points)</td>
+    </tr>
+    <tr>
+      <td>\(x_{ij}\)</td>
+      <td>The activity of the \(i\)th neuron at the \(j\)th time point</td>
+    </tr>
+    <tr>
+      <td>\(v_1, v_2, v_3\)</td>
+      <td>The first three principal components</td>
+    </tr>
+    <tr>
+      <td>\(v_{ij}\)</td>
+      <td>The contribution of the \(j\)th time point to the \(i\)th principal component</td>
+    </tr>
+    <tr>
+      <td>\(V\)</td>
+      <td>The matrix of the first three principal components</td>
+    </tr>
+    <tr>
+      <td>\(A\)</td>
+      <td>The matrix of activation dynamics of the principal components</td>
+    </tr>
+    <tr>
+      <td>\(a_{ij}\)</td>
+      <td>The activation of the \(i\)th principal component for the \(j\)th neuron</td>
+    </tr>
+    <tr>
+      <td>\(X_{recons}\)</td>
+      <td>The reconstructed data matrix</td>
+    </tr>
+    <tr>
+      <td>\(x_{recons,ij}\)</td>
+      <td>The reconstructed activity of the \(i\)th neuron at the \(j\)th time point</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>The human brain, with its billions of interconnected neurons, is a complex system that generates a vast amount of data. Understanding this data is a significant challenge in neuroscience. One of the key tools neuroscientists use to tackle this challenge is dimensionality reduction, a statistical technique that simplifies high-dimensional data while preserving its essential structure. In this post, we’ll explore how dimensionality reduction, particularly through methods like Principal Component Analysis (PCA), helps us understand neural data by identifying neural modes and neural manifolds.</p>
+
+<h2 id="preprocessing-of-neural-spike-data">Preprocessing of Neural Spike Data</h2>
+
+<p>Neural spikes can be recorded by inserting an electrode into a specific region of interest in the brain. This allows us to capture the neural spiking activity of hundreds of neurons in the vicinity. This neural spike activity is stored in a matrix where each row corresponds to a different neuron and each column contains the time in seconds/milliseconds when that specific neuron fired. This is a common format for neural spiking data, but it’s not immediately suitable for analysis like dimensionality reduction, which requires a fixed-length vector for each observation (in this case, each time point).</p>
+
+<h3 id="binning">Binning</h3>
+
+<p>One common way to handle this kind of data is to convert it into a “binned” format, where you divide time into small bins and count the number of spikes from each neuron in each bin. This gives you a 2D array where each row corresponds to a time bin and each column corresponds to a neuron.</p>
+
+<h3 id="smoothing">Smoothing</h3>
+
+<p>The raw binned data can be quite noisy, as it includes both the signal (the underlying neural activity) and the noise (random fluctuations). Smoothing can help reduce this noise and make the signal more apparent. One common way to smooth the data is to convolve it with a Gaussian kernel. This is equivalent to replacing each spike count with a weighted average of the spike counts in nearby time bins, where the weights are determined by a Gaussian function. This has the effect of smoothing out rapid fluctuations in the spike counts.</p>
+
+<p>After initial binning and smoothing, we get
+the data \(X\) in an \(M \times{N}\) matrix format where \(N\) is the number of neurons and the \(M\) is the fixed length time dimension.</p>
+
+<p>Given this format, the neural population activity at any given point in time \(t\) can be plotted in this \(N\)-dimensional space that is spanned by the \(N\) number of neurons. So each sample in this matrix \(X\) is a point in this \(N\)-dimensional space.</p>
+
+<p align="center">
+<img src="/assets/images/neural_modes/N-space.png" width="400" />
+ <figcaption>Neural population activity spanned across N-dimensional space.</figcaption>
+</p>
+
+<p>If we were to plot the recorded neuronal population activity in this \(N\)-dimensional space within a certain time interval, one might hypothesize that the neurons will explore the whole space. But this is not the case.</p>
+
+<p align="center">
+<img src="/assets/images/neural_modes/hypo.gif" width="700" />
+ <figcaption>Recorded activity of neural population plotted after preprocessing. The neurons do not seem to explore the high dimensional space in its entirety.</figcaption>
+</p>
+
+<p>It has been shown through several repeated experiments that a population of neurons does not explore the whole high \(N\)-dimensional space. Instead, due to the fact that these neurons are interconnected to each other and are not entirely independent, their overall activity is confined to a lower dimensional subspace residing in this high dimensional space. These subspaces are often referred to as  <strong>Neural Manifolds</strong>.</p>
+
+<p align="center">
+<img src="/assets/images/neural_modes/low_mani.gif" width="700" />
+ <figcaption>Population of neurons confining their activity into a lower dimensional manifold within the high N-dimensional space due to interconnectivity.</figcaption>
+</p>
+
+<p>These Neural Manifolds can be uncovered with dimensionality reduction techniques like PCA. The idea is to reduce the dimensionality of the data and to identify these main modes of variation in the neural activity.</p>
+
+<p>The Manifolds are spanned by these <strong>Neural Modes</strong>. These modes capture the coordinated activity among neurons that often underlie specific functions or behaviors.</p>
+
+<h2 id="principle-component-analysis">Principle Component Analysis</h2>
+
+<p>Principal Component Analysis (PCA) is a statistical procedure that uses an orthogonal transformation to convert a set of observations of possibly correlated variables into a set of values of linearly uncorrelated variables called principal components. This transformation is defined in such a way that the first principal component has the largest possible variance (that is, accounts for as much of the variability in the data as possible), and each succeeding component in turn has the highest variance possible under the constraint that it is orthogonal to the preceding components. The resulting vectors are an uncorrelated orthogonal basis set.</p>
+
+<p>In other words, the Principal components are basically the orthogonal neural modes. When the original neural population activity is projected onto these neural modes (Principal components), they reveal the underlying pattern of activity. Since the results of projecting the neural activity onto a neural mode is basically equivalent to finding the weighted linear combination of the original neurons that shows their contribution to that specific mode.</p>
+
+<p>Now, let’s dive a bit deeper into the mathematics of PCA.</p>
+
+<p>Sticking to our previous notation for the neural data. Given a dataset \(X\) of dimension \(M \times N\) (where \(M\) is the number of observations and \(N\) is the number of variables), the goal of PCA is to find a new set of variables, the principal components, that are uncorrelated and that explain the most variance. In other words, we want to find a new basis for the data that retains the most information.
+In machine learning terms, the \(M\) observations are the samples and the \(N\) variables are the features. The principal components are the new features that we want to find.</p>
+
+<p class="notice--info"><strong>Note:</strong> In case of our neural data, our observations (\(N\)) are the neurons and the and each value across \(M\) is the activity of a certain neuron at a certain time point. According to the hypothesis we established earlier, the neural activity is confined to a lower dimensional manifold. So, the principal components are the new features that we want to find that span this \(d\)-dimensional manifold such that \(d &lt; N\). Implying that the neural population activity can be explained with a lower number of hidden variables (refer to as neural modes) instead of the original \(N\) neurons.</p>
+
+<p>The first step in PCA is to standardize the data. This involves subtracting the mean and dividing by the standard deviation for each variable. Let’s denote the standardized data as \(Z\).</p>
+
+<p>The next step is to compute the covariance matrix of \(Z\). The covariance matrix \(C\) is given by:</p>
+
+\[C = \frac{1}{N-1} Z^T Z\]
+
+<p>The covariance matrix is a symmetric matrix that contains the variances of the variables on its diagonal and the covariances between each pair of variables in the other entries.</p>
+
+<p>The next step is to compute the eigenvalues and eigenvectors of the covariance matrix. The eigenvectors of the covariance matrix correspond to the principal components and the eigenvalues correspond to the variance explained by the principal components.</p>
+
+<p>Let’s denote the eigenvalues by \(\lambda_i\) and the eigenvectors by \(v_i\). They satisfy the following equation:</p>
+
+\[C v_i = \lambda_i v_i\]
+
+<p>The principal components are then given by projecting the standardized data \(Z\) onto the eigenvectors:</p>
+
+\[PC_i = Z v_i\]
+
+<p>The variance explained by the \(i\) th principal component is given by the corresponding eigenvalue \(\lambda_i\).</p>
+
+<p>Let’s denote our data matrix as \(X\), where each row corresponds to a single time point and each column corresponds to a single neuron. After preprocessing and standardizing our data, we perform PCA on \(X\).</p>
+
+<p>The PCA procedure will yield a set of eigenvectors \(v_i\) (the principal components) and corresponding eigenvalues \(\lambda_i\). Each eigenvector \(v_i\) is a vector of the same length as the number of neurons, and its elements are the coefficients of the linear combination of the original neurons’ activities that forms the principal component.</p>
+
+<p>So, if we have \(N\) neurons, each eigenvector \(v_i\) will be a \(N\)-dimensional vector, where the \(j\)th element of \(v_i\) represents the contribution of the \(j\)th neuron to the \(i\)th principal component.</p>
+
+<p>To be more explicit, if \(v_i = [c_1, c_2, ..., c_N]\) is the \(i\)th principal component, then the \(i\)th principal component is a linear combination of the original neurons given by:</p>
+
+\[PC_i = c_1 * neuron_1 + c_2 * neuron_2 + ... + c_N * neuron_N\]
+
+<p>where \(c_j\) is the contribution (or weight) of the \(j\) th neuron to the \(i\) th principal component, and \(neuron_j\) is the activity of the \(j\) th neuron.</p>
+
+<p>These weights \(c_j\) can be positive or negative, and their magnitude indicates the degree to which each neuron contributes to the principal component. A large positive weight means that the neuron strongly contributes to the principal component, while a large negative weight means that the neuron contributes in the opposite direction. A weight close to zero means that the neuron does not contribute much to the principal component.</p>
+
+<p class="notice--warning"><strong>Note:</strong> The goal of apply PCA is to achieve dimetionality reduction across the neurons and NOT the time points.</p>
+
+<p>Let’s consider our original  neural dataset \(X\)  of dimension \(M \times N\) , where \(N\)  is the number of neurons and \(M\)  is the number of observations (time points). The data matrix \(X\)  can be written as:</p>
+
+\[X = [x_1, x_2, ..., x_N] = \begin{bmatrix}
+x_{11} &amp; x_{12} &amp; \cdots &amp; x_{1N} \\
+x_{21} &amp; x_{22} &amp; \cdots &amp; x_{2N} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+x_{M1} &amp; x_{M2} &amp; \cdots &amp; x_{MN}
+\end{bmatrix}\]
+
+<p>where \(x_{ij}\)  is the activity at the \(i\) th time pooint of the \(j\) th neuron time point.</p>
+
+<p>After applying PCA, we obtain a set of principal components. Let’s denote the first three principal components as \(v_1\) , \(v_2\) , and \(v_3\) . Each of these is a vector of length \(M\) , so they can be written as:</p>
+
+<p>\(v_1 = [v_{11}, v_{12}, ..., v_{1N}]^T\) <br />
+\(v_2 = [v_{21}, v_{22}, ..., v_{2N}]^T\)<br />
+\(v_3 = [v_{31}, v_{32}, ..., v_{3N}]^T\)</p>
+
+<p>Here, \(v_{ij}\)  is the contribution of the \(j\) th neuron to the \(i\) th principal component or neural mode.</p>
+
+<p>These principal components can be combined into a \(3 \times N\)  matrix \(V\) , where each row is a principal component:</p>
+
+\[V = [v_1^T; v_2^T; v_3^T] = \begin{bmatrix}
+v_{11} &amp; v_{12} &amp; \cdots &amp; v_{1N} \\
+v_{21} &amp; v_{22} &amp; \cdots &amp; v_{2N} \\
+v_{31} &amp; v_{32} &amp; \cdots &amp; v_{3N}
+\end{bmatrix}\]
+
+<p>The activation dynamics of the principal components can be computed by projecting the original data onto the principal components. This can be done via matrix multiplication:</p>
+
+\[A = XV^T\]
+
+<p>Here, \(A\)  is a \(M \times 3\)  matrix, where each column is the activation dynamics of a principal component:</p>
+
+\[A = [a_1, a_2, a_3] = \begin{bmatrix}
+a_{11} &amp; a_{21} &amp; a_{31} \\
+a_{12} &amp; a_{22} &amp; a_{32} \\
+\vdots &amp; \vdots &amp; \vdots \\
+a_{M1} &amp; a_{M2} &amp; a_{M3}
+\end{bmatrix}\]
+
+<p>Here, \(a_{ij}\)  is the activation of the \(i\) th principal component for the \(j\) th neuron.</p>
+
+<p>So, the matrix \(V\)  represents the principal components in the space of the original time points, and the matrix \(A\)  represents the activation dynamics of the principal components for each neuron.</p>
+
+<p>The original neuron activity can be reconstructed from the principal components by reversing the projection. This can be done via matrix multiplication:</p>
+
+\[X_{recons} = AV\]
+
+<p>Here, \(X_{recons}\) is a \(M \times N\) matrix, where each column is the recons activity of a neuron:</p>
+
+\[X_{recons} =  \\  
+
+[x_{recons,1}, x_{recons,2}, ..., x_{recons,M}] = \\  
+
+\begin{bmatrix}  
+x_{recons,11} &amp; x_{recons,12} &amp; \cdots &amp; x_{recons,1N} \\
+x_{recons,21} &amp; x_{recons,22} &amp; \cdots &amp; x_{recons,2N} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+x_{recons,M1} &amp; x_{recons,M2} &amp; \cdots &amp; x_{recons,MN}
+\end{bmatrix}\]
+
+<p>Here, \(x_{recons,ij}\) is the reconstructed activity of the \(i\) th neuron at the \(j\) th time point.</p>
+
+<p>This is how you can interpret the principal components representing the neural modes that are computed as the linear combinations of the original neurons and how the original neural activity can be represented as the linear combination of the activation dynamics \(A\) and the neural modes or eigen matrix \(V\)</p>
+
+<p>Now let’s implement this in python.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#@title Data retrieval
+#@markdown This cell downloads the example dataset that we will use in this tutorial.
+</span><span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://osf.io/sy5xt/download'</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">r</span><span class="p">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'Failed to download data'</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="n">spike_times</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">content</span><span class="p">),</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="s">'spike_times'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spike_times</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(734,)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># Define the bin edges (for example, bins of 1 millisecond from 0 to the maximum spike time)
+</span><span class="n">bin_edges</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">st</span><span class="p">)</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">spike_times</span><span class="p">]),</span> <span class="mf">0.001</span><span class="p">)</span>
+
+<span class="c1"># Initialize an empty array to hold the binned data
+</span><span class="n">binned_data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">spike_times</span><span class="p">)))</span>
+
+<span class="c1"># For each neuron, count the number of spikes in each bin
+</span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">neuron_spike_times</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spike_times</span><span class="p">):</span>
+    <span class="n">binned_data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">neuron_spike_times</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bin_edges</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">gaussian_filter1d</span>
+
+<span class="c1"># Apply a Gaussian filter to each neuron's binned spike counts
+</span><span class="n">smoothed_data</span> <span class="o">=</span> <span class="n">gaussian_filter1d</span><span class="p">(</span><span class="n">binned_data</span><span class="p">[:</span><span class="mi">50000</span><span class="p">,</span> <span class="p">:],</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">smoothed_data</span><span class="p">.</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(50000, 734)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># Choose a neuron to visualize
+</span><span class="n">neuron</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="c1"># Plot the raw binned spike counts
+</span><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">binned_data</span><span class="p">[:</span><span class="mi">1000</span><span class="p">,</span> <span class="n">neuron</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Raw Binned Spike Counts for Neuron {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">neuron</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Time Bin'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Spike Count'</span><span class="p">)</span>
+
+<span class="c1"># Plot the smoothed spike counts
+</span><span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smoothed_data</span><span class="p">[:</span><span class="mi">1000</span><span class="p">,</span> <span class="n">neuron</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Smoothed Spike Counts for Neuron {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">neuron</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Time Bin'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Spike Count'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_5_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">smoothed_data</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">100</span><span class="p">].</span><span class="n">shape</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(50000, 100)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="c1"># Apply PCA
+</span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">()</span>
+<span class="n">pca</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">smoothed_data</span><span class="p">[:,</span> <span class="p">:])</span>
+
+<span class="c1"># Transform the data into the principal component space
+</span><span class="n">smoothed_data_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">smoothed_data</span><span class="p">[:,</span> <span class="p">:])</span>
+
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pca</span><span class="p">.</span><span class="n">explained_variance_ratio_</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Explained Variance Ratio of Principal Components'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Principal Component'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Explained Variance Ratio'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_8_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smoothed_data_pca</span><span class="p">[:</span><span class="mi">1000</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s">'Principal Component </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_9_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Principal Component 1'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Principal Component 2'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Neural Manifold'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_10_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s">'3d'</span><span class="p">)</span>
+
+<span class="c1"># Create a sequence of colors based on time
+</span><span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">cm</span><span class="p">.</span><span class="n">viridis</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">smoothed_data_pca</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="c1"># Plot a line in 3D space
+</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">'darkblue'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="c1"># Plot points along the line
+</span><span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Principal Component 1'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'Principal Component 2'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s">'Principal Component 3'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'3D Visualization of First Three Principal Components'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_11_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># Define the number of principal components to plot
+</span><span class="n">num_components</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Plot each principal component
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_components</span><span class="p">):</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">num_components</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s">'Principal Component </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Time (bins)'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Activity'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_12_0.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Applying PCA to neural data, which is essentially time series data, is a common practice in neuroscience. The idea is to reduce the dimensionality of the data and to identify the main modes of variation in the neural activity. Here’s how it can be done</p>
+
+<p><strong>Preprocessing</strong>: Neural data often needs to be preprocessed before PCA can be applied. This can involve steps like filtering the data to remove noise, normalizing the data, or subtracting the mean activity across all neurons.</p>
+
+<p><strong>Formatting the data</strong>: For PCA, the data needs to be in a 2D matrix format, where each row is an observation and each column is a variable. In the context of neural data, an observation could be the activity of all neurons at a single point in time, and a variable would be the activity of a single neuron over time. So, you would reshape your data such that each row of your matrix corresponds to a single time point, and each column corresponds to a single neuron.</p>
+
+<p><strong>Applying PCA</strong>: Once your data is in the correct format, you can apply PCA as usual. This involves computing the covariance matrix of your data, and then finding the eigenvalues and eigenvectors of this matrix. The eigenvectors are the principal components, and they represent the directions in which your data varies the most.</p>
+
+<p><strong>Interpreting the results</strong>: The output of PCA will be a set of principal components, which are orthogonal to each other and explain the maximum variance in the data. Each principal component is a linear combination of the original neurons, and the coefficients in this linear combination tell you how much each neuron contributes to that component. The first few principal components often capture a large portion of the variance in the data, and can be used to visualize and further analyze the data.</p>
+
+<p>It’s important to note that PCA is a linear method, which means it assumes that the main modes of variation in your data are linear. If this is not the case, other methods like Independent Component Analysis (ICA) or Non-negative Matrix Factorization (NMF) might be more appropriate.</p>
+
+<p>Also, PCA does not take into account the temporal structure of the data. If the temporal dynamics are important, methods like time-lagged PCA or dynamical systems analysis might be more appropriate.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#dimensionality-reduction" class="page__taxonomy-item p-category" rel="tag">Dimensionality Reduction</a><span class="sep">, </span>
+    
+      <a href="/tags/#neural-data" class="page__taxonomy-item p-category" rel="tag">Neural Data</a><span class="sep">, </span>
+    
+      <a href="/tags/#neural-manifolds" class="page__taxonomy-item p-category" rel="tag">Neural Manifolds</a><span class="sep">, </span>
+    
+      <a href="/tags/#neural-modes" class="page__taxonomy-item p-category" rel="tag">Neural Modes</a><span class="sep">, </span>
+    
+      <a href="/tags/#pca" class="page__taxonomy-item p-category" rel="tag">PCA</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#neuroscience" class="page__taxonomy-item p-category" rel="tag">Neuroscience</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-06-08T00:00:00+00:00">June 8, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Unraveling+the+Complexity+of+Neural+Data%3A+Neural+Modes%2C+Manifolds%2C+and+Dimensionality+Reduction%20%2Fblog%2Fneuroscience%2FPCA-Neural-modes-and-Neural-Manifolds%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2Fneuroscience%2FPCA-Neural-modes-and-Neural-Manifolds%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fblog%2Fneuroscience%2FPCA-Neural-modes-and-Neural-Manifolds%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/linux/linux-managing-users-shared-data-folders-on-local-drive/" class="pagination--pager" title="How to Create a Data Folder for Each User and Move Conda Packages to a Shared Storage Drive
+">Previous</a>
+    
+    
+      <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" class="pagination--pager" title="Understanding Probability Theory: A Primer for Computational Neuroethologists
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="permalink">Understanding Probability Theory: A Primer for Computational Neuroethologists
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of d...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/linux/linux-managing-users-shared-data-folders-on-local-drive/" rel="permalink">How to Create a Data Folder for Each User and Move Conda Packages to a Shared Storage Drive
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to creating a data folder for each user on a shared storage drive and moving Conda packages to conserve space.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>

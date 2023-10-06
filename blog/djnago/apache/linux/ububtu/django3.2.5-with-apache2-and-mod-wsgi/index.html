@@ -1,0 +1,806 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Django3.2.5 with Apache2 and mod_wsgi - Snawar Hussain</title>
+<meta name="description" content="serving django 3.2.5 with apache2 and mod_wsgi complete guide">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Django3.2.5 with Apache2 and mod_wsgi">
+<meta property="og:url" content="/blog/djnago/apache/linux/ububtu/django3.2.5-with-apache2-and-mod-wsgi/">
+
+
+  <meta property="og:description" content="serving django 3.2.5 with apache2 and mod_wsgi complete guide">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-07-02T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="/blog/djnago/apache/linux/ububtu/django3.2.5-with-apache2-and-mod-wsgi/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Django3.2.5 with Apache2 and mod_wsgi">
+    <meta itemprop="description" content="serving django 3.2.5 with apache2 and mod_wsgi complete guide">
+    <meta itemprop="datePublished" content="2021-07-02T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="/blog/djnago/apache/linux/ububtu/django3.2.5-with-apache2-and-mod-wsgi/" class="u-url" itemprop="url">Django3.2.5 with Apache2 and mod_wsgi
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list"></i> Contents of this post</h4></header>
+              <ul class="toc__menu"><li><a href="#installing-apache2">installing apache2</a></li><li><a href="#installing-django325">installing Django3.2.5</a><ul><li><a href="#making-a-simple-django-app">making a simple django app</a></li></ul></li><li><a href="#install-mod_wsgi">install mod_wsgi</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>There are a lot of tutorials out there about setting up Django with mod_wsgi and apache. however, most of them are outdated or incomplete. none of them tells how to exactly configure the whole set up
+when I tried to configure Django with apache I had to read a lot of documentation and look through a lot of forums to piece together all the information. therefore, I decided to make this tutorial for the latest apache2 and Django 3.2.5.</p>
+
+<p>we gonna walk through each step in the procedure in a systematic way setting up the whole thing and this tutorial includes serving the admin panel files from Django with apache2 as well.</p>
+
+<h1 id="installing-apache2">installing apache2</h1>
+
+<p>install apache2 and apache2-dev package with <code class="language-plaintext highlighter-rouge">apt-get</code></p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span><span class="w"> </span><span class="n">apt</span><span class="o">-</span><span class="n">get</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">apache2</span><span class="w"> </span><span class="n">apache2</span><span class="o">-</span><span class="n">dev</span><span class="w">
+</span></code></pre></div></div>
+<p>now just to make sure apache2 is installed correctly and it’s service is running with</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="n">apache2</span><span class="w">
+</span></code></pre></div></div>
+<p>you will get something like this…</p>
+
+<p><img src="/assets/images/django_blog_images/apache_status.png" alt="apache_status" /></p>
+
+<p>if the service is not running you can start it with</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="n">apache2</span><span class="w">
+</span></code></pre></div></div>
+
+<p>now if the apache2 service is running we can go to the localhost <code class="language-plaintext highlighter-rouge">https://127.0.0.1</code> it will show the default apache2 page with a prompt <code class="language-plaintext highlighter-rouge">It works!</code>. we have apache2 installed now</p>
+
+<p><img src="/assets/images/django_blog_images/apache_welcome.png" alt="apache welcome" /></p>
+
+<p>The next step is to install django3</p>
+<h1 id="installing-django325">installing Django3.2.5</h1>
+<p>for that, it is highly recommended to use that we use a python virtual environment. refer to the python virtual environment post if you need any help 
+make a virtual environment for Django with conda or virtual_env
+with conda:</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conda</span><span class="w"> </span><span class="n">create</span><span class="w"> </span><span class="o">--</span><span class="n">name</span><span class="w"> </span><span class="n">django3</span><span class="w"> </span><span class="n">python</span><span class="o">=</span><span class="m">3.8</span><span class="w">
+</span></code></pre></div></div>
+<p>then activate the environment 
+and install Django with either conda or pip
+during the time of the post <code class="language-plaintext highlighter-rouge">django3.2.5</code> isn’t available on conda channels so i installed it with pip (pip is another package manager like conda)</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">django</span><span class="o">==</span><span class="m">3.2.5</span><span class="w">
+</span></code></pre></div></div>
+<p>you can do type <code class="language-plaintext highlighter-rouge">django-admin version</code> to check to confirm django’s installation.</p>
+
+<h2 id="making-a-simple-django-app">making a simple django app</h2>
+
+<p>make a new Django project in  <code class="language-plaintext highlighter-rouge">home</code> directory <code class="language-plaintext highlighter-rouge">~/</code>  using:</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">django</span><span class="o">-</span><span class="n">admin</span><span class="w"> </span><span class="n">startproject</span><span class="w"> </span><span class="n">mysite</span><span class="w">
+</span></code></pre></div></div>
+<p class="notice--info"><strong>Notice:</strong> It is important that you start the new project in the home directory rather than some directory in root i.e. <code class="language-plaintext highlighter-rouge">/var/www/</code> because django-admin need the read-write access. you might run into error if you try to start a project in <code class="language-plaintext highlighter-rouge">var/www/</code>. or you can give the read write from <code class="language-plaintext highlighter-rouge">root</code> to another user like yourself or <code class="language-plaintext highlighter-rouge">www-data : www-data</code>  in apache2 case with command <code class="language-plaintext highlighter-rouge">sudo chown -R group:user</code></p>
+
+<p>if you  list the directories,  there’s gonna be  a new dir called <code class="language-plaintext highlighter-rouge">mysite</code>
+the structure of a Django project looks like this</p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">mysite</span><span class="o">/</span>
+    <span class="nx">manage</span><span class="p">.</span><span class="nx">py</span>
+    <span class="nx">mysite</span><span class="o">/</span>
+        <span class="nx">__init__</span><span class="p">.</span><span class="nx">py</span>
+        <span class="nx">settings</span><span class="p">.</span><span class="nx">py</span>
+        <span class="nx">urls</span><span class="p">.</span><span class="nx">py</span>
+        <span class="nx">asgi</span><span class="p">.</span><span class="nx">py</span>
+        <span class="nx">wsgi</span><span class="p">.</span><span class="nx">p</span>
+</code></pre></div></div>
+
+<p>make migrations for database</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span><span class="w"> </span><span class="n">manage.py</span><span class="w"> </span><span class="n">makemigrations</span><span class="w">
+</span></code></pre></div></div>
+<p>and migrate</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span><span class="w"> </span><span class="n">manage.py</span><span class="w"> </span><span class="n">migrate</span><span class="w">
+</span></code></pre></div></div>
+
+<p>create a superuser to access the admin panel of django and go through the generic prompts</p>
+<div class="language-zsh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py createsuperuser
+</code></pre></div></div>
+<p>now you can start django’s built-in server to see if everything’s working fine</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span><span class="w"> </span><span class="n">manage.py</span><span class="w"> </span><span class="n">runserver</span><span class="w">
+</span></code></pre></div></div>
+<p>and go to the default <code class="language-plaintext highlighter-rouge">http://127.0.0.1:8000/</code> and you’ll get the <strong>install worked successfully</strong> page.</p>
+
+<p><img src="/assets/images/django_blog_images/django_welcome.png" alt="django welcome" /></p>
+
+<p>you can access the admin panel by appending <code class="language-plaintext highlighter-rouge">admin/</code> to the rest of the url like <code class="language-plaintext highlighter-rouge">http://127.0.0.1:8000/admin</code> and log in with the username and password you created.</p>
+
+<p><img src="/assets/images/django_blog_images/django_admin.png" alt="django admin" /></p>
+
+<p>Press Ctrl+C to stop the server from the terminal</p>
+
+<p>now we want apache to server the same page with admin panel included using mod_wsgi</p>
+<h1 id="install-mod_wsgi">install mod_wsgi</h1>
+
+<p>for installation of the mod_wsgi we will follow this <a href="https://pypi.org/project/mod-wsgi/">documentation</a></p>
+
+<p>install the mod_wsgi with pip</p>
+
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">mod_wsgi</span><span class="w">
+</span></code></pre></div></div>
+<p>now to check the installation of mod_wsgi use</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mod_wsgi</span><span class="o">-</span><span class="n">express</span><span class="w"> </span><span class="n">start</span><span class="o">-</span><span class="n">server</span><span class="w">
+</span></code></pre></div></div>
+<p>and go to the <code class="language-plaintext highlighter-rouge">http://127.0.0.1:8000/</code> it will show you the mod_wsgi whiskey page (idk why though).</p>
+
+<p>now to use mod_wsgi with Django we need to add mod_wsgi into INSTALLED APPLICATIONS.</p>
+
+<p>open the settings.py with any editor like vim in terminal from <code class="language-plaintext highlighter-rouge">home/mysite</code> (<code class="language-plaintext highlighter-rouge">~/mysite</code>) directory</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span><span class="w"> </span><span class="n">vim</span><span class="w"> </span><span class="n">mysite</span><span class="o">/</span><span class="n">settings.py</span><span class="w"> 
+</span></code></pre></div></div>
+<p>and add the <code class="language-plaintext highlighter-rouge">mod_wsgi.server</code> at the end of INSTALLED_APPS and save the file.</p>
+
+<p><img src="/assets/images/django_blog_images/settings.py.png" alt="settings.py" /></p>
+
+<p>now run django with apache and mod_wsgi with</p>
+
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span><span class="w"> </span><span class="n">manage.py</span><span class="w"> </span><span class="n">runmodwsgi</span><span class="w">
+</span></code></pre></div></div>
+<p>it will show you something like this in the terminal:</p>
+
+<p>and if you go to the <code class="language-plaintext highlighter-rouge">http://127.0.0.1:8000/</code> you will see that same Django welcome page but this time its being served with apache2 and mod_wsgi 
+if we go to the admin panel of the site with url <code class="language-plaintext highlighter-rouge">http://127.0.0.1:8000/admin/</code> you will see that there is no styling because we are missing static files for it. we need to add static_root directory and then collect static
+open <code class="language-plaintext highlighter-rouge">setting.py</code> again</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sudo</span><span class="w"> </span><span class="n">vim</span><span class="w"> </span><span class="n">mysite</span><span class="o">/</span><span class="n">settings.py</span><span class="w">
+</span></code></pre></div></div>
+<p>and search for line  <code class="language-plaintext highlighter-rouge">STATIC_URL = '/static/'</code>
+and underneath it add this line:</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">STATIC_ROOT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">os.path.join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span><span class="w"> </span><span class="s1">'static'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/assets/images/django_blog_images/static_root.png" alt="django welcome" /></p>
+
+<p class="notice--info"><strong><em>NOTE:</em></strong> make sure to <code class="language-plaintext highlighter-rouge">import os</code> in the beginning of settings.py if its already not imported</p>
+
+<p>close the file and run</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span><span class="w"> </span><span class="n">manage.py</span><span class="w"> </span><span class="n">collectstatic</span><span class="w">
+</span></code></pre></div></div>
+<p>to collect the static files in the static folder of the root directory of the project. 
+and then run server again with</p>
+<div class="language-s highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span><span class="w"> </span><span class="n">manage.py</span><span class="w"> </span><span class="n">runmodwsgi</span><span class="w">
+</span></code></pre></div></div>
+<p>and this time if you go to the admin panel of the site you should be able to see the styling applied.</p>
+
+<blockquote>
+  <p>If there are any typos or missing links, let me know.</p>
+</blockquote>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#apache2" class="page__taxonomy-item p-category" rel="tag">Apache2</a><span class="sep">, </span>
+    
+      <a href="/tags/#django" class="page__taxonomy-item p-category" rel="tag">Django</a><span class="sep">, </span>
+    
+      <a href="/tags/#django3" class="page__taxonomy-item p-category" rel="tag">Django3</a><span class="sep">, </span>
+    
+      <a href="/tags/#mod-wsgi" class="page__taxonomy-item p-category" rel="tag">mod_wsgi</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#apache" class="page__taxonomy-item p-category" rel="tag">Apache</a><span class="sep">, </span>
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#djnago" class="page__taxonomy-item p-category" rel="tag">Djnago</a><span class="sep">, </span>
+    
+      <a href="/categories/#linux" class="page__taxonomy-item p-category" rel="tag">Linux</a><span class="sep">, </span>
+    
+      <a href="/categories/#ububtu" class="page__taxonomy-item p-category" rel="tag">Ububtu</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2021-07-02T00:00:00+00:00">July 2, 2021</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Django3.2.5+with+Apache2+and+mod_wsgi%20%2Fblog%2Fdjnago%2Fapache%2Flinux%2Fububtu%2Fdjango3.2.5-with-apache2-and-mod-wsgi%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2Fdjnago%2Fapache%2Flinux%2Fububtu%2Fdjango3.2.5-with-apache2-and-mod-wsgi%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fblog%2Fdjnago%2Fapache%2Flinux%2Fububtu%2Fdjango3.2.5-with-apache2-and-mod-wsgi%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/python/ide/code%20editor/Python-IDE-and-code-editors-post/" class="pagination--pager" title="Code editors and IDEs for Python
+">Previous</a>
+    
+    
+      <a href="/blog/ubuntu/linux/troubleshoot/ubuntu-20.04-resolution-stuck-at-1280-x-720/" class="pagination--pager" title="Ubuntu 20.04 resolution stuck at 1280x720, permanent fix
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="permalink">Understanding Probability Theory: A Primer for Computational Neuroethologists
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of d...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="permalink">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          29 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds an...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>

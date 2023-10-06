@@ -1,0 +1,888 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Visualizing and Animating 3D Motion Capture Data with PyVista - Snawar Hussain</title>
+<meta name="description" content="A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Visualizing and Animating 3D Motion Capture Data with PyVista">
+<meta property="og:url" content="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/">
+
+
+  <meta property="og:description" content="A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.">
+
+
+
+  <meta property="og:image" content="/assets/images/mocap/mocap.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2023-07-13T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/mocap/mocap.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Visualizing and Animating 3D Motion Capture Data with PyVista
+
+        
+      </h1>
+      
+        <p class="page__lead">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Visualizing and Animating 3D Motion Capture Data with PyVista">
+    <meta itemprop="description" content="A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.">
+    <meta itemprop="datePublished" content="2023-07-13T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list"></i> Contents of this Post</h4></header>
+              <ul class="toc__menu"><li><a href="#visualizing-and-animating-3d-motion-capture-data-with-pyvista">Visualizing and Animating 3D Motion Capture Data with PyVista</a><ul><li><a href="#1-setting-up-the-scene">1. Setting Up The Scene</a></li><li><a href="#2-loading-motion-capture-data">2. Loading Motion Capture Data</a></li><li><a href="#3-animating-the-scene">3. Animating the Scene</a></li><li><a href="#4-putting-it-all-together">4. Putting It All Together</a></li><li><a href="#5-conclusion">5. Conclusion</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="visualizing-and-animating-3d-motion-capture-data-with-pyvista">Visualizing and Animating 3D Motion Capture Data with PyVista</h1>
+
+<p>3D visualization is crucial for understanding complex data structures and models, especially in the realm of physics, engineering, and computer graphics. Motion capture data, in particular, is heavily used in film industry, game development, biomedical research, computational ethology and sports science. Matplotlib has been the go-to library for many Python users due to its simplicity and extensive features. However, for 3D visualization, particularly for rendering and animating motion capture data, we hit a snag. The rendering process in Matplotlib is quite slow and often becomes impractical when dealing with a large number of frames. This is where PyVista comes into play.</p>
+
+<p>PyVista is a 3D visualization and analysis library that provides a streamlined, Pythonic interface to the Visualization Toolkit (VTK). It is capable of creating high quality 3D visualizations and animations with high frame rates, making it an excellent choice for visualizing motion capture data.</p>
+
+<h2 id="1-setting-up-the-scene">1. Setting Up The Scene</h2>
+
+<p>The first step in visualizing 3D motion capture data is to set up the scene. This involves creating the 3D body parts and skeleton connections, and initializing the plotter.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="n">pv</span>
+
+<span class="k">def</span> <span class="nf">create_body_part_mesh</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pv</span><span class="p">.</span><span class="n">Sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">create_skeleton_line</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pv</span><span class="p">.</span><span class="n">Line</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">))</span>
+
+<span class="n">plotter</span> <span class="o">=</span> <span class="n">pv</span><span class="p">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">notebook</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">off_screen</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="2-loading-motion-capture-data">2. Loading Motion Capture Data</h2>
+
+<p>Next, we load the motion capture data and add each body part and skeleton connection to the plotter. The data usually comes in a structured format where each row represents a frame and each column represents a body part or a skeleton connection.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frame_rate</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_frames</span><span class="p">):</span>
+    <span class="n">plotter</span><span class="p">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">body_part</span> <span class="ow">in</span> <span class="n">body_parts</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_x'</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_y'</span><span class="p">]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
+        <span class="n">mesh</span> <span class="o">=</span> <span class="n">create_body_part_mesh</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="n">plotter</span><span class="p">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"red"</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">connection</span> <span class="ow">in</span> <span class="n">skeleton</span><span class="p">:</span>
+        <span class="n">part1</span> <span class="o">=</span> <span class="n">connection</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">part2</span> <span class="o">=</span> <span class="n">connection</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_x'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_y'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
+        <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_x'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_y'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
+        <span class="n">skl_mesh</span> <span class="o">=</span> <span class="n">create_skeleton_line</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">)</span>
+        <span class="n">plotter</span><span class="p">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">skl_mesh</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"blue"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="3-animating-the-scene">3. Animating the Scene</h2>
+
+<p>To animate the motion capture data, we loop over each frame and update the points of each mesh. We then render the plotter and write the current frame to a file.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_frames</span><span class="p">):</span>
+    <span class="n">mean_position</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">body_part</span><span class="p">,</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">body_parts</span><span class="p">,</span> <span class="n">body_part_meshes</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_x'</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_y'</span><span class="p">]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
+        <span class="n">mesh</span><span class="p">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">pv</span><span class="p">.</span><span class="n">Sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)).</span><span class="n">points</span>
+        <span class="n">mean_position</span> <span class="o">+=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+    <span class="n">mean_position</span> <span class="o">/=</span> <span class="nb">len</span><span class="p">(</span><span class="n">body_parts</span><span class="p">)</span>
+    <span class="n">plotter</span><span class="p">.</span><span class="n">camera</span><span class="p">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="n">mean_position</span><span class="p">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">connection</span><span class="p">,</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">skeleton</span><span class="p">,</span> <span class="n">skeleton_line_meshes</span><span class="p">):</span>
+        <span class="n">part1</span> <span class="o">=</span> <span class="n">connection</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">part2</span> <span class="o">=</span> <span class="n">connection</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_x'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_y'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
+        <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_x'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_y'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
+        <span class="n">mesh</span><span class="p">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">pv</span><span class="p">.</span><span class="n">Line</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">)).</span><span class="n">points</span>
+
+    <span class="n">plotter</span><span class="p">.</span><span class="n">write_frame</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="4-putting-it-all-together">4. Putting It All Together</h2>
+
+<p>Finally, we put all the code together and run the script. The script will generate a series of PNG files in the current directory. We can then use FFmpeg to convert the PNG files into a video file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nb">df</span> <span class="o">=</span> pd.read_csv<span class="o">(</span>r<span class="s1">'C:\Users\pc\PycharmProjects\RWKV_for_rat\notebooks\mocap_data_interpolated_mod.csv'</span><span class="o">)</span>
+body_parts <span class="o">=</span> list<span class="o">(</span><span class="nb">set</span><span class="o">(</span>col.split<span class="o">(</span><span class="s1">'_'</span><span class="o">)[</span>0] <span class="k">for </span>col <span class="k">in </span>df.columns <span class="k">if</span> <span class="s1">'_'</span> <span class="k">in </span>col<span class="o">))</span>
+num_frames <span class="o">=</span> len<span class="o">(</span><span class="nb">df</span><span class="o">)</span>
+skeleton <span class="o">=</span> <span class="o">[</span>                    <span class="c">#defining the skeletal structure for plotting skeletal lines.</span>
+    <span class="o">[</span><span class="s1">'HeadF'</span>, <span class="s1">'HeadB'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'HeadB'</span>, <span class="s1">'HeadL'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'HeadF'</span>, <span class="s1">'HeadL'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'HeadF'</span>, <span class="s1">'SpineF'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'HeadB'</span>, <span class="s1">'SpineF'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'HeadL'</span>, <span class="s1">'SpineF'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'SpineF'</span>, <span class="s1">'SpineM'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'SpineM'</span>, <span class="s1">'SpineL'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'SpineF'</span>, <span class="s1">'Offset1'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'Offset1'</span>, <span class="s1">'Offset2'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'Offset1'</span>, <span class="s1">'SpineM'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'Offset2'</span>, <span class="s1">'SpineL'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'Offset2'</span>, <span class="s1">'SpineM'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'SpineF'</span>, <span class="s1">'ShoulderL'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'SpineF'</span>, <span class="s1">'ShoulderR'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'ShoulderL'</span>, <span class="s1">'ElbowL'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'ArmL'</span>, <span class="s1">'ElbowL'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'ShoulderR'</span>, <span class="s1">'ElbowR'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'ArmR'</span>, <span class="s1">'ElbowR'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'SpineL'</span>, <span class="s1">'HipL'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'SpineL'</span>, <span class="s1">'HipR'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'HipL'</span>, <span class="s1">'KneeL'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'KneeL'</span>, <span class="s1">'ShinL'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'HipR'</span>, <span class="s1">'KneeR'</span><span class="o">]</span>,
+    <span class="o">[</span><span class="s1">'KneeR'</span>, <span class="s1">'ShinR'</span><span class="o">]</span>
+<span class="o">]</span>
+
+<span class="c"># Assuming that our data is in a csv file wiht the following format:</span>
+<span class="c"># Each row represents a frame and we have 3 columns for each body part (x, y, z)</span>
+
+import pyvista as pv
+import numpy as np
+import <span class="nb">time
+</span>from matplotlib.cm import get_cmap
+
+def create_body_part_mesh<span class="o">(</span>x, y, z, <span class="nv">radius</span><span class="o">=</span>5<span class="o">)</span>:
+    <span class="s2">"""Create a sphere mesh representing a body part."""</span>
+    <span class="k">return </span>pv.Sphere<span class="o">(</span><span class="nv">radius</span><span class="o">=</span>radius, <span class="nv">center</span><span class="o">=(</span>x, y, z<span class="o">))</span>
+
+def create_skeleton_line<span class="o">(</span>x1, y1, z1, x2, y2, z2<span class="o">)</span>:
+    <span class="s2">"""Create a line mesh representing a skeleton connection."""</span>
+    <span class="k">return </span>pv.Line<span class="o">((</span>x1, y1, z1<span class="o">)</span>, <span class="o">(</span>x2, y2, z2<span class="o">))</span>
+
+<span class="c">#Initialize the plotter</span>
+plotter <span class="o">=</span> pv.Plotter<span class="o">(</span><span class="nv">notebook</span><span class="o">=</span>False, <span class="nv">off_screen</span><span class="o">=</span>False<span class="o">)</span>
+plotter.open_gif<span class="o">(</span><span class="s2">"rat.gif"</span><span class="o">)</span>
+<span class="c"># Assuming you have a suitable frame rate for your data</span>
+frame_rate <span class="o">=</span> 30
+
+body_part_meshes <span class="o">=</span> <span class="o">[]</span>
+skeleton_line_meshes <span class="o">=</span> <span class="o">[]</span>
+
+
+<span class="c"># Get a color map</span>
+colormap <span class="o">=</span> get_cmap<span class="o">(</span><span class="s2">"tab20"</span><span class="o">)</span>
+
+<span class="c"># Normalize the colormap from 0 to 1</span>
+normalize <span class="o">=</span> lambda val: <span class="o">(</span>val - 0<span class="o">)</span> / <span class="o">(</span>1 - 0<span class="o">)</span>
+
+<span class="c"># Assuming min_val and max_val are the minimum and maximum values for the data range</span>
+<span class="c"># If your data ranges from 0 to N (where N &gt; 0), you can set min_val = 0 and max_val = N</span>
+
+body_part_colors <span class="o">=</span> <span class="o">[</span>colormap<span class="o">(</span>i<span class="o">)</span> <span class="k">for </span>i <span class="k">in </span>range<span class="o">(</span>len<span class="o">(</span>body_parts<span class="o">))]</span>
+
+
+<span class="c"># Create initial meshes</span>
+<span class="k">for </span>body_part, color <span class="k">in </span>zip<span class="o">(</span>body_parts, body_part_colors<span class="o">)</span>:
+    x <span class="o">=</span> df.loc[0, f<span class="s1">'{body_part}_x'</span><span class="o">]</span>
+    y <span class="o">=</span> df.loc[0, f<span class="s1">'{body_part}_y'</span><span class="o">]</span>
+    z <span class="o">=</span> df.loc[0, f<span class="s1">'{body_part}_z'</span><span class="o">]</span>
+    mesh <span class="o">=</span> create_body_part_mesh<span class="o">(</span>x, y, z<span class="o">)</span>
+    plotter.add_mesh<span class="o">(</span>mesh, <span class="nv">color</span><span class="o">=</span>color<span class="o">)</span>
+    body_part_meshes.append<span class="o">(</span>mesh<span class="o">)</span>
+    
+<span class="k">for </span>connection <span class="k">in </span>skeleton:
+    part1 <span class="o">=</span> connection[0]
+    part2 <span class="o">=</span> connection[1]
+    x1, y1, z1 <span class="o">=</span> df.loc[0, f<span class="s1">'{part1}_x'</span><span class="o">]</span>, df.loc[0, f<span class="s1">'{part1}_y'</span><span class="o">]</span>, df.loc[0, f<span class="s1">'{part1}_z'</span><span class="o">]</span>
+    x2, y2, z2 <span class="o">=</span> df.loc[0, f<span class="s1">'{part2}_x'</span><span class="o">]</span>, df.loc[0, f<span class="s1">'{part2}_y'</span><span class="o">]</span>, df.loc[0, f<span class="s1">'{part2}_z'</span><span class="o">]</span>
+    skl_mesh <span class="o">=</span> create_skeleton_line<span class="o">(</span>x1, y1, z1, x2, y2, z2<span class="o">)</span>
+    plotter.add_mesh<span class="o">(</span>skl_mesh, <span class="nv">color</span><span class="o">=</span><span class="s2">"black"</span>, <span class="nv">line_width</span><span class="o">=</span>2<span class="o">)</span>
+    skeleton_line_meshes.append<span class="o">(</span>skl_mesh<span class="o">)</span>
+
+<span class="c"># Loop over each frame</span>
+<span class="k">for </span>num <span class="k">in </span>range<span class="o">(</span>1, num_frames<span class="o">)</span>: <span class="c"># start from 1 as we already plotted the first frame</span>
+    <span class="c"># Update each body part</span>
+    mean_position <span class="o">=</span> np.array<span class="o">([</span>0.0, 0.0, 0.0]<span class="o">)</span>
+    <span class="k">for </span>body_part, mesh <span class="k">in </span>zip<span class="o">(</span>body_parts, body_part_meshes<span class="o">)</span>:
+        x <span class="o">=</span> df.loc[num, f<span class="s1">'{body_part}_x'</span><span class="o">]</span>
+        y <span class="o">=</span> df.loc[num, f<span class="s1">'{body_part}_y'</span><span class="o">]</span>
+        z <span class="o">=</span> df.loc[num, f<span class="s1">'{body_part}_z'</span><span class="o">]</span>
+        mesh.points <span class="o">=</span> pv.Sphere<span class="o">(</span><span class="nv">radius</span><span class="o">=</span>5, <span class="nv">center</span><span class="o">=(</span>x, y, z<span class="o">))</span>.points  <span class="c"># Update points of existing mesh</span>
+        mean_position +<span class="o">=</span> np.array<span class="o">([</span>x, y, z]<span class="o">)</span>
+
+    mean_position /<span class="o">=</span> len<span class="o">(</span>body_parts<span class="o">)</span>  <span class="c"># Calculate mean position of all body parts</span>
+    plotter.camera.focal_point <span class="o">=</span> mean_position.tolist<span class="o">()</span>  <span class="c"># Update the camera focal point</span>
+
+    <span class="c"># Update each skeleton connection</span>
+    <span class="k">for </span>connection, mesh <span class="k">in </span>zip<span class="o">(</span>skeleton, skeleton_line_meshes<span class="o">)</span>:
+        part1 <span class="o">=</span> connection[0]
+        part2 <span class="o">=</span> connection[1]
+        x1, y1, z1 <span class="o">=</span> df.loc[num, f<span class="s1">'{part1}_x'</span><span class="o">]</span>, df.loc[num, f<span class="s1">'{part1}_y'</span><span class="o">]</span>, df.loc[num, f<span class="s1">'{part1}_z'</span><span class="o">]</span>
+        x2, y2, z2 <span class="o">=</span> df.loc[num, f<span class="s1">'{part2}_x'</span><span class="o">]</span>, df.loc[num, f<span class="s1">'{part2}_y'</span><span class="o">]</span>, df.loc[num, f<span class="s1">'{part2}_z'</span><span class="o">]</span>
+        mesh.points <span class="o">=</span> pv.Line<span class="o">((</span>x1, y1, z1<span class="o">)</span>, <span class="o">(</span>x2, y2, z2<span class="o">))</span>.points  <span class="c"># Update points of existing mesh</span>
+
+    plotter.write_frame<span class="o">()</span>  <span class="c"># Write the current frame</span>
+plotter.close<span class="o">()</span>
+</code></pre></div></div>
+<!-- add mocap viz .GIF -->
+<p><img src="/assets/images/mocap/mocap.gif" alt="mocap viz" /></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+
+<p>In this post, we’ve explored how to use PyVista to visualize and animate 3D motion capture data with high frame rate. By leveraging the power of PyVista, we can create compelling visualizations that not only bring our data to life but also provide deep insights into the underlying dynamicsand animations with high frame rates, making it an excellent choice for visualizing motion capture data.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#3d-visualization" class="page__taxonomy-item p-category" rel="tag">3D Visualization</a><span class="sep">, </span>
+    
+      <a href="/tags/#animation" class="page__taxonomy-item p-category" rel="tag">Animation</a><span class="sep">, </span>
+    
+      <a href="/tags/#high-fps-3d-plotting" class="page__taxonomy-item p-category" rel="tag">High FPS 3D plotting</a><span class="sep">, </span>
+    
+      <a href="/tags/#motion-capture" class="page__taxonomy-item p-category" rel="tag">Motion Capture</a><span class="sep">, </span>
+    
+      <a href="/tags/#python3" class="page__taxonomy-item p-category" rel="tag">Python3</a><span class="sep">, </span>
+    
+      <a href="/tags/#pyvista" class="page__taxonomy-item p-category" rel="tag">PyVista</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#data-visualization" class="page__taxonomy-item p-category" rel="tag">Data Visualization</a><span class="sep">, </span>
+    
+      <a href="/categories/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
+    
+      <a href="/categories/#tutorial" class="page__taxonomy-item p-category" rel="tag">Tutorial</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-13T00:00:00+00:00">July 13, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Visualizing+and+Animating+3D+Motion+Capture+Data+with+PyVista%20%2Fblog%2Fdata%2520visualization%2Fpython%2Ftutorial%2F3D-motion-capture-data-animation-with-pyvista%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fblog%2Fdata%2520visualization%2Fpython%2Ftutorial%2F3D-motion-capture-data-animation-with-pyvista%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fblog%2Fdata%2520visualization%2Fpython%2Ftutorial%2F3D-motion-capture-data-animation-with-pyvista%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" class="pagination--pager" title="Understanding Probability Theory: A Primer for Computational Neuroethologists
+">Previous</a>
+    
+    
+      <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" class="pagination--pager" title="Understanding the Reparameterization Trick in Variational Autoencoders
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="permalink">Understanding Probability Theory: A Primer for Computational Neuroethologists
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of d...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="permalink">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          28 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds an...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/linux/linux-managing-users-shared-data-folders-on-local-drive/" rel="permalink">How to Create a Data Folder for Each User and Move Conda Packages to a Shared Storage Drive
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to creating a data folder for each user on a shared storage drive and moving Conda packages to conserve space.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>
