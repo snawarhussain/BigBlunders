@@ -1,0 +1,952 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Complex Numbers and Rotations: A Primer to Fourier Transform and MR Physics and Simulation - Snawar Hussain</title>
+<meta name="description" content="Exploring of complex numbers and their role in Fourier Transform and Magnetic Resonance Physics with code. This guide elucidates the mathematical foundations and practical applications in MR imaging.">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Complex Numbers and Rotations: A Primer to Fourier Transform and MR Physics and Simulation">
+<meta property="og:url" content="https://snawarhussain.com/blog/computational%20modeling/mr%20physics/Complex-Numbers-and-Rotations/">
+
+
+  <meta property="og:description" content="Exploring of complex numbers and their role in Fourier Transform and Magnetic Resonance Physics with code. This guide elucidates the mathematical foundations and practical applications in MR imaging.">
+
+
+
+  <meta property="og:image" content="https://snawarhussain.com/assets/images/neural_modes/cover.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2023-10-13T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://snawarhussain.com/blog/computational%20modeling/mr%20physics/Complex-Numbers-and-Rotations/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "https://snawarhussain.com/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/assets/images/neural_modes/cover.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Complex Numbers and Rotations: A Primer to Fourier Transform and MR Physics and Simulation
+
+        
+      </h1>
+      
+        <p class="page__lead">Exploring of complex numbers and their role in Fourier Transform and Magnetic Resonance Physics with code. This guide elucidates the mathematical foundations and practical applications in MR imaging.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          12 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://snawarhussain.com/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://snawarhussain.com/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Complex Numbers and Rotations: A Primer to Fourier Transform and MR Physics and Simulation">
+    <meta itemprop="description" content="Exploring of complex numbers and their role in Fourier Transform and Magnetic Resonance Physics with code. This guide elucidates the mathematical foundations and practical applications in MR imaging.">
+    <meta itemprop="datePublished" content="2023-10-13T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list-ul"></i> Contents</h4></header>
+              <ul class="toc__menu"><li><a href="#introduction">Introduction</a></li><li><a href="#complex-numbers-and-rotations">Complex Numbers and Rotations</a></li><li><a href="#what-are-complex-numbers">What are Complex Numbers?</a></li><li><a href="#plotting-complex-numbers">Plotting Complex Numbers</a><ul><li><a href="#the-complex-plane">The Complex Plane</a></li><li><a href="#scaling-complex-numbers">Scaling Complex Numbers</a></li><li><a href="#eulers-formula-and-exponential-form-of-complex-numbers">Euler’s Formula and Exponential Form of Complex Numbers</a></li><li><a href="#what-if-we-want-to-describe-rotations">what if we want to describe rotations?</a></li><li><a href="#ploting-the-real-and-imaginary-part-of-the-complex-number">Ploting the real and imaginary part of the complex number</a></li><li><a href="#animation-showing-how-exponential-form-of-complex-number-can-be-used-to-describe-rotations-in-2d-complex-plane">Animation showing how exponential form of complex number can be used to describe rotations in 2D complex plane</a></li><li><a href="#changing-the-direction-of-rotation">Changing the direction of rotation</a></li><li><a href="#inlcude-frequency-component-to-the-complex-number-to-control-the-speed-of-rotation">Inlcude frequency component to the complex number to control the speed of rotation</a></li><li><a href="#defining-a-sinonoidal-function">defining a sinonoidal function</a></li><li><a href="#scaling-the-rotations-with-the-function-gt">Scaling the rotations with the function \(g(t)\)</a></li><li><a href="#why-not-vectors">Why Not Vectors?</a></li><li><a href="#the-role-of-complex-numbers-in-fourier-transform">The Role of Complex Numbers in Fourier Transform</a></li><li><a href="#key-takeaways">Key Takeaways</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="introduction">Introduction</h2>
+
+<p>Complex numbers often appear mysterious to those who encounter them for the first time. Why would anyone need numbers that are “imaginary”? As it turns out, complex numbers are not only elegant but incredibly useful. They lie at the heart of many scientific and engineering disciplines, including signal processing, control theory, electromagnetism, and, of course, Fourier Transform and Magnetic Resonance (MR) physics.</p>
+
+<h2 id="complex-numbers-and-rotations">Complex Numbers and Rotations</h2>
+
+<p>Complex numbers and rotations are fundamental to the understanding of  the encoding of spatial information. In this Blogpost, we’ll go beyond mere equations and actively code to visualize these concepts. Through this hands-on approach, we’ll deepen our understanding of the core principles involved in not just MR Physics but many other physical concepts that invovle waves, frequencies, phase and rotations.
+For a more intuivie understanding of complex numbers, I highly recommend <a href="https://www.youtube.com/watch?v=5PcpBw5Hbwo">3Blue1Brown’s video on the topic</a>. Here we will write code to visualize the concepts discussed in the video.</p>
+
+<h2 id="what-are-complex-numbers">What are Complex Numbers?</h2>
+
+<p>A complex number \(z\) is defined as \(z = a + bi\), where \(a\) and \(b\) are real numbers, and \(i\) is the imaginary unit with the property \(i^2 = -1\).</p>
+
+\[z = a + bi\]
+
+<h2 id="plotting-complex-numbers">Plotting Complex Numbers</h2>
+
+<h3 id="the-complex-plane">The Complex Plane</h3>
+
+<p>The real part is plotted along the x-axis, and the imaginary part along the y-axis. This 2D plane is known as the complex plane.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">markers</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.animation</span> <span class="kn">import</span> <span class="n">FuncAnimation</span>
+
+<span class="k">def</span> <span class="nf">plot_arrow</span><span class="p">(</span><span class="n">complex_num</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)):</span>
+        
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">'equal'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s">'both'</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s">'both'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">'--'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">xlim</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">xlim</span><span class="p">)])</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">ylim</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">ylim</span><span class="p">)])</span>
+    <span class="c1"># Define a colormap (cmap) and normalize it
+</span>    <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s">'viridis'</span><span class="p">)</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">Normalize</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">complex_num</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">complex_num</span><span class="p">)):</span>
+        <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">complex_num</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">real</span><span class="p">,</span> <span class="n">complex_num</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">imag</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+        <span class="n">ax</span><span class="p">.</span><span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="c1"># Add a legend
+</span>
+    <span class="n">legends</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s">'z = </span><span class="si">{</span><span class="n">np</span><span class="p">.</span><span class="nb">round</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s">'</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">complex_num</span><span class="p">]</span>
+    <span class="n">ax</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legends</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">'upper left'</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+    
+    
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
+    
+
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">complex_num</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="o">+</span><span class="mf">2j</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_arrow</span><span class="p">(</span><span class="n">complex_num</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/euler_post/eluer_anim_1_0.png" alt="png" /></p>
+
+<h3 id="scaling-complex-numbers">Scaling Complex Numbers</h3>
+
+<p>We often need to scale complex numbers to unit magnitude. The magnitude (\(\lVert z \rVert\)) of a complex number \(z = a + bi\) is given by:</p>
+
+\[\lVert z \rVert = \sqrt{a^2 + b^2}\]
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Scaled complex numbers
+</span><span class="n">mag</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">complex_num</span><span class="p">)</span>
+<span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">angle</span><span class="p">(</span><span class="n">complex_num</span><span class="p">)</span>
+<span class="n">scaled_complex_num</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">mag</span> <span class="o">*</span> <span class="n">complex_num</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_arrow</span><span class="p">(</span><span class="n">scaled_complex_num</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/euler_post/eluer_anim_2_0.png" alt="png" /></p>
+
+<h3 id="eulers-formula-and-exponential-form-of-complex-numbers">Euler’s Formula and Exponential Form of Complex Numbers</h3>
+
+<p>One of the most beautiful equations in mathematics is Euler’s formula:</p>
+
+\[e^{ix} = \cos(x) + i \sin(x)\]
+
+<p>This formula allows us to represent complex numbers in exponential form, providing a new way to understand rotation and scaling in the complex plane.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#alternative representation
+</span><span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">angle</span><span class="p">(</span><span class="n">scaled_complex_num</span><span class="p">)</span>
+<span class="n">exponential_form</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1j</span> <span class="o">*</span> <span class="n">angle</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">real</span><span class="p">(</span><span class="n">exponential_form</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">imag</span><span class="p">(</span><span class="n">exponential_form</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_arrow</span><span class="p">(</span><span class="n">exponential_form</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/euler_post/eluer_anim_3_0.png" alt="png" /></p>
+
+<h3 id="what-if-we-want-to-describe-rotations">what if we want to describe rotations?</h3>
+
+<p>Euler’s formula is a powerful tool for describing rotations in the complex plane. Let’s say we want to rotate a complex number \(z\) by \(\theta\) radians. We can do this by multiplying \(z\) by \(e^{i\theta}\).
+here we keep the \(z\) to be 1 and vary the theta from 0 to 2pi</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># what if we want to describe rotations? 
+</span><span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">complex_nums</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1j</span> <span class="o">*</span> <span class="n">theta</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_arrow</span><span class="p">(</span><span class="n">complex_nums</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/euler_post/eluer_anim_4_0.png" alt="png" /></p>
+
+<h3 id="ploting-the-real-and-imaginary-part-of-the-complex-number">Ploting the real and imaginary part of the complex number</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># plotting only the real part of the complex number
+</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span>  <span class="c1"># 1 rotation
+</span><span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="o">+</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">complex_num</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1j</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">real</span><span class="p">(</span><span class="n">complex_num</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'real'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">imag</span><span class="p">(</span><span class="n">complex_num</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">'imag'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<p><img src="/assets/images/euler_post/eluer_anim_5_0.png" alt="png" /></p>
+
+<p>so basically \(e^{ix}=cos(x)+ isin(x)\)</p>
+
+<h3 id="animation-showing-how-exponential-form-of-complex-number-can-be-used-to-describe-rotations-in-2d-complex-plane">Animation showing how exponential form of complex number can be used to describe rotations in 2D complex plane</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.animation</span> <span class="kn">import</span> <span class="n">FuncAnimation</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="k">class</span> <span class="nc">animate</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">complex_nums</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+        <span class="c1"># Figure setup
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">complex_num</span> <span class="o">=</span> <span class="n">complex_nums</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fig</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">ax</span><span class="p">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">ax</span><span class="p">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">'equal'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s">'both'</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s">'both'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">'--'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">yticks</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># Define a colormap (cmap) and normalize it
+</span>        <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s">'viridis'</span><span class="p">)</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">arrow</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">ax</span><span class="p">.</span><span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">legend_text</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">ax</span><span class="p">.</span><span class="n">legend</span><span class="p">([</span><span class="sa">f</span><span class="s">'z = </span><span class="si">{</span><span class="n">np</span><span class="p">.</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">complex_num</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s">'</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s">'upper left'</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="c1"># Create the legend in the init function
+</span>
+    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">arrow</span><span class="p">.</span><span class="n">set_xy</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>  <span class="c1"># Initialize arrow at (0, 0)
+</span>        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="p">.</span><span class="n">arrow</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">legend_text</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">arrow</span><span class="p">.</span><span class="n">set_xy</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="p">.</span><span class="n">complex_num</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">real</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">complex_num</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">imag</span><span class="p">]])</span>  <span class="c1"># Set arrow's vertices
+</span>        <span class="c1"># Update the legend text
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">legend_text</span><span class="p">.</span><span class="n">get_texts</span><span class="p">()[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_text</span><span class="p">(</span><span class="sa">f</span><span class="s">'z = </span><span class="si">{</span><span class="n">np</span><span class="p">.</span><span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">complex_num</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="p">.</span><span class="n">arrow</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">legend_text</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">anim</span> <span class="o">=</span> <span class="n">FuncAnimation</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fig</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">update</span><span class="p">,</span> <span class="n">init_func</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">init</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dt</span><span class="p">),</span> <span class="n">interval</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">blit</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">anim</span>
+
+<span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span>  <span class="c1"># 1 rotation
+</span><span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">complex_num</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1j</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">anim</span> <span class="o">=</span> <span class="n">animate</span><span class="p">(</span><span class="n">complex_num</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">an</span> <span class="o">=</span> <span class="n">anim</span><span class="p">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/euler_post/anim1.gif" alt="gif" /></p>
+
+<h3 id="changing-the-direction-of-rotation">Changing the direction of rotation</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># including a minus sign in the exponential form will result in a rotation in the opposite direction
+</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span>  <span class="c1"># 1 rotation
+</span><span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">complex_num</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1j</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">anim</span> <span class="o">=</span> <span class="n">animate</span><span class="p">(</span><span class="n">complex_num</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">an</span> <span class="o">=</span> <span class="n">anim</span><span class="p">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/euler_post/anim2.gif" alt="gif" /></p>
+
+<h3 id="inlcude-frequency-component-to-the-complex-number-to-control-the-speed-of-rotation">Inlcude frequency component to the complex number to control the speed of rotation</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">f</span> <span class="o">=</span> <span class="p">.</span><span class="mi">3</span>  <span class="c1"># frequency
+</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span>  <span class="c1"># 1 rotation
+</span><span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">complex_num</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1j</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">*</span><span class="n">f</span><span class="o">*</span> <span class="n">dt</span><span class="p">)</span>   <span class="c1"># exp(1j * 2*np.pi* f * t) or exp(1j * omega * dt)
+</span>
+<span class="n">anim</span> <span class="o">=</span> <span class="n">animate</span><span class="p">(</span><span class="n">complex_num</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">an</span> <span class="o">=</span> <span class="n">anim</span><span class="p">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="/assets/images/euler_post/anim3.gif" alt="gif" /></p>
+
+<h3 id="defining-a-sinonoidal-function">defining a sinonoidal function</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># defining a sinonoidal function
+</span><span class="n">g_t</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span><span class="o">+</span><span class="mf">0.5</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">g_t</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="/assets/images/euler_post/eluer_anim_6_0.png" alt="png" /></p>
+
+<h3 id="scaling-the-rotations-with-the-function-gt">Scaling the rotations with the function \(g(t)\)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># multiplying the complex number with the function g_t scales the rotating complex number
+</span><span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span>  <span class="c1"># 1 rotation
+</span><span class="n">f</span> <span class="o">=</span> <span class="p">.</span><span class="mi">3</span>  <span class="c1"># frequency
+</span><span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">complex_num</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1j</span> <span class="o">*</span> <span class="n">theta</span> <span class="o">*</span><span class="n">f</span><span class="o">*</span> <span class="n">dt</span><span class="p">)</span><span class="o">*</span><span class="n">g_t</span>
+
+<span class="n">anim</span> <span class="o">=</span> <span class="n">animate</span><span class="p">(</span><span class="n">complex_num</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">an</span> <span class="o">=</span> <span class="n">anim</span><span class="p">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="/assets/images/euler_post/anim4.gif" alt="gif" /></p>
+
+<h3 id="why-not-vectors">Why Not Vectors?</h3>
+
+<p>At this point, one might wonder, why not use vectors? Vectors can describe points in space and can be scaled and rotated. The answer lies in the algebraic closure of complex numbers and their ability to simplify many mathematical derivations. Complex numbers allow for a unified and elegant representation that turns complicated mathematical operations into simple algebraic ones, especially when it comes to Fourier Transform and MR physics.</p>
+
+<h3 id="the-role-of-complex-numbers-in-fourier-transform">The Role of Complex Numbers in Fourier Transform</h3>
+
+<p>Fourier Transform breaks down any signal into a sum of sinusoids. In essence, it transforms our signal into a new domain where it’s expressed as a linear combination of exponential functions. This is where complex numbers shine.</p>
+
+\[X(f) = \int_{-\infty}^{\infty} x(t) \cdot e^{-i 2 \pi f t} \, dt\]
+
+<p>The role of complex numbers here is twofold:</p>
+
+<ol>
+  <li>The sinusoidal functions are compactly represented using Euler’s formula.</li>
+  <li>The rotation and scaling properties of complex numbers help in understanding how each frequency component contributes to the overall signal.</li>
+</ol>
+
+<h3 id="key-takeaways">Key Takeaways</h3>
+
+<ol>
+  <li>
+    <p><strong>Complex Plane Representation</strong>: Complex numbers can be visualized in a 2D Cartesian coordinate system known as the complex plane. In this plane, the real part serves as the x-axis, while the imaginary part serves as the y-axis.</p>
+  </li>
+  <li>
+    <p><strong>Scaling and Rotation</strong>: Similar to vectors, complex numbers can be scaled and rotated within the 2D complex plane. These operations are particularly useful for understanding various mathematical and physical phenomena.</p>
+  </li>
+  <li>
+    <p><strong>Exponential Form</strong>: Euler’s formula provides an elegant exponential representation for complex numbers. This form is not only mathematically compact but also extremely useful for understanding the rotation and scaling of complex numbers over time.</p>
+  </li>
+  <li>
+    <p><strong>Trigonometric Components</strong>: The rotation of a complex number inherently involves sinusoidal (sine) and cosinusoidal (cosine) components. This is best represented through Euler’s formula, \(e^{ix} = \cos(x) + i\sin(x)\).</p>
+  </li>
+  <li>
+    <p><strong>Fourier Transform</strong>: Understanding these properties of complex numbers is crucial when delving into Fourier Transform. The Fourier Transform essentially decomposes a signal into a series of scaled and rotated complex numbers, which are essentially sinusoids in disguise.</p>
+  </li>
+</ol>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#complex-numbers" class="page__taxonomy-item p-category" rel="tag">Complex Numbers</a><span class="sep">, </span>
+    
+      <a href="/tags/#fourier-transform" class="page__taxonomy-item p-category" rel="tag">Fourier Transform</a><span class="sep">, </span>
+    
+      <a href="/tags/#mr-physics" class="page__taxonomy-item p-category" rel="tag">MR Physics</a><span class="sep">, </span>
+    
+      <a href="/tags/#mri" class="page__taxonomy-item p-category" rel="tag">MRI</a><span class="sep">, </span>
+    
+      <a href="/tags/#rotations" class="page__taxonomy-item p-category" rel="tag">Rotations</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#computational-modeling" class="page__taxonomy-item p-category" rel="tag">Computational Modeling</a><span class="sep">, </span>
+    
+      <a href="/categories/#mr-physics" class="page__taxonomy-item p-category" rel="tag">MR Physics</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-10-13T00:00:00+00:00">October 13, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Complex+Numbers+and+Rotations%3A+A+Primer+to+Fourier+Transform+and+MR+Physics+and+Simulation%20https%3A%2F%2Fsnawarhussain.com%2Fblog%2Fcomputational%2520modeling%2Fmr%2520physics%2FComplex-Numbers-and-Rotations%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsnawarhussain.com%2Fblog%2Fcomputational%2520modeling%2Fmr%2520physics%2FComplex-Numbers-and-Rotations%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fsnawarhussain.com%2Fblog%2Fcomputational%2520modeling%2Fmr%2520physics%2FComplex-Numbers-and-Rotations%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" class="pagination--pager" title="Understanding the Reparameterization Trick in Variational Autoencoders
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="permalink">Understanding Probability Theory: A Primer for Computational Neuroethologists
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of d...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="permalink">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          28 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds an...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>

@@ -82,4 +82,10 @@ var store = [{
         "tags": ["Python3","Math for AI","VAE","Variational Autoencoder","Generative Models","3D Visualization","Motion Capture","Animation","High FPS 3D plotting"],
         "url": "/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/",
         "teaser": "/assets/images/coding_stock.jpg"
+      },{
+        "title": "Complex Numbers and Rotations: A Primer to Fourier Transform and MR Physics and Simulation",
+        "excerpt":"Introduction Complex numbers often appear mysterious to those who encounter them for the first time. Why would anyone need numbers that are “imaginary”? As it turns out, complex numbers are not only elegant but incredibly useful. They lie at the heart of many scientific and engineering disciplines, including signal processing,...","categories": ["Blog","Computational Modeling","MR Physics"],
+        "tags": ["Complex Numbers","Fourier Transform","MR Physics","Rotations","MRI"],
+        "url": "/blog/computational%20modeling/mr%20physics/Complex-Numbers-and-Rotations/",
+        "teaser": "/assets/images/coding_stock.jpg"
       }]
