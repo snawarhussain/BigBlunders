@@ -1,0 +1,785 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>1D Fourier Transform: A Visual Guide for Decoding Signals with Complex Numbers - Snawar Hussain</title>
+<meta name="description" content="An in-depth exploration of Fourier Transform and complex numbers in MRI. Understand the critical role these concepts play in signal processing and MR imaging through detailed examples and code.">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="1D Fourier Transform: A Visual Guide for Decoding Signals with Complex Numbers">
+<meta property="og:url" content="https://snawarhussain.com/mri%20analysis/signal%20processing/mathematical%20modeling/1D-Fourier-Transform-visual-guide/">
+
+
+  <meta property="og:description" content="An in-depth exploration of Fourier Transform and complex numbers in MRI. Understand the critical role these concepts play in signal processing and MR imaging through detailed examples and code.">
+
+
+
+  <meta property="og:image" content="https://snawarhussain.com/assets/images/1D_FT/mri_cover2.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2023-11-23T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://snawarhussain.com/mri%20analysis/signal%20processing/mathematical%20modeling/1D-Fourier-Transform-visual-guide/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Snawar Hussain",
+      "url": "https://snawarhussain.com/",
+      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('/assets/images/1D_FT/mri_cover2.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          1D Fourier Transform: A Visual Guide for Decoding Signals with Complex Numbers
+
+        
+      </h1>
+      
+        <p class="page__lead">An in-depth exploration of Fourier Transform and complex numbers in MRI. Understand the critical role these concepts play in signal processing and MR imaging through detailed examples and code.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://snawarhussain.com/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://snawarhussain.com/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="1D Fourier Transform: A Visual Guide for Decoding Signals with Complex Numbers">
+    <meta itemprop="description" content="An in-depth exploration of Fourier Transform and complex numbers in MRI. Understand the critical role these concepts play in signal processing and MR imaging through detailed examples and code.">
+    <meta itemprop="datePublished" content="2023-11-23T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-cogs"></i> Article Outline</h4></header>
+              <ul class="toc__menu"><li><a href="#introduction">Introduction</a><ul><li><a href="#the-discrete-fourier-transform-dft">The Discrete Fourier Transform (DFT)</a></li></ul></li><li><a href="#inside-dft">Inside DFT</a></li><li><a href="#complex-phasors">Complex Phasors</a></li><li><a href="#sum-of-sinusoids">Sum of Sinusoids</a></li><li><a href="#exploring-the-dft-with-coded-animation">Exploring the DFT with coded Animation</a></li><li><a href="#reference">Reference</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>If you haven’t read my previous blog on the relation between complex numbers and rotations, I would highly recommend you to check it out <a href="/blog/computational%20modeling/mr%20physics/Complex-Numbers-and-Rotations/">here</a>. It will help you understand the concepts in this blog better.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>The Fourier Transform is a mathematical tool that transforms a signal from the time domain to the frequency domain, unveiling the different frequencies that constitute the signal. In its most general form, the Fourier Transform is given by:</p>
+
+\[F(\omega) = \int_{-\infty}^{\infty} f(t) e^{-i \omega t} \, dt\]
+
+<p>Here, \(F(\omega)\) is the Fourier Transform of \(f(t)\), with \(\omega\) representing frequency and \(t\) denoting time. The exponential term \(e^{-2\pi i \omega t}\) is a rotating complex sinusoid, which is crucial for extracting the frequency components from \(f(t)\).</p>
+
+<h3 id="the-discrete-fourier-transform-dft">The Discrete Fourier Transform (DFT)</h3>
+
+<p>In digital applications, we use the Discrete Fourier Transform (DFT) to handle sampled data:</p>
+
+\[F(k) = \sum_{n=0}^{N-1} f(n) e^{ i \frac{kn}{N}}\]
+
+<p>Here, \(f(n)\) is the sampled signal, \(N\) is the number of samples, and \(k\) is the frequency index in the DFT.</p>
+
+<p>The Discrete Fourier Transform (DFT) is a transformative tool in signal processing, translating signals from the time domain into the frequency domain. While the equations of the Fourier Transform and DFT are familiar territory for many, the real magic lies in understanding what happens inside the DFT and how it reveals the intricate composition of any signal.</p>
+
+<p>Fundamental principle behind fourier transform is that any signal that is changing (temporally or spatially) can be represented as an infinite sum of sinosoids. or in other words we can create any signal by adding different frequencies of sinosoids. This is the basis of fourier transform.</p>
+
+<p>The easiest examples would be temporally varrying 1D signals</p>
+
+<h2 id="inside-dft">Inside DFT</h2>
+<p>The output of the DFT is a collection of complex numbers, each representing a unique sinusoid in the original signal. These complex numbers, or phasors, hold the key to both the amplitude and phase of these complex sinusoids, essentially encoding how each sinusoid is scaled and shifted.</p>
+
+<h2 id="complex-phasors">Complex Phasors</h2>
+<p>A phasor \(F(\omega = \omega_0)\) in the DFT output is more than just a number; it’s a vector in the complex plane.And in fourier transform plot we mostly show the magnitude of this phasor. For example: Figure 1 illustrates the Fourier Transform and Inverse Fourier Transform of a simple signal. In \(F(\omega)\) plot, the x-axis is the frequency index \(\omega =\omega_0\), while the y-axis is the magnitude of the phasor \(|F(\omega_0)|\).</p>
+
+<p>The magnitude indicates the contribution of each sinusoid to the overall signal.</p>
+<p align="center">
+<img src="/assets/images/1D_FT/ft_ift.png" width="600" />
+ <figcaption>Fig.1: Fourier and Inverse Fourier fransform</figcaption>
+</p>
+
+<p>Thus a phasor \(F(\omega_0)\):
+\(F(\omega = \omega_0) = x + iy\)
+with amplitude \(A\):
+\(A =  \sqrt{x^2 + y^2}\)
+and phase  \(\phi\):
+\(\phi = \tan^{-1}(\frac{y}{x})\)</p>
+
+<p>scales the base complex sinosoid \(e^{- i \omega_0 t}\) by a factor of \(A\) and shifts it by a phase of \(\phi\)
+\(A e^{- i \omega_0 t + \phi 
+}\)</p>
+
+<p>Each of these sinusoids is a fundamental building block of the orignal signal, characterized by a specific frequency. The DFT decomposes the signal into these basic elements, revealing how each frequency contributes to the overall structure of the signal</p>
+
+<p>Since each point alone \((\omega)\) in the Figure 1 is a complex number, thus every frequeny \(\omega\) in the \(F (\omega)\) plot has it’s own Argand plane with real and imaginary axis.
+So we can extend our orignal  \(|F(\omega_0)|\)plot from Figure 1 to show that every frequency \(\omega_0\) contains within it a phasor \(F (\omega_0)\) that scales and shifts the sinosoid at \(\omega_0\) according to it’s contribution to the signal.</p>
+
+<p align="center">
+<img src="/assets/images/1D_FT/phasor.gif" width="600" />
+ <figcaption>Fig 2: phasor associated with a particular frequency sinosoid and how it scales and shifts it. </figcaption>
+</p>
+
+<h2 id="sum-of-sinusoids">Sum of Sinusoids</h2>
+
+<p>Ultimately, any  signal \(f(t)\) can be represented by a specific set of scaled and shifted sinusoids. And Summing over these sinosoids, governed by the principles encoded in the phasors, gives us back the original signal in its time-domain form. This is the essence of the DFT: decomposing a signal into its sinusoidal components and then reconstructing it from these components.</p>
+
+<p align="center">
+<img src="/assets/images/1D_FT/signal_ft.png" width="600" />
+ <figcaption>Fig 3: Singal f(t) represented as phasors of distinct frequencies (Fourier Transform). </figcaption>
+</p>
+
+<h2 id="exploring-the-dft-with-coded-animation">Exploring the DFT with coded Animation</h2>
+
+<p>Through animation, we can dynamically illustrate the transformative process of the DFT. The goal is to visually demonstrate how:</p>
+
+<p>Each point in the \(F(\omega)\) plot corresponds to a certain frequency and an associated phasor.
+These phasors define the amplitude and phase of sinusoids at these specific frequencies.
+By summing these scaled and shifted sinusoids, we can reconstruct the original signal.</p>
+
+<!-- put mp4 video that loops here  -->
+<p align="center">
+<img src="/assets/images/1D_FT/FT_1D_1.gif" width="600" />
+ <figcaption>Fig 4: Python simulation for the phenomenon in Fig. 2  </figcaption>
+</p>
+
+<p>For further exploration and hands on experience I have provided the code for this animation on my github repo <a href="https://github.com/snawarhussain/1D_FT_Anim">here</a>.</p>
+
+<p>This blogpost is a prereq to MRI simulation. These fundamental concepts will help us venture into the realm of 2D Fourier Transforms, K-Spaces and their pivotal role in applications like MRI, opening doors to a world where these concepts find profound applications.</p>
+
+<h2 id="reference">Reference</h2>
+
+<ol>
+  <li><a href="https://youtu.be/R_4GuyJTzMo?t=350">The Fourier Theory in MRI </a></li>
+</ol>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#coding-in-mri" class="page__taxonomy-item p-category" rel="tag">Coding in MRI</a><span class="sep">, </span>
+    
+      <a href="/tags/#complex-numbers" class="page__taxonomy-item p-category" rel="tag">Complex Numbers</a><span class="sep">, </span>
+    
+      <a href="/tags/#discrete-fourier-transform" class="page__taxonomy-item p-category" rel="tag">Discrete Fourier Transform</a><span class="sep">, </span>
+    
+      <a href="/tags/#fourier-transform" class="page__taxonomy-item p-category" rel="tag">Fourier Transform</a><span class="sep">, </span>
+    
+      <a href="/tags/#mri" class="page__taxonomy-item p-category" rel="tag">MRI</a><span class="sep">, </span>
+    
+      <a href="/tags/#phasors" class="page__taxonomy-item p-category" rel="tag">Phasors</a><span class="sep">, </span>
+    
+      <a href="/tags/#signal-decomposition" class="page__taxonomy-item p-category" rel="tag">Signal Decomposition</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#mathematical-modeling" class="page__taxonomy-item p-category" rel="tag">Mathematical Modeling</a><span class="sep">, </span>
+    
+      <a href="/categories/#mri-analysis" class="page__taxonomy-item p-category" rel="tag">MRI Analysis</a><span class="sep">, </span>
+    
+      <a href="/categories/#signal-processing" class="page__taxonomy-item p-category" rel="tag">Signal Processing</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-11-23T00:00:00+00:00">November 23, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=1D+Fourier+Transform%3A+A+Visual+Guide+for+Decoding+Signals+with+Complex+Numbers%20https%3A%2F%2Fsnawarhussain.com%2Fmri%2520analysis%2Fsignal%2520processing%2Fmathematical%2520modeling%2F1D-Fourier-Transform-visual-guide%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsnawarhussain.com%2Fmri%2520analysis%2Fsignal%2520processing%2Fmathematical%2520modeling%2F1D-Fourier-Transform-visual-guide%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fsnawarhussain.com%2Fmri%2520analysis%2Fsignal%2520processing%2Fmathematical%2520modeling%2F1D-Fourier-Transform-visual-guide%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/computational%20modeling/mr%20physics/Complex-Numbers-and-Rotations/" class="pagination--pager" title="Complex Numbers and Rotations: A Primer to Fourier Transform and MR Physics and Simulation
+">Previous</a>
+    
+    
+      <a href="/educational/mri%20technology/data%20analysis/2D-Fourier-Transform,-K-space-and-MRI/" class="pagination--pager" title="2D Fourier Transform and Complex Numbers in MR Physics
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You May Also Enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/mri%20technology/data%20analysis/2D-Fourier-Transform,-K-space-and-MRI/" rel="permalink">2D Fourier Transform and Complex Numbers in MR Physics
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Dive deep into the role of complex numbers and Fourier Transform in Magnetic Resonance Imaging (MRI), featuring practical coding examples and a detailed anal...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/computational%20modeling/mr%20physics/Complex-Numbers-and-Rotations/" rel="permalink">Complex Numbers and Rotations: A Primer to Fourier Transform and MR Physics and Simulation
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          12 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Exploring of complex numbers and their role in Fourier Transform and Magnetic Resonance Physics with code. This guide elucidates the mathematical foundations...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="permalink">Visualizing and Animating 3D Motion Capture Data with PyVista
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+
+  </body>
+</html>
