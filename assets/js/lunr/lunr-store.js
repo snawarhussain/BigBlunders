@@ -98,6 +98,6 @@ var store = [{
         "title": "2D Fourier Transform and Complex Numbers in MR Physics",
         "excerpt":"Introduction Magnetic Resonance Imaging (MRI) relies heavily on understanding the shift from 1D Fourier transforms, which deal with time-based signals, to 2D Fourier transforms, crucial for spatial imaging. This post aims to clarify the connection between 1D and 2D Fourier Transform and later bulding upon these concepts we will explore...","categories": ["Educational","MRI Technology","Data Analysis"],
         "tags": ["MRI","Fourier Transform","Complex Numbers","Image Processing","Spatial Frequencies","Coding in MRI"],
-        "url": "/educational/mri%20technology/data%20analysis/2D-Fourier-Transform,-K-space-and-MRI/",
+        "url": "/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI/",
         "teaser": "/assets/images/coding_stock.jpg"
       }]
