@@ -1,0 +1,80 @@
+.threejs {
+    position: relative;
+    width: 100%;
+    height: 20cm;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.threejs > * {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+/* Base slider styles */
+input[type="range"] {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 20%; /* Full-width */
+    background: transparent; /* Make the slider background transparent */
+}
+
+/* Slider Track */
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 10%;
+    height: 2px; /* Adjust track height */
+    background: #ddd; /* Track color */
+    border-radius: 1px; /* Round the edges */
+}
+
+input[type="range"]::-moz-range-track {
+    width: 10%;
+    height: 2px;
+    background: #ddd;
+    border-radius: 1px;
+}
+
+/* Slider Thumb */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 15px; /* Height of the thumb */
+    width: 15px; /* Width of the thumb */
+    background: #666; /* Thumb color */
+    cursor: pointer;
+    border-radius: 50%; /* Make it circular */
+    margin-top: -7px; /* Adjust position */
+    margin-left: -6px;
+    /* transition: background .3s; Smooth transition */
+}
+
+input[type="range"]::-moz-range-thumb {
+    height: 15px;
+    width: 15px;
+    background: #666;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background .3s;
+}
+
+/* Styling for the horizontal slider */
+#horizontal-slider {
+    position: absolute;
+    width: 80%;
+    height: 10%;
+    bottom: 10%;
+    left: 10px;
+    z-index: 100;
+}
+
+/* Styling for the vertical slider */
+#vertical-slider {
+    position: absolute;
+    height: 80%;
+    width: 10%;
+    top: 10%;
+    left: 10px;
+    z-index: 100;
+    writing-mode: vertical-lr;
+}

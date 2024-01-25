@@ -100,4 +100,10 @@ var store = [{
         "tags": ["MRI","Fourier Transform","Complex Numbers","Image Processing","Spatial Frequencies","Coding in MRI"],
         "url": "/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI/",
         "teaser": "/assets/images/coding_stock.jpg"
+      },{
+        "title": "Navigating K-space in MRI: The Role of Gradient Fields",
+        "excerpt":"Introduction In Magnetic Resonance Imaging (MRI), gradient fields, among many other things, are used to encode spatial information. This post aims to clarify the connection between gradient fields and spatial frequencies in the K-space, and how gradients walks us through K-space. Blending mathematical theory with practical code examples, the goal...","categories": ["Educational","MRI Technology"],
+        "tags": ["MRI","K-space","Gradient Fields","Fourier Transform","Spin Magnetic Moments","Image Reconstruction","Medical Imaging"],
+        "url": "/educational/mri%20technology/Kspace-walk-using-encoding-gradients-in-MRI/",
+        "teaser": "/assets/images/coding_stock.jpg"
       }]
