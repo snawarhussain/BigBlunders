@@ -89,11 +89,7 @@
   
 
 
-    <!-- start custom head snippets -->
-
-<!-- insert favicons. use https://realfavicongenerator.net/ -->
-
-<!-- end custom head snippets -->
+    <link rel='icon' href='/assets/favicon.ico' type='image/x-icon'>
 
   </head>
 
@@ -315,9 +311,43 @@
 
   <div class="archive">
     
-    <!-- Additional metadata -->
-<link rel="shortcut icon" href="/assets/favicon.ico" >
+    <div class='fluid-cont'>
+  <!-- add heigh and width to the div cube -->
+      <div id='cube' ></div>
+      <script type="text/javascript" src="/assets/js/dat.gui.min.js"></script>
+      <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'UA-105392568-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+      <canvas></canvas>
 
+      <!-- Mother of God, pls forgive me -->
+      <div class="promo">
+          <div class="promo-middle">
+              <div class="promo-content">
+                  <div class="promo-header">
+                      <span class="promo-close">&times;</span>
+                  </div>
+                  <div class="promo-body">
+                      <p>Try Fluid Simulation app!</p>
+                      <div class="links-container">
+                          <a class="link" id="apple_link" target="_blank">
+                              <img class="link-img" alt="Download on the App Store" src="app_badge.png"/>
+                          </a>
+                          <a class="link" id="google_link" target="_blank">
+                              <img class="link-img" alt="Get it on Google Play" src="gp_badge.png"/>
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <script src="/assets/js/fluid_sim.js"></script>
+      <link rel="stylesheet" href="/assets/css/fluid-sim.css">
+  </div>
+  
 
 <h3 class="archive__subtitle">Recent Posts</h3>
 
