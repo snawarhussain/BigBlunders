@@ -1,10 +1,11 @@
 <!doctype html>
 <!--
-  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
-  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Minimal Mistakes Jekyll Theme 4.26.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
 -->
+
 <html lang="en" class="no-js">
   <head>
     <meta charset="utf-8">
@@ -48,17 +49,7 @@
 
 
 
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    
-      "@type": "Person",
-      "name": "Snawar Hussain",
-      "url": "https://snawarhussain.com/",
-      "sameAs": ["https://twitter.com/SnawarHussain","https://www.facebook.com/SanawerHussain","https://instagram.com/snawar_hussain","https://www.linkedin.com/in/snawarhussain"]
-    
-  }
-</script>
+
 
 
 
@@ -69,19 +60,17 @@
 <!-- end _includes/seo.html -->
 
 
-
-
-<!-- https://t.co/dKP3o1e -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script>
+<script type="text/javascript">
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
 </script>
 
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
-<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
 
 
   
@@ -116,15 +105,35 @@
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/posts/">Posts</a>
+              <a
+                href="/posts/"
+                
+                
+              >Posts</a>
             </li><li class="masthead__menu-item">
-              <a href="/categories/">Categories</a>
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
             </li><li class="masthead__menu-item">
-              <a href="/tags/">Tags</a>
+              <a
+                href="/tags/"
+                
+                
+              >Tags</a>
             </li><li class="masthead__menu-item">
-              <a href="/cv/">CV</a>
+              <a
+                href="/cv/"
+                
+                
+              >CV</a>
             </li><li class="masthead__menu-item">
-              <a href="/about/">About</a>
+              <a
+                href="/about/"
+                
+                
+              >About</a>
             </li></ul>
         
         <button class="search__toggle" type="button">
@@ -182,14 +191,13 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          15 minute read
+          10 minute read
         
       </span>
     
   </p>
 
 
-      
       
     </div>
   
@@ -224,7 +232,7 @@
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
-        <p>PhD fellow at Zhejiang University <br />majoring in Computer Science <br />Research Areas: Machine Vision, Computational Ethology, BCI</p>
+        <p>PhD fellow @ Fraunhofer <br />Research Areas: Computational MRI, AI for Science</p>
 
       </div>
     
@@ -235,7 +243,7 @@
     <ul class="author__urls social-icons">
       
         <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
-          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Hangzhou, China</span>
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Bremen, Germany</span>
         </li>
       
 
@@ -319,7 +327,7 @@
 
 
 
-  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Navigating K-space in MRI: The Role of Gradient Fields">
     <meta itemprop="description" content="Exploring the crucial role of gradient fields in MRI for stepping through K-space.">
     <meta itemprop="datePublished" content="2024-01-25T00:00:00+00:00">
@@ -328,13 +336,12 @@
     <div class="page__inner-wrap">
       
 
-      <section class="page__content e-content" itemprop="text">
+      <section class="page__content" itemprop="text">
         
           <aside class="sidebar__right ">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-cog"></i> Guide Overview</h4></header>
               <ul class="toc__menu"><li><a href="#introduction">Introduction</a></li><li><a href="#mathematical-relationship-between-k-space-and-gradient-fields">Mathematical relationship between K-space and Gradient fields</a></li><li><a href="#rotating-vs-labratory-frame-of-reference">Rotating vs Labratory Frame of reference</a></li><li><a href="#gradient-fields-and-spin-magnetic-moments">Gradient Fields and Spin Magnetic Moments</a></li><li><a href="#2d-fourier-transform-and-mri">2D Fourier Transform and MRI</a></li><li><a href="#stepping-through-k-space-using-gradients">Stepping Through K-space using Gradients</a><ul><li><a href="#the-influence-of-k_x-and-k_y-on-sinusoidal-patterns">The Influence of \(k_x\) and \(k_y\) on Sinusoidal Patterns</a></li></ul></li><li><a href="#conclusion">Conclusion</a></li></ul>
-
             </nav>
           </aside>
         
@@ -534,7 +541,7 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
 
   <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsnawarhussain.com%2Feducational%2Fmri%2520technology%2FKspace-walk-using-encoding-gradients-in-MRI%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fsnawarhussain.com%2Feducational%2Fmri%2520technology%2FKspace-walk-using-encoding-gradients-in-MRI%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://snawarhussain.com/educational/mri%20technology/Kspace-walk-using-encoding-gradients-in-MRI/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
@@ -545,7 +552,8 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" class="pagination--pager" title="Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL
+">Next</a>
     
   </nav>
 
@@ -556,11 +564,58 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
 
   
   
-    <div class="page__related">
-      <h2 class="page__related-title">You May Also Enjoy</h2>
-      <div class="grid__wrapper">
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You May Also Enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" rel="permalink">Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
         
-          
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Guide to set-up TensorFlow to use GPU in a Conda environment.Follow these steps to ensure TensorFlow leverages CUDA and cuDNN installed in your Conda environ...</p>
+  </article>
+</div>
+
+    
+      
+      
 
 
 
@@ -591,7 +646,7 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          11 minute read
+          7 minute read
         
       </span>
     
@@ -602,8 +657,9 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
   </article>
 </div>
 
-        
-          
+    
+      
+      
 
 
 
@@ -634,7 +690,7 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          8 minute read
+          5 minute read
         
       </span>
     
@@ -645,8 +701,9 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
   </article>
 </div>
 
-        
-          
+    
+      
+      
 
 
 
@@ -677,7 +734,7 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          12 minute read
+          8 minute read
         
       </span>
     
@@ -688,56 +745,15 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
   </article>
 </div>
 
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
-      <div class="archive__item-teaser">
-        <img src="/assets/images/coding_stock.jpg" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/genrative%20models/python/vae/tutorial/machine%20learning/Reparameterization-trick-in-VAEs-explained/" rel="permalink">Understanding the Reparameterization Trick in Variational Autoencoders
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          7 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ing...</p>
-  </article>
+  </div>
 </div>
 
-        
-      </div>
-    </div>
   
   
 </div>
 
+      
     </div>
 
     
@@ -782,7 +798,7 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2024 Snawar Hussain. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2024 <a href="https://snawarhussain.com">Snawar Hussain</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>
@@ -809,7 +825,6 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
   
-
 
 
 

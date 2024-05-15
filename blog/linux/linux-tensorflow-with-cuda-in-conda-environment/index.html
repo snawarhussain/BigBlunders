@@ -1,0 +1,791 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL - Snawar Hussain</title>
+<meta name="description" content="Guide to set-up TensorFlow to use GPU in a Conda environment.Follow these steps to ensure TensorFlow leverages CUDA and cuDNN installed in your Conda environment.">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL">
+<meta property="og:url" content="https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/">
+
+
+  <meta property="og:description" content="Guide to set-up TensorFlow to use GPU in a Conda environment.Follow these steps to ensure TensorFlow leverages CUDA and cuDNN installed in your Conda environment.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2024-05-15T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script type="text/javascript">
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <link rel='icon' href='/assets/favicon.ico' type='image/x-icon'>
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/posts/"
+                
+                
+              >Posts</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags/"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/cv/"
+                
+                
+              >CV</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://snawarhussain.com/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://snawarhussain.com/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow @ Fraunhofer <br />Research Areas: Computational MRI, AI for Science</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Bremen, Germany</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL">
+    <meta itemprop="description" content="Guide to set-up TensorFlow to use GPU in a Conda environment.Follow these steps to ensure TensorFlow leverages CUDA and cuDNN installed in your Conda environment.">
+    <meta itemprop="datePublished" content="2024-05-15T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            <a href="https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" itemprop="url">Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-list-ul"></i> Guide Contents</h4></header>
+              <ul class="toc__menu"><li><a href="#prerequisites">Prerequisites</a></li><li><a href="#step-1-verify-your-environment">Step 1: Verify Your Environment</a></li><li><a href="#step-2-identify-the-cuda-and-cudnn-paths">Step 2: Identify the CUDA and cuDNN Paths</a></li><li><a href="#step-3-set-ld_library_path-environment-variable">Step 3: Set LD_LIBRARY_PATH Environment Variable:</a></li><li><a href="#step-4-test-tensorflow-with-cuda">Step 4: Test TensorFlow with CUDA</a></li><li><a href="#step-5-presist-the-changes">Step 5: Presist the changes</a></li><li><a href="#create-deactivation-script">Create Deactivation Script</a></li></ul>
+            </nav>
+          </aside>
+        
+        <p>Let’s admit it, installing TensorFlow with CUDA support is a pain in the neck and doesn’t work right away on the first attempt 99% of the time. Many of us have faced the frustration of seeing TensorFlow fail to utilize the GPU even though <code class="language-plaintext highlighter-rouge">nvidia-smi</code> confirms it’s there. If you’re running Linux or WSL and have installed TensorFlow in a Conda environment but are struggling to get it to use your GPU, this guide is for you. Follow these steps to ensure TensorFlow can utilize the CUDA and cuDNN libraries installed within your Conda environment, rather than relying on a global installation that might be outdated or incompatible with your version of tensorflow.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>Before starting, ensure you have the following:</p>
+<ol>
+  <li>A working installation of Conda.</li>
+  <li>TensorFlow installed in a Conda environment.</li>
+  <li>NVIDIA drivers installed and verified with <code class="language-plaintext highlighter-rouge">nvidia-smi</code> command.</li>
+  <li>CUDA and cuDNN installed within your Conda environment.</li>
+</ol>
+
+<h2 id="step-1-verify-your-environment">Step 1: Verify Your Environment</h2>
+
+<p>First, verify that you can run <code class="language-plaintext highlighter-rouge">nvidia-smi</code> and that it correctly shows your GPU:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvidia-smi
+</code></pre></div></div>
+<p>This command should display information about your NVIDIA GPU. If it doesn’t, you may need to install the NVIDIA drivers or check your hardware configuration.</p>
+
+<p>Next, activate your Conda environment and check if TensorFlow is installed:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate &lt;your_environment&gt;
+python <span class="nt">-c</span> <span class="s2">"import tensorflow as tf; print(tf.__version__)"</span>
+</code></pre></div></div>
+<p>if TensorFlow is installed, you should see the version number printed. If not, install TensorFlow with cuda in your Conda environment:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>tensorflow[and-cuda]
+</code></pre></div></div>
+<p>on papers this should be enough to have your tensorflow up and running with CUDA support, but in reality it often doesn’t work as expected. especially if you don’t have a system wide installation of CUDA and cuDNN or if it’s not compatible with the version of TensorFlow you’re using.</p>
+
+<p>For the sake of sanity check let’s run a simple TensorFlow code to see if it’s already using the GPU:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-c</span> <span class="s2">"import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"</span>
+</code></pre></div></div>
+<p>if you see something like <code class="language-plaintext highlighter-rouge">[PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]</code> then you’re good to go, otherwise follow the next steps.</p>
+
+<h2 id="step-2-identify-the-cuda-and-cudnn-paths">Step 2: Identify the CUDA and cuDNN Paths</h2>
+
+<p>We want tensorflow to use the CUDA and cuDNN libraries installed within the Conda environment that we installed with the above <code class="language-plaintext highlighter-rouge">pip install tensorflow[and-cuda]</code>, rather than relying on a global installation that might be outdated.
+ Make sure to activate your conda environment where tensorflow with cuda is installed In linux terminal run</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-c</span> <span class="s2">"import nvidia.cudnn; print(nvidia.cudnn.__file__)"</span>
+</code></pre></div></div>
+<p>if it prints out something like:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/home/username/miniconda3/envs/tf/lib/python3.11/site-packages/nvidia/cudnn/__init__.py
+</code></pre></div></div>
+<p>then that means we do have a cuDNN library installed within the conda environment but now we just need to set the path so that tensorflow can see it.</p>
+
+<p>save the cudnn paths in a variable:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">CUDNN_PATH</span><span class="o">=</span><span class="si">$(</span><span class="nb">dirname</span> <span class="si">$(</span>python <span class="nt">-c</span> <span class="s2">"import nvidia.cudnn; print(nvidia.cudnn.__file__)"</span><span class="si">))</span>
+<span class="nb">echo</span> <span class="nv">$CUDNN_PATH</span>
+</code></pre></div></div>
+<p>this will save the path to the cuDNN library in the <code class="language-plaintext highlighter-rouge">CUDNN_PATH</code> variable and print it out to the terminal.</p>
+
+<h2 id="step-3-set-ld_library_path-environment-variable">Step 3: Set <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> Environment Variable:</h2>
+
+<p>Now we need to set the <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> environment variable to include the paths to the CUDA and cuDNN libraries within the Conda environment. This will allow TensorFlow to find and use these libraries when running on the GPU.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="k">${</span><span class="nv">CUDNN_PATH</span><span class="k">}</span>/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">echo</span> <span class="nv">$LD_LIBRARY_PATH</span>
+</code></pre></div></div>
+<p>This adds the cuDNN library path to the LD_LIBRARY_PATH.</p>
+
+<h2 id="step-4-test-tensorflow-with-cuda">Step 4: Test TensorFlow with CUDA</h2>
+
+<p>Now test again if TensorFlow can see the GPU and use CUDA and cuDNN libraries:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-c</span> <span class="s2">"import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"</span>
+</code></pre></div></div>
+<p>if you see <code class="language-plaintext highlighter-rouge">[PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]</code> then you’re good to go, otherwise you might need to check the paths again and make sure they’re correct.</p>
+
+<h2 id="step-5-presist-the-changes">Step 5: Presist the changes</h2>
+
+<p>To make sure the changes persist across terminal sessions, we want to update the <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> each time our conda environment is activated. To do this, we need to add some lines to the <code class="language-plaintext highlighter-rouge">activate</code> script of the conda environment:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nano <span class="nv">$CONDA_PREFIX</span>/etc/conda/activate.d/env_vars.sh
+</code></pre></div></div>
+<p>Add the following lines to the file:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="nb">export </span><span class="nv">CUDNN_PATH</span><span class="o">=</span><span class="si">$(</span><span class="nb">dirname</span> <span class="si">$(</span>python <span class="nt">-c</span> <span class="s2">"import nvidia.cudnn; print(nvidia.cudnn.__file__)"</span><span class="si">))</span>
+<span class="nb">export </span><span class="nv">OLD_LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="k">${</span><span class="nv">CUDNN_PATH</span><span class="k">}</span>/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+</code></pre></div></div>
+
+<p>Save the file and exit the editor. Now, whenever you activate your conda environment, the <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> will be updated to include the paths to the CUDA and cuDNN libraries within the conda environment.</p>
+
+<h2 id="create-deactivation-script">Create Deactivation Script</h2>
+
+<p>To ensure that the <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> is reset when you deactivate the conda environment, create a <code class="language-plaintext highlighter-rouge">deactivate</code> script that unsets the <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> variable. To do this, run the following command:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nano <span class="nv">$CONDA_PREFIX</span>/etc/conda/deactivate.d/env_vars.sh
+</code></pre></div></div>
+
+<p>Add the following lines to the file:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$OLD_LD_LIBRARY_PATH</span>
+<span class="nb">unset </span>OLD_LD_LIBRARY_PATH
+<span class="nb">unset </span>CUDNN_PATH
+</code></pre></div></div>
+<p>That’s it! Now, whenever you deactivate your conda environment, the <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> will be reset to its original value.</p>
+
+<p class="notice--info"><strong>Note:</strong> Tensorflow by default looks for cudnn in the environment variable <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code>.Although it seems like we are just running bunch of commands in a shell without understanding what they do. The main reason we are doing this is first to find cudnn installed within our conda environment that is accessible to python and then set the default path <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> to where the cudnn is installed. So that tensorflow can use it.And we can update the <code class="language-plaintext highlighter-rouge">LD_LIBRARY_PATH</code> each time our conda environment is activated by adding the commands to the <code class="language-plaintext highlighter-rouge">activate</code> script of the conda environment. This way we don’t have to run the commands each time we activate the environment.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#ai" class="page__taxonomy-item p-category" rel="tag">AI</a><span class="sep">, </span>
+    
+      <a href="/tags/#conda" class="page__taxonomy-item p-category" rel="tag">Conda</a><span class="sep">, </span>
+    
+      <a href="/tags/#cuda" class="page__taxonomy-item p-category" rel="tag">CUDA</a><span class="sep">, </span>
+    
+      <a href="/tags/#cudnn" class="page__taxonomy-item p-category" rel="tag">cuDNN</a><span class="sep">, </span>
+    
+      <a href="/tags/#deep-learning" class="page__taxonomy-item p-category" rel="tag">Deep Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#gpu" class="page__taxonomy-item p-category" rel="tag">GPU</a><span class="sep">, </span>
+    
+      <a href="/tags/#linux" class="page__taxonomy-item p-category" rel="tag">Linux</a><span class="sep">, </span>
+    
+      <a href="/tags/#tensorflow" class="page__taxonomy-item p-category" rel="tag">TensorFlow</a><span class="sep">, </span>
+    
+      <a href="/tags/#wsl" class="page__taxonomy-item p-category" rel="tag">WSL</a><span class="sep">, </span>
+    
+      <a href="/tags/#wsl2" class="page__taxonomy-item p-category" rel="tag">WSL2</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a><span class="sep">, </span>
+    
+      <a href="/categories/#linux" class="page__taxonomy-item p-category" rel="tag">Linux</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-05-15T00:00:00+00:00">May 15, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Getting+TensorFlow+to+Work+with+GPU+in+Conda+Environment+on+Linux+or+WSL%20https%3A%2F%2Fsnawarhussain.com%2Fblog%2Flinux%2Flinux-tensorflow-with-cuda-in-conda-environment%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsnawarhussain.com%2Fblog%2Flinux%2Flinux-tensorflow-with-cuda-in-conda-environment%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/educational/mri%20technology/Kspace-walk-using-encoding-gradients-in-MRI/" class="pagination--pager" title="Navigating K-space in MRI: The Role of Gradient Fields
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You May Also Enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/mri%20technology/Kspace-walk-using-encoding-gradients-in-MRI/" rel="permalink">Navigating K-space in MRI: The Role of Gradient Fields
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Exploring the crucial role of gradient fields in MRI for stepping through K-space.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI/" rel="permalink">2D Fourier Transform and Complex Numbers in MR Physics
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Dive deep into the role of complex numbers and Fourier Transform in Magnetic Resonance Imaging (MRI), featuring practical coding examples and a detailed anal...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/mri%20analysis/signal%20processing/mathematical%20modeling/1D-Fourier-Transform-visual-guide/" rel="permalink">1D Fourier Transform: A Visual Guide for Decoding Signals with Complex Numbers
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">An in-depth exploration of Fourier Transform and complex numbers in MRI. Understand the critical role these concepts play in signal processing and MR imaging...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/computational%20modeling/mr%20physics/Complex-Numbers-and-Rotations/" rel="permalink">Complex Numbers and Rotations: A Primer to Fourier Transform and MR Physics and Simulation
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Exploring of complex numbers and their role in Fourier Transform and Magnetic Resonance Physics with code. This guide elucidates the mathematical foundations...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://snawarhussain.com">Snawar Hussain</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+  </body>
+</html>

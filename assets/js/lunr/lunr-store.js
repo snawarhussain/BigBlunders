@@ -106,4 +106,10 @@ var store = [{
         "tags": ["MRI","K-space","Gradient Fields","Fourier Transform","Spin Magnetic Moments","Image Reconstruction","Medical Imaging"],
         "url": "/educational/mri%20technology/Kspace-walk-using-encoding-gradients-in-MRI/",
         "teaser": "/assets/images/coding_stock.jpg"
+      },{
+        "title": "Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL",
+        "excerpt":"Let’s admit it, installing TensorFlow with CUDA support is a pain in the neck and doesn’t work right away on the first attempt 99% of the time. Many of us have faced the frustration of seeing TensorFlow fail to utilize the GPU even though nvidia-smi confirms it’s there. If you’re...","categories": ["Blog","Linux"],
+        "tags": ["TensorFlow","GPU","CUDA","cuDNN","Conda","Linux","WSL2","WSL","Deep Learning","AI"],
+        "url": "/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/",
+        "teaser": "/assets/images/coding_stock.jpg"
       }]
