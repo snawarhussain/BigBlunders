@@ -1461,8 +1461,8 @@ function correctRadius (radius) {
         radius *= aspectRatio;
     return radius;
 }
-
-canvas.addEventListener('mousedown', e => {
+// TODO: change this to mouse down event
+canvas.addEventListener('mouseover', e => {
     let posX = scaleByPixelRatio(e.offsetX);
     let posY = scaleByPixelRatio(e.offsetY);
     let pointer = pointers.find(p => p.id == -1);
