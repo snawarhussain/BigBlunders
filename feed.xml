@@ -1,4 +1,237 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="https://snawarhussain.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://snawarhussain.com/" rel="alternate" type="text/html" /><updated>2024-05-15T09:31:16+00:00</updated><id>https://snawarhussain.com/feed.xml</id><title type="html">Snawar Hussain</title><subtitle></subtitle><author><name>Snawar Hussain</name></author><entry><title type="html">Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL</title><link href="https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" rel="alternate" type="text/html" title="Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL" /><published>2024-05-15T00:00:00+00:00</published><updated>2024-05-15T00:00:00+00:00</updated><id>https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment</id><content type="html" xml:base="https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/"><![CDATA[<p>Let’s admit it, installing TensorFlow with CUDA support is a pain in the neck and doesn’t work right away on the first attempt 99% of the time. Many of us have faced the frustration of seeing TensorFlow fail to utilize the GPU even though <code class="language-plaintext highlighter-rouge">nvidia-smi</code> confirms it’s there. If you’re running Linux or WSL and have installed TensorFlow in a Conda environment but are struggling to get it to use your GPU, this guide is for you. Follow these steps to ensure TensorFlow can utilize the CUDA and cuDNN libraries installed within your Conda environment, rather than relying on a global installation that might be outdated or incompatible with your version of tensorflow.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="https://snawarhussain.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://snawarhussain.com/" rel="alternate" type="text/html" /><updated>2024-06-11T13:33:18+00:00</updated><id>https://snawarhussain.com/feed.xml</id><title type="html">Snawar Hussain</title><subtitle></subtitle><author><name>Snawar Hussain</name></author><entry><title type="html">GPT model Causal Multi-Head Attention Mechanism: Pure and Simple</title><link href="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/" rel="alternate" type="text/html" title="GPT model Causal Multi-Head Attention Mechanism: Pure and Simple" /><published>2024-06-10T00:00:00+00:00</published><updated>2024-06-10T00:00:00+00:00</updated><id>https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and%20Simple</id><content type="html" xml:base="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/"><![CDATA[<h2 id="introduction">Introduction</h2>
+
+<p>I have always found a disconnect between the theoretical understanding of attention mechanisms, the illustrations and their practical code implementation in models like GPT and wasn’t able to merge all the knowledge while I was trying to understand multi-head attention mechanism in-depth. Since transformers work on batched input, they things change up a bit and it is always confusion to relate the illustration and theory to the code implementation. In this post, I aim to bridge this gap by providing a simple and intuitive explanation of the vanilla as well as causal attention mechanism in GPT models.</p>
+
+<p>Let’s break it down step-by-step, starting from the input sequence and moving through the entire process.</p>
+
+<h2 id="mathematical-representation-of-attention-mechanism">Mathematical Representation of Attention Mechanism</h2>
+
+<p>We all know the attention mechanism in transformers can be mathematically represented as follows:</p>
+
+\[Y = \text{softmax}\left( \frac{QK^T}{\sqrt{d_k}} \right) V\]
+
+<p>here \(Q\), \(K\), and \(V\) are the query, key, and value matrices, respectively. The softmax function is applied to the scaled dot-product of \(Q\) and \(K\), divided by the square root of the dimension of the key matrix. The output is then multiplied by the value matrix to obtain the final output \(Y\). 
+Here i am interested in the dimensions of the input data as well as that of \(Q, K\) and \(V\) and how they are used in the attention mechanism. and what dimension the operations in the attention mechanism are performed on.</p>
+
+<h2 id="input-data-representation">Input Data Representation</h2>
+<p>as we know the input data to the transformer model is represented as a sequence of tokens. Each token is embedded into a vector of dimension <code class="language-plaintext highlighter-rouge">n_embd</code>. The input is represented as a matrix X of shape (<code class="language-plaintext highlighter-rouge">batch_size, seq_length,  n_embd</code>). This matrix is then passed through linear transformations to obtain the query, key, and value matrices \(Q\), \(K\), and \(V\), respectively.</p>
+
+<p>Given that we have a trained tokenizer, tokenized the input sequence and passed it through an input embedding layer (<code class="language-plaintext highlighter-rouge">nn.embedding()</code>), we can represent the input data as a matrix \(X\) of shape (<code class="language-plaintext highlighter-rouge">batch_size, seq_length, n_embd</code>). This matrix contains the embeddings of the input tokens, where each row corresponds to a token and each column represents the embedding dimension.</p>
+
+<p>suppose we have an input <strong>X</strong> with batch size is <strong>4</strong>, with sequence tokens (<code class="language-plaintext highlighter-rouge">eq_length</code>) <strong>12</strong>, after passing it through our tokenizer and embedding layer, we end up with final input of <code class="language-plaintext highlighter-rouge">[4,12,6]</code> (<code class="language-plaintext highlighter-rouge">batch_size, seq_length, n_embd</code>) The input data matrix \(X\) is represented as shown in the figure 01 below.</p>
+
+<!-- html for putting svg figure -->
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_01.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 01: Input Data Matrix X: where each row corresponds to a token and each column represents the embedding dimension</figcaption>
+</figure>
+
+<p>In the figure 01 above, the \(12 \times 6\) matrix represents a sinlge batch of the input data matrix \(X\), where each row corresponds to a token and each column represents the embedding dimension. we have a total of 4 batches of the input data matrix \(X\).</p>
+
+<p><!--  highlight this part of the blog --></p>
+
+<h3 id="multi-head-self-attention">Multi-Head Self-Attention</h3>
+
+<blockquote>
+  <p>Many blogs and articles mention that the input X is projected into queries, keys, and values of equal dimension, which are then used to compute attention based on a given equation. They often state that this process is repeated in parallel through multi-head attention.</p>
+</blockquote>
+
+<div style="border-left: 5px solid #007bff; padding: 10px; margin: 20px 0;">
+
+
+However, in practice, multi-head attention is implemented more cleverly. The primary goal is to allow the model to attend to information from different representation subspaces simultaneously at different positions. This approach enables the model to learn richer and more diverse representations of the input data.
+
+</div>
+
+<p>This concept will become clearer once we delve into the implementation details of multi-head attention.</p>
+
+<p>Since each token as a an embedding of dimension <code class="language-plaintext highlighter-rouge">n_embd</code> which is 6 in our case, what is done is we further divide the each batch of \(12 \times 6\) (<code class="language-plaintext highlighter-rouge">seq_length, n_embd</code>) matrix into a ([<code class="language-plaintext highlighter-rouge">seq_length, num_h ,h_size</code>])
+so embedding dimension is divided into <code class="language-plaintext highlighter-rouge">num_h</code> heads, where each head has a dimension of <code class="language-plaintext highlighter-rouge">h_size</code>. This is done by reshaping the input data matrix \(X\) into a tensor of shape (<code class="language-plaintext highlighter-rouge">batch_size, seq_length, num_h, h_size</code>). and for each batch we reshape it into [<code class="language-plaintext highlighter-rouge">num_h, seq_length, h_size</code>]</p>
+
+<p>so in order for multi-head attention to work, the embedding dimension <code class="language-plaintext highlighter-rouge">n_embd</code> should be divisible by the number of heads <code class="language-plaintext highlighter-rouge">num_h</code>.  in our case the embedding dimension is 6 and we have decide number of heads to be 3, so we end up with a tensor of shape <code class="language-plaintext highlighter-rouge">[3,12,2]</code> (<code class="language-plaintext highlighter-rouge">num_h, seq_length,  h_size</code>) for each batch. as shown in figure 02 below.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_02.svg" height="600" />
+  <figcaption>Figure 02:the embedding dimension for each batch is divided into multiple heads, allowing the model to attend to different aspects of the tokens simultaneously</figcaption>
+</figure>
+
+<p>For each batch of the input data matrix X of shape <code class="language-plaintext highlighter-rouge">[12,6]</code> passed through linear transformations to obtain the query, key, and value matrices Q, K, and V, each of shape <code class="language-plaintext highlighter-rouge">[12,6]</code> respectively. \(QKV\) are then reshaped it into a tensor of shape <code class="language-plaintext highlighter-rouge">[3,12,2]</code> (<code class="language-plaintext highlighter-rouge">num_h, seq_length,  h_size</code>).</p>
+
+<p>Did you notice something ? Instead of projecting the input data X into multiple \(QKV\) matrices for each head , we do the projection once and divide the embedding dimension into multiple heads.</p>
+
+<p class="notice--info"><strong>Info:</strong> Did you notice something ? Instead of projecting the input data \(X\) into multiple \(QKV\) matrices for each head , we do the projection once and divide the embedding dimension into multiple heads. The reason for this is that it allows the model to attend to information from different representation subspaces simultaneously at different positions. This approach enables the model to learn richer and more diverse representations of the input data.</p>
+
+<blockquote>
+  <p>Since embeddings of each token represent a different aspect of the token, dividing the embedding dimension into multiple heads allows the model to attend to different aspects (sub embedding space) of the token simultaneously.</p>
+</blockquote>
+
+<blockquote>
+  <p>This way, One aspect of a token might be more attentive to a certain aspect of an other token while a different aspect of the same token might learn to pay attention to certain aspect of a different token in a different head.  This is the essence of multi-head attention.</p>
+</blockquote>
+
+<p>We project each batch into \(QKV\) matrices, each of shape <code class="language-plaintext highlighter-rouge">[12,6]</code> (<code class="language-plaintext highlighter-rouge">seq_length,  n_embd</code>). The \(QKV\) matrices are then reshaped into a tensor of shape <code class="language-plaintext highlighter-rouge">[3,12,2]</code> (<code class="language-plaintext highlighter-rouge">num_h, seq_length,  h_size</code>) for each batch.</p>
+
+<p>and inside each head, we first compute the scaled dot-product attention between \(Q\) <code class="language-plaintext highlighter-rouge">[12,2]</code> and \(K\) <code class="language-plaintext highlighter-rouge">[12,2]</code> to get the attention scores of shape <code class="language-plaintext highlighter-rouge">[12,12]</code> as shown in figure 03 below.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_03.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 03: Scaled Dot-Product Attention Q@K for Each Head</figcaption>
+</figure>
+
+<p>basically – because we chopped up the original token embeddings of each token into multiple heads of size <code class="language-plaintext highlighter-rouge">h_size</code>– for each head we get different attention scores since we are attending to different aspects of each token in each head. as highlighted in the figure 04 below.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_05.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 04: Different aspect of the tokens give rise to unique attention score matrices</figcaption>
+</figure>
+
+<p>The attention scores are then passed through the softmax function to obtain the attention weights. that are then multiplied by the value matrix \(V\) <code class="language-plaintext highlighter-rouge">[12, 2]</code> to obtain the output of the head \(y\) of shape <code class="language-plaintext highlighter-rouge">[12,2]</code> (figure 04).</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_04.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 05: Attention score is multiplied with V to aggregate context between concepts (sub-embedding of each token in that head)  </figcaption>
+</figure>
+
+<p>This process is done for each of 3 heads, and the outputs are concatenated and reshaped to ge the final output of the multi-head attention mechanism as shown in figure 06 below.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_06.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 06: partial Context aggregation at sub-embedding level of each head are combined to get the final context aware embeddings of tokens</figcaption>
+</figure>
+
+<h3 id="causal-attention-mechanism">Causal Attention Mechanism</h3>
+
+<p>The causal attention mechanism is a variant of the multi-head attention mechanism that restricts the model from attending to tokens that come after the current token. This is achieved by masking the attention scores of the tokens that come after the current token (Figure 07). The masking is done by setting the attention scores to negative infinity <code class="language-plaintext highlighter-rouge">-inf</code> before passing them through the softmax function and multiplying it with the \(V\) matrix.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_07.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 07: Each token (in rows) only have the attention score for tokens before it to prevent looking into the future </figcaption>
+</figure>
+
+<h3 id="code-implementation">Code Implementation</h3>
+
+<p>The code implementation of the multi-head attention mechanism in PyTorch is shown below:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CausalSelfAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span><span class="n">GPTConfig</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span> <span class="o">%</span> <span class="n">config</span><span class="p">.</span><span class="n">n_head</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">c_attn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">c_proj</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">n_head</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">n_embd</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s">'bias'</span><span class="p">,</span>
+                             <span class="n">tril</span><span class="p">(</span><span class="n">ones</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">)).</span><span class="n">view</span><span class="p">(</span>
+                                    <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> 
+                                    <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span>
+                                    <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">))</span> <span class="c1"># create a lower triangular matrix of ones
+</span>        
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">()</span>   <span class="c1"># B: batch size, T: sequence length, C: n_embd [4, 12,6]
+</span>        
+        <span class="n">qkv</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">c_attn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># [4, 12, 6] -&gt; [4, 12, 6*3] -&gt; [4, 12, 18]
+</span>        <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">qkv</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># [4, 12, 6], [4, 12, 6], [4, 12, 6]
+</span>        <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span><span class="o">//</span><span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># [4, 12, 3, 2] transpose-&gt; [4, 3, 12, 2] 
+</span>        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span><span class="o">//</span><span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># [4, 12, 3, 2] transpose-&gt; [4, 3, 12, 2] 
+</span>        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span><span class="o">//</span><span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="c1"># [4, 12, 3, 2] transpose-&gt; [4, 3, 12, 2] 
+</span>        <span class="n">att</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">@</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)</span> <span class="c1"># [4, 3, 12, 12]
+</span>        <span class="n">att</span> <span class="o">=</span> <span class="n">att</span><span class="p">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[:,:,:</span><span class="n">T</span><span class="p">,:</span><span class="n">T</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s">'-inf'</span><span class="p">))</span> <span class="c1"># [4, 3, 12, 12]replace zero with -inf
+</span>        <span class="n">att</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">att</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># [4, 3, 12, 12] softmax
+</span>        <span class="n">y</span> <span class="o">=</span> <span class="n">att</span> <span class="o">@</span> <span class="n">v</span> <span class="c1"># [4, 3, 12, 12] @ [4, 3, 12, 2] -&gt; [4, 3, 12, 2]
+</span>        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">).</span><span class="n">contiguous</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span> <span class="c1"># [4, 3, 12, 2] transpose-&gt; [4, 12, 3, 2] view-&gt; [4, 12, 6]
+</span>        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">c_proj</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="c1"># [4, 12, 6] -&gt; [4, 12, 6] learnable linear layer
+</span>        <span class="k">return</span> <span class="n">y</span>   <span class="c1"># [4, 12, 6]
+</span></code></pre></div></div>
+
+<h4 id="initialization">initialization</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CausalSelfAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">GPTConfig</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span> <span class="o">%</span> <span class="n">config</span><span class="p">.</span><span class="n">n_head</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">c_attn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">c_proj</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">n_head</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">n_embd</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s">'bias'</span><span class="p">,</span>
+                             <span class="n">tril</span><span class="p">(</span><span class="n">ones</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">)).</span><span class="n">view</span><span class="p">(</span>
+                                    <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><span style="color:#d36135; font-weight: bold">Asserting Divisibility:</span></p>
+
+<p>Ensure that the embedding dimension (n_embd) is divisible by the number of heads (n_head). This is important for splitting the embeddings into multiple heads.
+Linear Layers for Projections:</p>
+
+<p><span style="color:#d36135; font-weight: bold">self.c_attn:</span></p>
+
+<p>A linear layer to project the input into queries, keys, and values. The output dimension is three times the embedding dimension to accommodate Q, K, and V.</p>
+
+<p><span style="color:#d36135; font-weight: bold">self.c_proj:</span></p>
+
+<p>A linear layer to project the concatenated outputs of the multi-head attention back to the original embedding dimension.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Registering the Causal Mask:</span></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="bp">self</span><span class="p">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s">'bias'</span><span class="p">,</span> <span class="n">tril</span><span class="p">(</span><span class="n">ones</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">)).</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">))</span>
+</code></pre></div></div>
+<p>Creates a lower triangular matrix of ones using <code class="language-plaintext highlighter-rouge">tril(ones(config.block_size, config.block_size))</code> to serve as a causal mask. 
+The name is said to ‘bias’ to match the naming scheme of GPT to lead pre-trained weight ^_~</p>
+
+<p>The mask is reshaped and registered as a buffer, which means it won’t be updated during training but is persistent in the model’s state. ( some mumbo jumbo for leading GPT weights more on this in the next post or )</p>
+
+<h4 id="forward-pass">Forward Pass</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">()</span>
+    
+    <span class="n">qkv</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">c_attn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">qkv</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">att</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">@</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">att</span> <span class="o">=</span> <span class="n">att</span><span class="p">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="n">T</span><span class="p">,</span> <span class="p">:</span><span class="n">T</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s">'-inf'</span><span class="p">))</span>
+    <span class="n">att</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">att</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">att</span> <span class="o">@</span> <span class="n">v</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">).</span><span class="n">contiguous</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">c_proj</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span>
+</code></pre></div></div>
+
+<p><span style="color:#d36135; font-weight: bold">Input Dimensions:</span></p>
+
+<p>B, T, C = x.size(): Extract the batch size (B), sequence length (T), and embedding dimension (C) from the input tensor x.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Linear Projection to Q, K, V:</span></p>
+
+<p><em>qkv = self.c_attn(x):</em> Apply the linear layer to project the input into queries (q), keys (k), and values (v).
+<em>q, k, v = qkv.split(C, dim=2):</em> Split the concatenated qkv tensor into separate q, k, and v tensors.
+Reshaping and Transposing for Multi-Head Attention:</p>
+
+<p><em>k = k.view(B, T, self.n_head, C // self.n_head).transpose(1, 2):</em> Reshape k to [B, T, nh, hs] and then transpose to [B, nh, T, hs].</p>
+
+<p>Similar operations are performed for q and v.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Scaled Dot-Product Attention:</span></p>
+
+<p><em>att = (q @ k.transpose(-2, -1)) * (k.size(-1) ** -0.5):</em> Compute the attention scores using the dot product of q and k, scaled by the square root of the head size.
+<em>att = att.masked_fill(self.bias[:, :, :T, :T] == 0, float(‘-inf’)):</em> Apply the causal mask to ensure that each position can only attend to previous positions.
+<em>att = nn.functional.softmax(att, dim=-1):</em> Apply softmax to obtain the attention weights.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Apply Attention Weights to Values:</span></p>
+
+<p><em>y = att @ v:</em> Compute the weighted sum of the values using the attention weights.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Combining Heads:</span></p>
+
+<p><em>y = y.transpose(1, 2).contiguous().view(B, T, C):</em> Transpose and reshape the output to combine the heads back into the original embedding dimension.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Final Linear Projection:</span></p>
+
+<p><em>y = self.c_proj(y):</em> Apply the final linear projection to produce the output of the attention mechanism.</p>
+
+<link rel="stylesheet" href="/assets/css/atten_mech/style.css" />]]></content><author><name>Snawar Hussain</name></author><category term="Educational" /><category term="LLMs" /><category term="GPT" /><category term="Generative Models" /><category term="Attention Mechanism" /><category term="Multi-Head Attention" /><category term="Transformers" /><category term="Causal Attention" /><category term="Self-Attention" /><category term="Machine Learning" /><category term="Deep Learning" /><category term="AI" /><summary type="html"><![CDATA[Exploring the crucial role of gradient fields in MRI for stepping through K-space.]]></summary></entry><entry><title type="html">Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL</title><link href="https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" rel="alternate" type="text/html" title="Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL" /><published>2024-05-15T00:00:00+00:00</published><updated>2024-05-15T00:00:00+00:00</updated><id>https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment</id><content type="html" xml:base="https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/"><![CDATA[<p>Let’s admit it, installing TensorFlow with CUDA support is a pain in the neck and doesn’t work right away on the first attempt 99% of the time. Many of us have faced the frustration of seeing TensorFlow fail to utilize the GPU even though <code class="language-plaintext highlighter-rouge">nvidia-smi</code> confirms it’s there. If you’re running Linux or WSL and have installed TensorFlow in a Conda environment but are struggling to get it to use your GPU, this guide is for you. Follow these steps to ensure TensorFlow can utilize the CUDA and cuDNN libraries installed within your Conda environment, rather than relying on a global installation that might be outdated or incompatible with your version of tensorflow.</p>
 
 <h2 id="prerequisites">Prerequisites</h2>
 
@@ -1485,79 +1718,4 @@ will be lower.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>In this post, we’ve covered the basics of probability theory, using examples from the field of computational neuroethology to illustrate key concepts. We’ve seen how these concepts can be applied to understand and analyze the behavior of rats in a maze and in a BCI experiment. Understanding these concepts is crucial for designing experiments, analyzing data, and building models in computational neuroethology. I hope that this post has provided a useful introduction to these topics and has sparked your interest in further study.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Probability Theory" /><category term="Computational Neuroethology" /><category term="Tutorial" /><category term="Probability Theory" /><category term="Computational Neuroethology" /><category term="Experimental Design" /><category term="Data Analysis" /><category term="Neural Systems Modeling" /><summary type="html"><![CDATA[This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of designing experiments, analyzing data, and building/testing models of neural systems.]]></summary></entry><entry><title type="html">How to Create a Data Folder for Each User and Move Conda Packages to a Shared Storage Drive</title><link href="https://snawarhussain.com/blog/linux/linux-managing-users-shared-data-folders-on-local-drive/" rel="alternate" type="text/html" title="How to Create a Data Folder for Each User and Move Conda Packages to a Shared Storage Drive" /><published>2023-04-23T00:00:00+00:00</published><updated>2023-04-23T00:00:00+00:00</updated><id>https://snawarhussain.com/blog/linux/linux-managing-users-shared-data-folders-on-local-drive</id><content type="html" xml:base="https://snawarhussain.com/blog/linux/linux-managing-users-shared-data-folders-on-local-drive/"><![CDATA[<p>If you manage a Linux system with multiple users, you may want to encourage users to store their data in a shared location to avoid cluttering the root directory. You can create a data folder for each user on a shared storage drive and configure their home directories to include symbolic links to their corresponding data directories.</p>
-
-<p>Additionally, if you use Conda to manage packages, you can move the Conda package cache to the shared storage drive to conserve space on the root directory.</p>
-
-<h2 id="creating-data-folders">Creating Data Folders</h2>
-
-<p>To create a data folder for each user on a shared storage drive:</p>
-
-<ol>
-  <li>Log in to the Linux system with an account that has administrative privileges.</li>
-  <li>Create a subdirectory in the shared storage drive (e.g. <code class="language-plaintext highlighter-rouge">/mnt/data</code>) for each user by running the following command for each user:</li>
-</ol>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo mkdir</span> /mnt/data/&lt;username&gt;
-</code></pre></div></div>
-
-<p>Replace <code class="language-plaintext highlighter-rouge">&lt;username&gt;</code> with the username of the user you’re creating the directory for.</p>
-
-<ol>
-  <li>Set the ownership and permissions of the user’s data directory to the corresponding user by running the following command for each user:</li>
-</ol>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo chown</span> &lt;username&gt;:&lt;username&gt; /mnt/data/&lt;username&gt;
-<span class="nb">sudo chmod </span>700 /mnt/data/&lt;username&gt;
-</code></pre></div></div>
-
-<p>Replace <code class="language-plaintext highlighter-rouge">&lt;username&gt;</code> with the username of the user you’re setting the ownership and permissions for.</p>
-
-<ol>
-  <li>Create a symbolic link from the user’s home directory to their corresponding data directory by running the following command for each user:</li>
-</ol>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ln</span> <span class="nt">-s</span> /mnt/data/&lt;username&gt; ~/data
-</code></pre></div></div>
-
-<p>Replace <code class="language-plaintext highlighter-rouge">&lt;username&gt;</code> with the username of the user you’re creating the symbolic link for.</p>
-
-<p>This will create a symbolic link named <code class="language-plaintext highlighter-rouge">data</code> in the user’s home directory that points to their corresponding data directory in the shared storage drive.</p>
-
-<h2 id="moving-conda-packages">Moving Conda Packages</h2>
-
-<p>To move the Conda package cache to the shared storage drive:</p>
-
-<ol>
-  <li>Open a terminal window.</li>
-  <li>Navigate to the default Conda package cache directory by running the following command:</li>
-</ol>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/.conda/pkgs/
-</code></pre></div></div>
-
-<p>This directory contains all of the Conda packages that have been downloaded or installed on the system.</p>
-
-<ol>
-  <li>Copy the contents of the package cache directory to the shared storage drive by running the following command:</li>
-</ol>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo cp</span> <span class="nt">-r</span> <span class="k">*</span> /mnt/data/
-</code></pre></div></div>
-
-<p>This will recursively copy all of the contents of the package cache directory (<code class="language-plaintext highlighter-rouge">*</code>) to the shared storage drive.</p>
-
-<ol>
-  <li>Modify the <code class="language-plaintext highlighter-rouge">CONDA_PKGS_DIRS</code> environment variable to include the shared storage drive. Add the following line to your <code class="language-plaintext highlighter-rouge">.bashrc</code> or <code class="language-plaintext highlighter-rouge">.bash_profile</code> file:</li>
-</ol>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">CONDA_PKGS_DIRS</span><span class="o">=</span>/mnt/data,/home/yourusername/.conda/pkgs
-</code></pre></div></div>
-
-<p>Replace <code class="language-plaintext highlighter-rouge">yourusername</code> with your own username.</p>
-
-<p>This will set the <code class="language-plaintext highlighter-rouge">CONDA_PKGS_DIRS</code> environment variable to include both the shared storage drive and the default package cache directory.</p>
-
-<p>With these steps, each user will have their own data directory on the shared storage drive that they can use to store their files, and a symbolic link in their home directory that points to that directory. Additionally, Conda packages will be stored on the shared storage drive rather than the root directory, which can help conserve space.</p>
-
-<p class="notice--warning"><strong>Note:</strong> It’s important to be careful when using <code class="language-plaintext highlighter-rouge">sudo</code>, since it grants you full privileges on the system and can potentially cause damage if used improperly. Always double-check the commands before running them, and make sure you understand their consequences</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Linux" /><category term="Data storage" /><category term="Conda" /><category term="Linux administration" /><summary type="html"><![CDATA[A guide to creating a data folder for each user on a shared storage drive and moving Conda packages to conserve space.]]></summary></entry></feed>
+<p>In this post, we’ve covered the basics of probability theory, using examples from the field of computational neuroethology to illustrate key concepts. We’ve seen how these concepts can be applied to understand and analyze the behavior of rats in a maze and in a BCI experiment. Understanding these concepts is crucial for designing experiments, analyzing data, and building models in computational neuroethology. I hope that this post has provided a useful introduction to these topics and has sparked your interest in further study.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Probability Theory" /><category term="Computational Neuroethology" /><category term="Tutorial" /><category term="Probability Theory" /><category term="Computational Neuroethology" /><category term="Experimental Design" /><category term="Data Analysis" /><category term="Neural Systems Modeling" /><summary type="html"><![CDATA[This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of designing experiments, analyzing data, and building/testing models of neural systems.]]></summary></entry></feed>

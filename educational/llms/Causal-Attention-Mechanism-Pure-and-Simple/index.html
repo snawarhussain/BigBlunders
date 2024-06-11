@@ -1,0 +1,944 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.1 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>GPT model Causal Multi-Head Attention Mechanism: Pure and Simple - Snawar Hussain</title>
+<meta name="description" content="Exploring the crucial role of gradient fields in MRI for stepping through K-space.">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="GPT model Causal Multi-Head Attention Mechanism: Pure and Simple">
+<meta property="og:url" content="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/">
+
+
+  <meta property="og:description" content="Exploring the crucial role of gradient fields in MRI for stepping through K-space.">
+
+
+
+  <meta property="og:image" content="https://snawarhussain.com/assets/images/atten_mech/cover.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2024-06-10T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script type="text/javascript">
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <link rel='icon' href='/assets/favicon.ico' type='image/x-icon'>
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/posts/"
+                
+                
+              >Posts</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags/"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/cv/"
+                
+                
+              >CV</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/atten_mech/cover.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          GPT model Causal Multi-Head Attention Mechanism: Pure and Simple
+
+        
+      </h1>
+      
+        <p class="page__lead">Exploring the crucial role of gradient fields in MRI for stepping through K-space.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          14 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://snawarhussain.com/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://snawarhussain.com/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow @ Fraunhofer <br />Research Areas: Computational MRI, AI for Science</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Bremen, Germany</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="GPT model Causal Multi-Head Attention Mechanism: Pure and Simple">
+    <meta itemprop="description" content="Exploring the crucial role of gradient fields in MRI for stepping through K-space.">
+    <meta itemprop="datePublished" content="2024-06-10T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-cog"></i> Guide Overview</h4></header>
+              <ul class="toc__menu"><li><a href="#introduction">Introduction</a></li><li><a href="#mathematical-representation-of-attention-mechanism">Mathematical Representation of Attention Mechanism</a></li><li><a href="#input-data-representation">Input Data Representation</a><ul><li><a href="#multi-head-self-attention">Multi-Head Self-Attention</a></li><li><a href="#causal-attention-mechanism">Causal Attention Mechanism</a></li><li><a href="#code-implementation">Code Implementation</a><ul><li><a href="#initialization">initialization</a></li><li><a href="#forward-pass">Forward Pass</a></li></ul></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="introduction">Introduction</h2>
+
+<p>I have always found a disconnect between the theoretical understanding of attention mechanisms, the illustrations and their practical code implementation in models like GPT and wasn’t able to merge all the knowledge while I was trying to understand multi-head attention mechanism in-depth. Since transformers work on batched input, they things change up a bit and it is always confusion to relate the illustration and theory to the code implementation. In this post, I aim to bridge this gap by providing a simple and intuitive explanation of the vanilla as well as causal attention mechanism in GPT models.</p>
+
+<p>Let’s break it down step-by-step, starting from the input sequence and moving through the entire process.</p>
+
+<h2 id="mathematical-representation-of-attention-mechanism">Mathematical Representation of Attention Mechanism</h2>
+
+<p>We all know the attention mechanism in transformers can be mathematically represented as follows:</p>
+
+\[Y = \text{softmax}\left( \frac{QK^T}{\sqrt{d_k}} \right) V\]
+
+<p>here \(Q\), \(K\), and \(V\) are the query, key, and value matrices, respectively. The softmax function is applied to the scaled dot-product of \(Q\) and \(K\), divided by the square root of the dimension of the key matrix. The output is then multiplied by the value matrix to obtain the final output \(Y\). 
+Here i am interested in the dimensions of the input data as well as that of \(Q, K\) and \(V\) and how they are used in the attention mechanism. and what dimension the operations in the attention mechanism are performed on.</p>
+
+<h2 id="input-data-representation">Input Data Representation</h2>
+<p>as we know the input data to the transformer model is represented as a sequence of tokens. Each token is embedded into a vector of dimension <code class="language-plaintext highlighter-rouge">n_embd</code>. The input is represented as a matrix X of shape (<code class="language-plaintext highlighter-rouge">batch_size, seq_length,  n_embd</code>). This matrix is then passed through linear transformations to obtain the query, key, and value matrices \(Q\), \(K\), and \(V\), respectively.</p>
+
+<p>Given that we have a trained tokenizer, tokenized the input sequence and passed it through an input embedding layer (<code class="language-plaintext highlighter-rouge">nn.embedding()</code>), we can represent the input data as a matrix \(X\) of shape (<code class="language-plaintext highlighter-rouge">batch_size, seq_length, n_embd</code>). This matrix contains the embeddings of the input tokens, where each row corresponds to a token and each column represents the embedding dimension.</p>
+
+<p>suppose we have an input <strong>X</strong> with batch size is <strong>4</strong>, with sequence tokens (<code class="language-plaintext highlighter-rouge">eq_length</code>) <strong>12</strong>, after passing it through our tokenizer and embedding layer, we end up with final input of <code class="language-plaintext highlighter-rouge">[4,12,6]</code> (<code class="language-plaintext highlighter-rouge">batch_size, seq_length, n_embd</code>) The input data matrix \(X\) is represented as shown in the figure 01 below.</p>
+
+<!-- html for putting svg figure -->
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_01.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 01: Input Data Matrix X: where each row corresponds to a token and each column represents the embedding dimension</figcaption>
+</figure>
+
+<p>In the figure 01 above, the \(12 \times 6\) matrix represents a sinlge batch of the input data matrix \(X\), where each row corresponds to a token and each column represents the embedding dimension. we have a total of 4 batches of the input data matrix \(X\).</p>
+
+<p><!--  highlight this part of the blog --></p>
+
+<h3 id="multi-head-self-attention">Multi-Head Self-Attention</h3>
+
+<blockquote>
+  <p>Many blogs and articles mention that the input X is projected into queries, keys, and values of equal dimension, which are then used to compute attention based on a given equation. They often state that this process is repeated in parallel through multi-head attention.</p>
+</blockquote>
+
+<div style="border-left: 5px solid #007bff; padding: 10px; margin: 20px 0;">
+
+
+However, in practice, multi-head attention is implemented more cleverly. The primary goal is to allow the model to attend to information from different representation subspaces simultaneously at different positions. This approach enables the model to learn richer and more diverse representations of the input data.
+
+</div>
+
+<p>This concept will become clearer once we delve into the implementation details of multi-head attention.</p>
+
+<p>Since each token as a an embedding of dimension <code class="language-plaintext highlighter-rouge">n_embd</code> which is 6 in our case, what is done is we further divide the each batch of \(12 \times 6\) (<code class="language-plaintext highlighter-rouge">seq_length, n_embd</code>) matrix into a ([<code class="language-plaintext highlighter-rouge">seq_length, num_h ,h_size</code>])
+so embedding dimension is divided into <code class="language-plaintext highlighter-rouge">num_h</code> heads, where each head has a dimension of <code class="language-plaintext highlighter-rouge">h_size</code>. This is done by reshaping the input data matrix \(X\) into a tensor of shape (<code class="language-plaintext highlighter-rouge">batch_size, seq_length, num_h, h_size</code>). and for each batch we reshape it into [<code class="language-plaintext highlighter-rouge">num_h, seq_length, h_size</code>]</p>
+
+<p>so in order for multi-head attention to work, the embedding dimension <code class="language-plaintext highlighter-rouge">n_embd</code> should be divisible by the number of heads <code class="language-plaintext highlighter-rouge">num_h</code>.  in our case the embedding dimension is 6 and we have decide number of heads to be 3, so we end up with a tensor of shape <code class="language-plaintext highlighter-rouge">[3,12,2]</code> (<code class="language-plaintext highlighter-rouge">num_h, seq_length,  h_size</code>) for each batch. as shown in figure 02 below.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_02.svg" height="600" />
+  <figcaption>Figure 02:the embedding dimension for each batch is divided into multiple heads, allowing the model to attend to different aspects of the tokens simultaneously</figcaption>
+</figure>
+
+<p>For each batch of the input data matrix X of shape <code class="language-plaintext highlighter-rouge">[12,6]</code> passed through linear transformations to obtain the query, key, and value matrices Q, K, and V, each of shape <code class="language-plaintext highlighter-rouge">[12,6]</code> respectively. \(QKV\) are then reshaped it into a tensor of shape <code class="language-plaintext highlighter-rouge">[3,12,2]</code> (<code class="language-plaintext highlighter-rouge">num_h, seq_length,  h_size</code>).</p>
+
+<p>Did you notice something ? Instead of projecting the input data X into multiple \(QKV\) matrices for each head , we do the projection once and divide the embedding dimension into multiple heads.</p>
+
+<p class="notice--info"><strong>Info:</strong> Did you notice something ? Instead of projecting the input data \(X\) into multiple \(QKV\) matrices for each head , we do the projection once and divide the embedding dimension into multiple heads. The reason for this is that it allows the model to attend to information from different representation subspaces simultaneously at different positions. This approach enables the model to learn richer and more diverse representations of the input data.</p>
+
+<blockquote>
+  <p>Since embeddings of each token represent a different aspect of the token, dividing the embedding dimension into multiple heads allows the model to attend to different aspects (sub embedding space) of the token simultaneously.</p>
+</blockquote>
+
+<blockquote>
+  <p>This way, One aspect of a token might be more attentive to a certain aspect of an other token while a different aspect of the same token might learn to pay attention to certain aspect of a different token in a different head.  This is the essence of multi-head attention.</p>
+</blockquote>
+
+<p>We project each batch into \(QKV\) matrices, each of shape <code class="language-plaintext highlighter-rouge">[12,6]</code> (<code class="language-plaintext highlighter-rouge">seq_length,  n_embd</code>). The \(QKV\) matrices are then reshaped into a tensor of shape <code class="language-plaintext highlighter-rouge">[3,12,2]</code> (<code class="language-plaintext highlighter-rouge">num_h, seq_length,  h_size</code>) for each batch.</p>
+
+<p>and inside each head, we first compute the scaled dot-product attention between \(Q\) <code class="language-plaintext highlighter-rouge">[12,2]</code> and \(K\) <code class="language-plaintext highlighter-rouge">[12,2]</code> to get the attention scores of shape <code class="language-plaintext highlighter-rouge">[12,12]</code> as shown in figure 03 below.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_03.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 03: Scaled Dot-Product Attention Q@K for Each Head</figcaption>
+</figure>
+
+<p>basically – because we chopped up the original token embeddings of each token into multiple heads of size <code class="language-plaintext highlighter-rouge">h_size</code>– for each head we get different attention scores since we are attending to different aspects of each token in each head. as highlighted in the figure 04 below.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_05.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 04: Different aspect of the tokens give rise to unique attention score matrices</figcaption>
+</figure>
+
+<p>The attention scores are then passed through the softmax function to obtain the attention weights. that are then multiplied by the value matrix \(V\) <code class="language-plaintext highlighter-rouge">[12, 2]</code> to obtain the output of the head \(y\) of shape <code class="language-plaintext highlighter-rouge">[12,2]</code> (figure 04).</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_04.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 05: Attention score is multiplied with V to aggregate context between concepts (sub-embedding of each token in that head)  </figcaption>
+</figure>
+
+<p>This process is done for each of 3 heads, and the outputs are concatenated and reshaped to ge the final output of the multi-head attention mechanism as shown in figure 06 below.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_06.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 06: partial Context aggregation at sub-embedding level of each head are combined to get the final context aware embeddings of tokens</figcaption>
+</figure>
+
+<h3 id="causal-attention-mechanism">Causal Attention Mechanism</h3>
+
+<p>The causal attention mechanism is a variant of the multi-head attention mechanism that restricts the model from attending to tokens that come after the current token. This is achieved by masking the attention scores of the tokens that come after the current token (Figure 07). The masking is done by setting the attention scores to negative infinity <code class="language-plaintext highlighter-rouge">-inf</code> before passing them through the softmax function and multiplying it with the \(V\) matrix.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/atten_mech/attn_07.svg" alt="Input Data Matrix X" />
+  <figcaption>Figure 07: Each token (in rows) only have the attention score for tokens before it to prevent looking into the future </figcaption>
+</figure>
+
+<h3 id="code-implementation">Code Implementation</h3>
+
+<p>The code implementation of the multi-head attention mechanism in PyTorch is shown below:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CausalSelfAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span><span class="n">GPTConfig</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span> <span class="o">%</span> <span class="n">config</span><span class="p">.</span><span class="n">n_head</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">c_attn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">c_proj</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">n_head</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">n_embd</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s">'bias'</span><span class="p">,</span>
+                             <span class="n">tril</span><span class="p">(</span><span class="n">ones</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">)).</span><span class="n">view</span><span class="p">(</span>
+                                    <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> 
+                                    <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span>
+                                    <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">))</span> <span class="c1"># create a lower triangular matrix of ones
+</span>        
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">()</span>   <span class="c1"># B: batch size, T: sequence length, C: n_embd [4, 12,6]
+</span>        
+        <span class="n">qkv</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">c_attn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># [4, 12, 6] -&gt; [4, 12, 6*3] -&gt; [4, 12, 18]
+</span>        <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">qkv</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># [4, 12, 6], [4, 12, 6], [4, 12, 6]
+</span>        <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span><span class="o">//</span><span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># [4, 12, 3, 2] transpose-&gt; [4, 3, 12, 2] 
+</span>        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span><span class="o">//</span><span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># [4, 12, 3, 2] transpose-&gt; [4, 3, 12, 2] 
+</span>        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span><span class="o">//</span><span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="c1"># [4, 12, 3, 2] transpose-&gt; [4, 3, 12, 2] 
+</span>        <span class="n">att</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">@</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)</span> <span class="c1"># [4, 3, 12, 12]
+</span>        <span class="n">att</span> <span class="o">=</span> <span class="n">att</span><span class="p">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[:,:,:</span><span class="n">T</span><span class="p">,:</span><span class="n">T</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s">'-inf'</span><span class="p">))</span> <span class="c1"># [4, 3, 12, 12]replace zero with -inf
+</span>        <span class="n">att</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">att</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># [4, 3, 12, 12] softmax
+</span>        <span class="n">y</span> <span class="o">=</span> <span class="n">att</span> <span class="o">@</span> <span class="n">v</span> <span class="c1"># [4, 3, 12, 12] @ [4, 3, 12, 2] -&gt; [4, 3, 12, 2]
+</span>        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">).</span><span class="n">contiguous</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span> <span class="c1"># [4, 3, 12, 2] transpose-&gt; [4, 12, 3, 2] view-&gt; [4, 12, 6]
+</span>        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">c_proj</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="c1"># [4, 12, 6] -&gt; [4, 12, 6] learnable linear layer
+</span>        <span class="k">return</span> <span class="n">y</span>   <span class="c1"># [4, 12, 6]
+</span></code></pre></div></div>
+
+<h4 id="initialization">initialization</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CausalSelfAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">GPTConfig</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span> <span class="o">%</span> <span class="n">config</span><span class="p">.</span><span class="n">n_head</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">c_attn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">c_proj</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">n_head</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">n_embd</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">n_embd</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s">'bias'</span><span class="p">,</span>
+                             <span class="n">tril</span><span class="p">(</span><span class="n">ones</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">)).</span><span class="n">view</span><span class="p">(</span>
+                                    <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><span style="color:#d36135; font-weight: bold">Asserting Divisibility:</span></p>
+
+<p>Ensure that the embedding dimension (n_embd) is divisible by the number of heads (n_head). This is important for splitting the embeddings into multiple heads.
+Linear Layers for Projections:</p>
+
+<p><span style="color:#d36135; font-weight: bold">self.c_attn:</span></p>
+
+<p>A linear layer to project the input into queries, keys, and values. The output dimension is three times the embedding dimension to accommodate Q, K, and V.</p>
+
+<p><span style="color:#d36135; font-weight: bold">self.c_proj:</span></p>
+
+<p>A linear layer to project the concatenated outputs of the multi-head attention back to the original embedding dimension.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Registering the Causal Mask:</span></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="bp">self</span><span class="p">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s">'bias'</span><span class="p">,</span> <span class="n">tril</span><span class="p">(</span><span class="n">ones</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">)).</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">block_size</span><span class="p">))</span>
+</code></pre></div></div>
+<p>Creates a lower triangular matrix of ones using <code class="language-plaintext highlighter-rouge">tril(ones(config.block_size, config.block_size))</code> to serve as a causal mask. 
+The name is said to ‘bias’ to match the naming scheme of GPT to lead pre-trained weight ^_~</p>
+
+<p>The mask is reshaped and registered as a buffer, which means it won’t be updated during training but is persistent in the model’s state. ( some mumbo jumbo for leading GPT weights more on this in the next post or )</p>
+
+<h4 id="forward-pass">Forward Pass</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">()</span>
+    
+    <span class="n">qkv</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">c_attn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">qkv</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_head</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">att</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">@</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">att</span> <span class="o">=</span> <span class="n">att</span><span class="p">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">bias</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="n">T</span><span class="p">,</span> <span class="p">:</span><span class="n">T</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s">'-inf'</span><span class="p">))</span>
+    <span class="n">att</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">att</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">att</span> <span class="o">@</span> <span class="n">v</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">).</span><span class="n">contiguous</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">c_proj</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span>
+</code></pre></div></div>
+
+<p><span style="color:#d36135; font-weight: bold">Input Dimensions:</span></p>
+
+<p>B, T, C = x.size(): Extract the batch size (B), sequence length (T), and embedding dimension (C) from the input tensor x.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Linear Projection to Q, K, V:</span></p>
+
+<p><em>qkv = self.c_attn(x):</em> Apply the linear layer to project the input into queries (q), keys (k), and values (v).
+<em>q, k, v = qkv.split(C, dim=2):</em> Split the concatenated qkv tensor into separate q, k, and v tensors.
+Reshaping and Transposing for Multi-Head Attention:</p>
+
+<p><em>k = k.view(B, T, self.n_head, C // self.n_head).transpose(1, 2):</em> Reshape k to [B, T, nh, hs] and then transpose to [B, nh, T, hs].</p>
+
+<p>Similar operations are performed for q and v.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Scaled Dot-Product Attention:</span></p>
+
+<p><em>att = (q @ k.transpose(-2, -1)) * (k.size(-1) ** -0.5):</em> Compute the attention scores using the dot product of q and k, scaled by the square root of the head size.
+<em>att = att.masked_fill(self.bias[:, :, :T, :T] == 0, float(‘-inf’)):</em> Apply the causal mask to ensure that each position can only attend to previous positions.
+<em>att = nn.functional.softmax(att, dim=-1):</em> Apply softmax to obtain the attention weights.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Apply Attention Weights to Values:</span></p>
+
+<p><em>y = att @ v:</em> Compute the weighted sum of the values using the attention weights.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Combining Heads:</span></p>
+
+<p><em>y = y.transpose(1, 2).contiguous().view(B, T, C):</em> Transpose and reshape the output to combine the heads back into the original embedding dimension.</p>
+
+<p><span style="color:#d36135; font-weight: bold">Final Linear Projection:</span></p>
+
+<p><em>y = self.c_proj(y):</em> Apply the final linear projection to produce the output of the attention mechanism.</p>
+
+<link rel="stylesheet" href="/assets/css/atten_mech/style.css" />
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#ai" class="page__taxonomy-item p-category" rel="tag">AI</a><span class="sep">, </span>
+    
+      <a href="/tags/#attention-mechanism" class="page__taxonomy-item p-category" rel="tag">Attention Mechanism</a><span class="sep">, </span>
+    
+      <a href="/tags/#causal-attention" class="page__taxonomy-item p-category" rel="tag">Causal Attention</a><span class="sep">, </span>
+    
+      <a href="/tags/#deep-learning" class="page__taxonomy-item p-category" rel="tag">Deep Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#generative-models" class="page__taxonomy-item p-category" rel="tag">Generative Models</a><span class="sep">, </span>
+    
+      <a href="/tags/#gpt" class="page__taxonomy-item p-category" rel="tag">GPT</a><span class="sep">, </span>
+    
+      <a href="/tags/#machine-learning" class="page__taxonomy-item p-category" rel="tag">Machine Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#multi-head-attention" class="page__taxonomy-item p-category" rel="tag">Multi-Head Attention</a><span class="sep">, </span>
+    
+      <a href="/tags/#self-attention" class="page__taxonomy-item p-category" rel="tag">Self-Attention</a><span class="sep">, </span>
+    
+      <a href="/tags/#transformers" class="page__taxonomy-item p-category" rel="tag">Transformers</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#educational" class="page__taxonomy-item p-category" rel="tag">Educational</a><span class="sep">, </span>
+    
+      <a href="/categories/#llms" class="page__taxonomy-item p-category" rel="tag">LLMs</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-06-10T00:00:00+00:00">June 10, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=GPT+model+Causal+Multi-Head+Attention+Mechanism%3A+Pure+and+Simple%20https%3A%2F%2Fsnawarhussain.com%2Feducational%2Fllms%2FCausal-Attention-Mechanism-Pure-and-Simple%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsnawarhussain.com%2Feducational%2Fllms%2FCausal-Attention-Mechanism-Pure-and-Simple%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" class="pagination--pager" title="Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You May Also Enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" rel="permalink">Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Guide to set-up TensorFlow to use GPU in a Conda environment.Follow these steps to ensure TensorFlow leverages CUDA and cuDNN installed in your Conda environ...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/mri%20technology/Kspace-walk-using-encoding-gradients-in-MRI/" rel="permalink">Navigating K-space in MRI: The Role of Gradient Fields
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Exploring the crucial role of gradient fields in MRI for stepping through K-space.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI/" rel="permalink">2D Fourier Transform and Complex Numbers in MR Physics
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Dive deep into the role of complex numbers and Fourier Transform in Magnetic Resonance Imaging (MRI), featuring practical coding examples and a detailed anal...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/mri%20analysis/signal%20processing/mathematical%20modeling/1D-Fourier-Transform-visual-guide/" rel="permalink">1D Fourier Transform: A Visual Guide for Decoding Signals with Complex Numbers
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">An in-depth exploration of Fourier Transform and complex numbers in MRI. Understand the critical role these concepts play in signal processing and MR imaging...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://instagram.com/snawar_hussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://snawarhussain.com">Snawar Hussain</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,33 @@
+/* Base styles for the figure */
+.styled-figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 8px;
+    /* background: linear-gradient(to right, #f8f9fa, #e9ecef); */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+  }
+
+  /* Styles for the image */
+  .styled-figure img {
+    width: 70%;
+    max-width: 150%;
+    border-radius: 4px;
+    transition: transform 0.3s ease;
+  }
+
+  .styled-figure img:hover {
+    transform: scale(1.05);
+  }
+
+  /* Styles for the figcaption */
+  .styled-figure figcaption {
+    margin-top: 4px;
+    font-size: 0.7em;
+    color: #ccc5b9;
+    font-family: 'Helvetica Neue', sans-serif;
+    text-align: center;
+  }

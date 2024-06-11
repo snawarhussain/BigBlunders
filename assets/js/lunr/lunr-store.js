@@ -112,4 +112,10 @@ var store = [{
         "tags": ["TensorFlow","GPU","CUDA","cuDNN","Conda","Linux","WSL2","WSL","Deep Learning","AI"],
         "url": "/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/",
         "teaser": "/assets/images/coding_stock.jpg"
+      },{
+        "title": "GPT model Causal Multi-Head Attention Mechanism: Pure and Simple",
+        "excerpt":"Introduction I have always found a disconnect between the theoretical understanding of attention mechanisms, the illustrations and their practical code implementation in models like GPT and wasn’t able to merge all the knowledge while I was trying to understand multi-head attention mechanism in-depth. Since transformers work on batched input, they...","categories": ["Educational","LLMs"],
+        "tags": ["GPT","Generative Models","Attention Mechanism","Multi-Head Attention","Transformers","Causal Attention","Self-Attention","Machine Learning","Deep Learning","AI"],
+        "url": "/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/",
+        "teaser": "/assets/images/coding_stock.jpg"
       }]
