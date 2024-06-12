@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="https://snawarhussain.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://snawarhussain.com/" rel="alternate" type="text/html" /><updated>2024-06-11T13:51:58+00:00</updated><id>https://snawarhussain.com/feed.xml</id><title type="html">Snawar Hussain</title><subtitle></subtitle><author><name>Snawar Hussain</name></author><entry><title type="html">GPT model Causal Multi-Head Attention Mechanism: Pure and Simple</title><link href="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/" rel="alternate" type="text/html" title="GPT model Causal Multi-Head Attention Mechanism: Pure and Simple" /><published>2024-06-10T00:00:00+00:00</published><updated>2024-06-10T00:00:00+00:00</updated><id>https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and%20Simple</id><content type="html" xml:base="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/"><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="https://snawarhussain.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://snawarhussain.com/" rel="alternate" type="text/html" /><updated>2024-06-12T14:16:37+00:00</updated><id>https://snawarhussain.com/feed.xml</id><title type="html">Snawar Hussain</title><subtitle></subtitle><author><name>Snawar Hussain</name></author><entry><title type="html">GPT model Causal Multi-Head Attention Mechanism: Pure and Simple</title><link href="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/" rel="alternate" type="text/html" title="GPT model Causal Multi-Head Attention Mechanism: Pure and Simple" /><published>2024-06-10T00:00:00+00:00</published><updated>2024-06-10T00:00:00+00:00</updated><id>https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and%20Simple</id><content type="html" xml:base="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/"><![CDATA[<h2 id="introduction">Introduction</h2>
 
 <p>I have always found a disconnect between the theoretical understanding of attention mechanisms, the illustrations and their practical code implementation in models like GPT and wasn’t able to merge all the knowledge while I was trying to understand multi-head attention mechanism in-depth. Since transformers work on batched input, they things change up a bit and it is always confusion to relate the illustration and theory to the code implementation. In this post, I aim to bridge this gap by providing a simple and intuitive explanation of the vanilla as well as causal attention mechanism in GPT models.</p>
 
@@ -231,7 +231,7 @@ Reshaping and Transposing for Multi-Head Attention:</p>
 
 <p><em>y = self.c_proj(y):</em> Apply the final linear projection to produce the output of the attention mechanism.</p>
 
-<link rel="stylesheet" href="/assets/css/atten_mech/style.css" />]]></content><author><name>Snawar Hussain</name></author><category term="Educational" /><category term="LLMs" /><category term="GPT" /><category term="Generative Models" /><category term="Attention Mechanism" /><category term="Multi-Head Attention" /><category term="Transformers" /><category term="Causal Attention" /><category term="Self-Attention" /><category term="Machine Learning" /><category term="Deep Learning" /><category term="AI" /><summary type="html"><![CDATA[Exploring the crucial role of gradient fields in MRI for stepping through K-space.]]></summary></entry><entry><title type="html">Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL</title><link href="https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" rel="alternate" type="text/html" title="Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL" /><published>2024-05-15T00:00:00+00:00</published><updated>2024-05-15T00:00:00+00:00</updated><id>https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment</id><content type="html" xml:base="https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/"><![CDATA[<p>Let’s admit it, installing TensorFlow with CUDA support is a pain in the neck and doesn’t work right away on the first attempt 99% of the time. Many of us have faced the frustration of seeing TensorFlow fail to utilize the GPU even though <code class="language-plaintext highlighter-rouge">nvidia-smi</code> confirms it’s there. If you’re running Linux or WSL and have installed TensorFlow in a Conda environment but are struggling to get it to use your GPU, this guide is for you. Follow these steps to ensure TensorFlow can utilize the CUDA and cuDNN libraries installed within your Conda environment, rather than relying on a global installation that might be outdated or incompatible with your version of tensorflow.</p>
+<link rel="stylesheet" href="/assets/css/atten_mech/style.css" />]]></content><author><name>Snawar Hussain</name></author><category term="Educational" /><category term="LLMs" /><category term="GPT" /><category term="Generative Models" /><category term="Attention Mechanism" /><category term="Multi-Head Attention" /><category term="Transformers" /><category term="Causal Attention" /><category term="Self-Attention" /><category term="Machine Learning" /><category term="Deep Learning" /><category term="AI" /><summary type="html"><![CDATA[How does the multi-head attention mechanism work in transformers? Let's break it down step-by-step, starting from the input sequence and moving through the entire process.]]></summary></entry><entry><title type="html">Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL</title><link href="https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" rel="alternate" type="text/html" title="Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL" /><published>2024-05-15T00:00:00+00:00</published><updated>2024-05-15T00:00:00+00:00</updated><id>https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment</id><content type="html" xml:base="https://snawarhussain.com/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/"><![CDATA[<p>Let’s admit it, installing TensorFlow with CUDA support is a pain in the neck and doesn’t work right away on the first attempt 99% of the time. Many of us have faced the frustration of seeing TensorFlow fail to utilize the GPU even though <code class="language-plaintext highlighter-rouge">nvidia-smi</code> confirms it’s there. If you’re running Linux or WSL and have installed TensorFlow in a Conda environment but are struggling to get it to use your GPU, this guide is for you. Follow these steps to ensure TensorFlow can utilize the CUDA and cuDNN libraries installed within your Conda environment, rather than relying on a global installation that might be outdated or incompatible with your version of tensorflow.</p>
 
 <h2 id="prerequisites">Prerequisites</h2>
 
@@ -465,7 +465,787 @@ their location in space and in-turn creating our own 2D sinosoids corresponding 
 
 <script src="/assets/js/threejs.js"></script>
 
-<link rel="stylesheet" href="/assets/css/threejs.css" />]]></content><author><name>Snawar Hussain</name></author><category term="Educational" /><category term="MRI Technology" /><category term="MRI" /><category term="K-space" /><category term="Gradient Fields" /><category term="Fourier Transform" /><category term="Spin Magnetic Moments" /><category term="Image Reconstruction" /><category term="Medical Imaging" /><summary type="html"><![CDATA[Exploring the crucial role of gradient fields in MRI for stepping through K-space.]]></summary></entry><entry><title type="html">2D Fourier Transform and Complex Numbers in MR Physics</title><link href="https://snawarhussain.com/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI/" rel="alternate" type="text/html" title="2D Fourier Transform and Complex Numbers in MR Physics" /><published>2023-11-24T00:00:00+00:00</published><updated>2023-11-24T00:00:00+00:00</updated><id>https://snawarhussain.com/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI</id><content type="html" xml:base="https://snawarhussain.com/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI/"><![CDATA[<h2 id="introduction">Introduction</h2>
+<link rel="stylesheet" href="/assets/css/threejs.css" />]]></content><author><name>Snawar Hussain</name></author><category term="Educational" /><category term="MRI Technology" /><category term="MRI" /><category term="K-space" /><category term="Gradient Fields" /><category term="Fourier Transform" /><category term="Spin Magnetic Moments" /><category term="Image Reconstruction" /><category term="Medical Imaging" /><summary type="html"><![CDATA[Exploring the crucial role of gradient fields in MRI for stepping through K-space.]]></summary></entry><entry><title type="html">Current Opinion On Animal Pose Estimation Tools A Review</title><link href="https://snawarhussain.com/Current-Opinion-on-Animal-Pose-Estimation-Tools-A-Review/" rel="alternate" type="text/html" title="Current Opinion On Animal Pose Estimation Tools A Review" /><published>2024-01-05T00:00:00+00:00</published><updated>2024-01-05T00:00:00+00:00</updated><id>https://snawarhussain.com/Current-Opinion-on-Animal-Pose-Estimation-Tools-A-Review</id><content type="html" xml:base="https://snawarhussain.com/Current-Opinion-on-Animal-Pose-Estimation-Tools-A-Review/"><![CDATA[<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Current Opinion on Animal Pose Estimation and Behavior Analysis Tools</title><style>
+    /* cspell:disable-file */
+    /* webkit printing magic: print all background colors */
+    html {
+        -webkit-print-color-adjust: exact;
+    }
+    * {
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact;
+    }
+    
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    @media only screen {
+        body {
+            margin: 2em auto;
+            max-width: 900px;
+            color: rgb(55, 53, 47);
+        }
+    }
+    
+    body {
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+    
+    a,
+    a.visited {
+        color: inherit;
+        text-decoration: underline;
+    }
+    
+    .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+    }
+    
+    h1,
+    h2,
+    h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+    }
+    
+    h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+    }
+    
+    .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+    }
+    
+    .callout {
+        border-radius: 3px;
+        padding: 1rem;
+    }
+    
+    figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+    }
+    
+    figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+    }
+    
+    mark {
+        background-color: transparent;
+    }
+    
+    .indented {
+        padding-left: 1.5em;
+    }
+    
+    hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+    }
+    
+    img {
+        max-width: 100%;
+    }
+    
+    @media only print {
+        img {
+            max-height: 100vh;
+            object-fit: contain;
+        }
+    }
+    
+    @page {
+        margin: 1in;
+    }
+    
+    .collection-content {
+        font-size: 0.875rem;
+    }
+    
+    .column-list {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .column {
+        padding: 0 1em;
+    }
+    
+    .column:first-child {
+        padding-left: 0;
+    }
+    
+    .column:last-child {
+        padding-right: 0;
+    }
+    
+    .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+    }
+    
+    .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+    }
+    
+    .table_of_contents-indent-2 {
+        margin-left: 3rem;
+    }
+    
+    .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+    }
+    
+    .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+    }
+    
+    table,
+    th,
+    td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+    }
+    
+    table {
+        border-left: none;
+        border-right: none;
+    }
+    
+    th,
+    td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+    }
+    
+    th {
+        color: rgba(55, 53, 47, 0.6);
+    }
+    
+    ol,
+    ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+    }
+    
+    li > ol:first-child,
+    li > ul:first-child {
+        margin-block-start: 0.6em;
+    }
+    
+    ul > li {
+        list-style: disc;
+    }
+    
+    ul.to-do-list {
+        padding-inline-start: 0;
+    }
+    
+    ul.to-do-list > li {
+        list-style: none;
+    }
+    
+    .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+    }
+    
+    ul.toggle > li {
+        list-style: none;
+    }
+    
+    ul {
+        padding-inline-start: 1.7em;
+    }
+    
+    ul > li {
+        padding-left: 0.1em;
+    }
+    
+    ol {
+        padding-inline-start: 1.6em;
+    }
+    
+    ol > li {
+        padding-left: 0.2em;
+    }
+    
+    .mono ol {
+        padding-inline-start: 2em;
+    }
+    
+    .mono ol > li {
+        text-indent: -0.4em;
+    }
+    
+    .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+    }
+    
+    /* Indent toggle children */
+    .toggle > li > details {
+        padding-left: 1.7em;
+    }
+    
+    .toggle > li > details > summary {
+        margin-left: -1.1em;
+    }
+    
+    .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+    }
+    
+    .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+    }
+    
+    .page-description {
+        margin-bottom: 2em;
+    }
+    
+    .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+    }
+    .simple-table td {
+        height: 29px;
+        min-width: 120px;
+    }
+    
+    .simple-table th {
+        height: 29px;
+        min-width: 120px;
+    }
+    
+    .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+    }
+    .simple-table-header {
+        font-weight: 500;
+    }
+    
+    time {
+        opacity: 0.5;
+    }
+    
+    .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+    }
+    
+    img.icon {
+        border-radius: 3px;
+    }
+    
+    .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+    }
+    
+    .user-icon-inner {
+        font-size: 0.8em;
+    }
+    
+    .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+    }
+    
+    .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+    }
+    
+    .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+    }
+    
+    .page-header-icon img {
+        border-radius: 3px;
+    }
+    
+    .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+    }
+    
+    p > .user {
+        opacity: 0.5;
+    }
+    
+    td > .user,
+    td > time {
+        white-space: nowrap;
+    }
+    
+    input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+    }
+    
+    p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+    
+    .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+    }
+    
+    .code,
+    code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+    }
+    
+    code {
+        color: #eb5757;
+    }
+    
+    .code {
+        padding: 1.5em 1em;
+    }
+    
+    .code-wrap {
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+    
+    .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+    }
+    
+    blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+    }
+    
+    .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+    }
+    
+    .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+    }
+    
+    .bookmark-text {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+    }
+    
+    .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+    }
+    
+    .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+    }
+    
+    .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+    .code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+    .serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+    .mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+    .pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+    .pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+    .pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+    .pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+    .pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+    .pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+    .pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+    .pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+    .pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+    .pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+    .pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+    .pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+    .pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+    .pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+    .pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+    .pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+    .highlight-default {
+        color: rgba(55, 53, 47, 1);
+    }
+    .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+    }
+    .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+    }
+    .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+    }
+    .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+    }
+    .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+    }
+    .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+    }
+    .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+    }
+    .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+    }
+    .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+    }
+    .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+    }
+    .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+    }
+    .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+    }
+    .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+    }
+    .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+    }
+    .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+    }
+    .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+    }
+    .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+    }
+    .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+    }
+    .block-color-default {
+        color: inherit;
+        fill: inherit;
+    }
+    .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+    }
+    .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+    }
+    .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+    }
+    .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+    }
+    .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+    }
+    .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+    }
+    .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+    }
+    .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+    }
+    .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+    }
+    .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+    }
+    .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+    }
+    .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+    }
+    .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+    }
+    .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+    }
+    .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+    }
+    .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+    }
+    .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+    }
+    .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+    }
+    .select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+    .select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+    .select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+    .select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+    .select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+    .select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+    .select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+    .select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+    .select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+    .select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+    .select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+    .select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+    .select-value-color-pageGlass { background-color: undefined; }
+    .select-value-color-washGlass { background-color: undefined; }
+    
+    .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+    }
+    
+    .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+    }
+    
+    .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+    }
+
+    
+    
+
+    .citation-container {
+        height: 300px;
+        position: relative;
+        margin: 10px auto;
+        background: #1c1d21;
+        color: #9fa8b7;
+        border-radius: 16px;
+        padding: 10px;
+        font-size: var(--rem);
+        line-height: 1.6;
+
+    }
+
+    
+    .copy-code {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+
+    .citation-container:hover .copy-code {
+        opacity: 1;
+    }
+
+    .hljs {
+        overflow-x: auto;
+        background: #1c1d21;
+        color: #9fa8b7;
+        height: 300px;
+
+    }
+    .copy-code.copied {
+        background-color: green;
+    }
+        
+    </style></head><body><article id="a4821611-be9f-48c1-9cde-f8bafc7cbbba" class="page serif"><header><img class="page-cover-image" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%208.png" style="object-position:center 23.340000000000003%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🐁</span></div><h1 class="page-title">Current Opinion on Animal Pose Estimation and Behavior Analysis Tools</h1><p class="page-description"></p></header><div class="page-body"><nav id="2e415bde-98ee-4e38-8989-bf0beca907d7" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d324f40e-e890-4041-b6c4-0c24856f24d9">Introduction</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6e319e68-4eec-4702-b439-058ad248a503">List of Current Technologies</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ee931a5a-a041-42b6-9f92-b27a857e529e">Overview</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6e725e81-913b-4010-a5c2-c797b1684282">DeepLabCut</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fb4b7336-d05d-4ded-9e34-11a5649cd141">SLEAP</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#082f29a4-328b-47bd-9ac7-a3d395099f3f">Anipose:</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9195be81-1d3a-4cb4-9101-9aa52a417d05">DANNCE</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c6eb0330-2983-43e1-bf7b-1e86479cfc28">AnyMaze</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ecf79de4-4d43-49dc-9454-2ef6c5dc92d4">DeepPoseKit</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5c6d6547-068f-4a43-8b41-36756487fa9b">DeepEthogram</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5c9dc06f-1944-4205-9fc4-d0c88a0f1222">MARS</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#482d6ca1-7bb5-48af-92b1-67cae7c31cc7">VAME</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#088b1512-4037-4857-bf6f-5292b5992b51">B-SOiD</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#42144c5e-8f76-45a5-98d3-f57d6ab5f304">BehaviorAtlas</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d5e755af-5e0d-4ccd-a7c9-c36ea725caf7">Skeletal Estimation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9dfb7a9d-57ad-418d-9d3e-98bbc1b2ae65">AVATAR</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#60a26119-1689-426a-ba60-65e57f975607">Final Thoughts</a></div></nav><h1 id="d324f40e-e890-4041-b6c4-0c24856f24d9" class="">Introduction</h1><p id="ecf626ff-ed2c-44b8-8545-3c06daa4322e" class="">Animal pose estimation tools have become increasingly popular in recent years, as they provide a way to accurately track and measure the movement and behavior of animals. Researchers have identified a number of benefits to using these tools, including providing accurate and detailed data that can be used to study animal behavior and inform conservation efforts. However, there are still some challenges in using these tools, including accuracy and cost. In this document, we will explore current opinion on animal pose estimation tools, looking at both the advantages and disadvantages of using them.</p><p id="32d7c46d-0821-4e45-b78c-718eea8894db" class="">Video based markerless pose estimation  is a powerful tool for quantifying animal behavior, as it allows for an unobtrusive, non-invasive observation of the animal&#x27;s actions, with minimal setup requirements. Using pose estimation, it is possible to extract key points across the animal&#x27;s body, allowing for the approximation of its motion patterns. Different behaviors are associated with distinct motion patterns; for instance, a mouse&#x27;s &quot;investigative&quot; behavior may involve a sequence of actions such as &quot;stop walking, look around and sniff&quot;. Once the pose estimation of the animal is obtained across all video frames, the body points can be plotted as time series data. By further analyzing the time series data, it is possible to gain further insight into the animal&#x27;s behavior; for example, the duration or frequency of certain behaviors can be observed, which can be used to gain a better understanding of the animal&#x27;s behavior in its natural environment.</p><p id="a38aa7a9-f757-4056-b8cf-4af83e9387e9" class="">Current popular animal pose estimation tools include DeepLabCut and OpenPose. DeepLabCut uses deep learning models to accurately track and measure an animal&#x27;s pose, while OpenPose is a more general framework that can be used to track the movement of any animal. Both tools provide detailed and accurate data that can be used to study animal behavior and inform conservation efforts. However, both tools are relatively expensive and require significant computing resources, which can be a barrier for smaller organizations. Additionally, accuracy can be an issue with both tools, as they can sometimes have difficulty tracking certain animals or complex poses.</p><h1 id="6e319e68-4eec-4702-b439-058ad248a503" class="">List of Current Technologies</h1><div id="4528383a-2cbc-405d-9223-42293badf0b9" class="column-list"><div id="aa67f2de-cad5-483e-a2c7-4cfff43c4bdc" style="width:50%" class="column"><ol type="1" id="bc64a587-a451-43dc-b097-2e922225894c" class="numbered-list" start="1"><li><a href="https://github.com/DeepLabCut/DeepLabCut">DeepLabcCut</a></li></ol><ol type="1" id="77f5e803-eba1-4689-832a-bbe700aaef98" class="numbered-list" start="2"><li><a href="https://github.com/murthylab/sleap">SLEAP</a></li></ol><ol type="1" id="5910b419-be11-42f5-80e5-efd2d64384d1" class="numbered-list" start="3"><li><a href="https://github.com/lambdaloop/anipose">Anipose</a></li></ol><ol type="1" id="c0a0df38-4ba5-4ec7-b360-2f3d6392e670" class="numbered-list" start="4"><li><a href="https://github.com/spoonsso/dannce">DANNCE</a></li></ol><ol type="1" id="444c10f5-0ba7-4da7-9f48-39a2ea669fad" class="numbered-list" start="5"><li><a href="https://www.any-maze.com/features/tracking-video-capture/">AnyMaze</a></li></ol><ol type="1" id="a8ca5452-0bf5-4b15-85a8-c71bc748b5ad" class="numbered-list" start="6"><li><a href="https://github.com/jgraving/deepposekit">DeepPoseKit</a></li></ol><ol type="1" id="ce53bb81-2ee1-4ed1-b74f-e7415e3d375d" class="numbered-list" start="7"><li><a href="https://github.com/jbohnslav/deepethogram">DeepEthogram</a></li></ol></div><div id="2322aab3-6cc6-49e2-b048-f6bcd2a5f3b6" style="width:50%" class="column"><ol type="1" id="a0c68878-6abe-47c2-afa9-c114fc16eba2" class="numbered-list" start="8"><li><a href="https://neuroethology.github.io/MARS/">MARS</a></li></ol><ol type="1" id="2f3c5822-116e-4f6e-9b34-ffb879e2b2b3" class="numbered-list" start="9"><li><a href="https://github.com/LINCellularNeuroscience/VAME">VAME</a></li></ol><ol type="1" id="64bcedd3-3512-49ac-9989-52324cfeca9a" class="numbered-list" start="10"><li><a href="https://github.com/YttriLab/B-SOID">B-SOiD</a></li></ol><ol type="1" id="cea3642e-5c64-4349-9add-7aaa645f48b4" class="numbered-list" start="11"><li><a href="https://behavioratlas.tech//">BehaviorAtlas</a></li></ol><ol type="1" id="dceba7db-af61-4bc7-beec-36f3df133fd1" class="numbered-list" start="12"><li><a href="https://www.nature.com/articles/s41592-022-01634-9#code-availability">Skeletal Estimation</a></li></ol><ol type="1" id="5ab724e6-e1b7-4eaf-a52b-02a69a69858f" class="numbered-list" start="13"><li><a href="https://www.biorxiv.org/content/10.1101/2021.12.31.474634v1">AVATAR (pre-print)</a></li></ol><ol type="1" id="9b67aafa-89ad-4ae5-af10-9ed5654fd749" class="numbered-list" start="14"><li><a href="https://github.com/snawarhussain/ComputationalNeuroEthologyPapers/">and Many More….</a>🔗🌐</li></ol></div></div><p id="4766f4af-60c8-4c80-9220-768af9a26a52" class="">
+    </p><p id="fbbb6926-4dcf-4252-9efc-c2debd33a1d9" class="">Below we have summarized 📚 our findings in a table that evaluate each method on the basis of </p><p id="335af203-e169-4ee0-ab1c-96db2eee68fa" class="">
+    </p><div id="5f5cb6ed-d393-4a79-acc8-2b1572350d5e" class="column-list"><div id="0c683a25-bcee-4fd1-8378-59060e6e6c57" style="width:33.33333333333333%" class="column"><blockquote id="d12bd24e-b929-4c0f-ab0f-e24fcaf85661" class="block-color-orange_background">Code Availability</blockquote><blockquote id="84cb843f-8fa4-4762-abc9-c45717d01147" class="block-color-orange_background">Documentation (Doc)</blockquote><blockquote id="d45e4110-9c24-470b-b766-3978291169e5" class="block-color-orange_background">Scalable or not</blockquote><blockquote id="b476df9f-fd3f-4aca-bb00-e211eec4f874" class="block-color-orange_background">Last Time Updated</blockquote></div><div id="406f0da3-5add-4624-841f-7d1e459541c7" style="width:33.33333333333333%" class="column"><blockquote id="1caeccbb-960e-4a34-aed2-d8d154dc6d43" class="block-color-orange_background">Dataset Availability</blockquote><blockquote id="5ef620ce-246c-45c6-b807-9e5118d1c552" class="block-color-orange_background">Open Source</blockquote><blockquote id="deb64408-300e-41a4-b8ed-95f42e55cef6" class="block-color-orange_background">Real-time Performance (RP)</blockquote><p id="4ce0c946-124c-452a-a76a-c5f92980c7bc" class="">
+    </p></div><div id="8f23b45d-68f0-4412-a985-20c0ef046af1" style="width:33.33333333333333%" class="column"><blockquote id="e388d6d4-be79-45e6-a36c-c4ac3d0a2e9b" class="block-color-orange_background">User-friendliness (UF)</blockquote><blockquote id="d0dc9a85-11c5-455b-8cdf-d550064e8e7f" class="block-color-orange_background">GUI Availability</blockquote><blockquote id="e196c411-7c52-40f9-811c-4c7485f221c7" class="block-color-orange_background">Reproducibility (RP)</blockquote><p id="438f415b-bf8d-4f9b-8e73-d1c6f87db6b3" class="">
+    </p></div></div><div id="6f58fbd4-356c-4014-ae4d-1daf0069e3fa" class="collection-content"><h4 class="collection-title">Review</h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg role="graphics-symbol" viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0" class="typesTitle"><path d="M0.637695 13.1914C1.0957 13.1914 1.32812 13 1.47852 12.5215L2.24414 10.3887H6.14746L6.90625 12.5215C7.05664 13 7.2959 13.1914 7.74707 13.1914C8.22559 13.1914 8.5332 12.9043 8.5332 12.4531C8.5332 12.2891 8.50586 12.1523 8.44434 11.9678L5.41602 3.79199C5.2041 3.21777 4.82129 2.9375 4.19922 2.9375C3.60449 2.9375 3.21484 3.21777 3.0166 3.78516L-0.0322266 12.002C-0.09375 12.1797 -0.121094 12.3232 -0.121094 12.4668C-0.121094 12.918 0.166016 13.1914 0.637695 13.1914ZM2.63379 9.12402L4.17871 4.68066H4.21973L5.76465 9.12402H2.63379ZM12.2793 13.2324C13.3115 13.2324 14.2891 12.6787 14.7129 11.8037H14.7402V12.5762C14.7471 12.9863 15.0273 13.2393 15.4238 13.2393C15.834 13.2393 16.1143 12.9795 16.1143 12.5215V8.00977C16.1143 6.49902 14.9658 5.52148 13.1543 5.52148C11.7666 5.52148 10.6592 6.08887 10.2695 6.99121C10.1943 7.15527 10.1533 7.3125 10.1533 7.46289C10.1533 7.81152 10.4062 8.04395 10.7686 8.04395C11.0215 8.04395 11.2129 7.94824 11.3496 7.73633C11.7529 6.99121 12.2861 6.65625 13.1064 6.65625C14.0977 6.65625 14.6992 7.20996 14.6992 8.1123V8.67285L12.5664 8.7959C10.7686 8.8916 9.77734 9.69824 9.77734 11.0107C9.77734 12.3369 10.8096 13.2324 12.2793 13.2324ZM12.6621 12.1387C11.8008 12.1387 11.2129 11.667 11.2129 10.9561C11.2129 10.2725 11.7598 9.82129 12.7578 9.75977L14.6992 9.62988V10.3203C14.6992 11.3457 13.7969 12.1387 12.6621 12.1387Z"></path></svg></span>Tools</th><th><span class="icon property-icon"><img src="https://www.notion.so/icons/command-line_gray.svg" style="width:14px;height:14px"/></span>Code</th><th><span class="icon property-icon"><img src="https://www.notion.so/icons/database_gray.svg" style="width:14px;height:14px"/></span>Dataset</th><th><span class="icon property-icon"><img src="https://www.notion.so/icons/follow_gray.svg" style="width:14px;height:14px"/></span>UF</th><th><span class="icon property-icon"><img src="https://www.notion.so/icons/service-counter_gray.svg" style="width:14px;height:14px"/></span>Doc</th><th><span class="icon property-icon"><img src="https://www.notion.so/icons/book_gray.svg" style="width:14px;height:14px"/></span>Open-Source?</th><th><span class="icon property-icon"><img src="https://www.notion.so/icons/cursor-click_gray.svg" style="width:14px;height:14px"/></span>GUI</th><th><span class="icon property-icon"><img src="https://www.notion.so/icons/judicial-scales_gray.svg" style="width:14px;height:14px"/></span>scaleable</th><th><span class="icon property-icon"><img src="https://www.notion.so/icons/watch-analog_gray.svg" style="width:14px;height:14px"/></span>RT</th><th><span class="icon property-icon"><img src="https://www.notion.so/icons/dna_gray.svg" style="width:14px;height:14px"/></span>RP</th><th><span class="icon property-icon"><img src="https://www.notion.so/icons/arrow-up_gray.svg" style="width:14px;height:14px"/></span>Updated</th></tr></thead><tbody><tr id="dd4f62f0-2967-4a08-9832-9db134684bd8"><td class="cell-title"><a href="https://www.notion.so/DLC-dd4f62f029674a0898329db134684bd8?pvs=21">DLC</a></td><td class="cell-gBhX"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-@eqG"><span class="status-value"><div class="status-dot"></div>N/A</span></td><td class="cell-DaSw">90</td><td class="cell-_`ur">80</td><td class="cell-Ycxk"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>YES</span></td><td class="cell-{azb"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Yes</span></td><td class="cell-@z;}"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Scalable</span></td><td class="cell-tGcX">50</td><td class="cell-QPRV">90</td><td class="cell-BocC">2021</td></tr><tr id="7670b567-f229-442d-aac2-bdada98174b1"><td class="cell-title"><a href="https://www.notion.so/SLEAP-7670b567f229442daac2bdada98174b1?pvs=21">SLEAP</a></td><td class="cell-gBhX"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-@eqG"><span class="status-value"><div class="status-dot"></div>N/A</span></td><td class="cell-DaSw">85</td><td class="cell-_`ur">65</td><td class="cell-Ycxk"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>YES</span></td><td class="cell-{azb"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Yes</span></td><td class="cell-@z;}"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Scalable</span></td><td class="cell-tGcX">90</td><td class="cell-QPRV">90</td><td class="cell-BocC">2021</td></tr><tr id="01bae412-dfbb-40d8-9b14-dddfedd4ddd8"><td class="cell-title"><a href="https://www.notion.so/Anipose-01bae412dfbb40d89b14dddfedd4ddd8?pvs=21">Anipose</a></td><td class="cell-gBhX"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-@eqG"><span class="status-value"><div class="status-dot"></div>N/A</span></td><td class="cell-DaSw">80</td><td class="cell-_`ur">60</td><td class="cell-Ycxk"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>YES</span></td><td class="cell-{azb"><span class="status-value select-value-color-red"><div class="status-dot status-dot-color-red"></div>N/A</span></td><td class="cell-@z;}"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Highly</span></td><td class="cell-tGcX">10</td><td class="cell-QPRV">60</td><td class="cell-BocC">2020</td></tr><tr id="189e8db6-97e3-4d92-be44-bbfb5746703f"><td class="cell-title"><a href="https://www.notion.so/DANNCE-189e8db697e34d92be44bbfb5746703f?pvs=21">DANNCE</a></td><td class="cell-gBhX"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-@eqG"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-DaSw">60</td><td class="cell-_`ur">50</td><td class="cell-Ycxk"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Partially</span></td><td class="cell-{azb"><span class="status-value select-value-color-red"><div class="status-dot status-dot-color-red"></div>N/A</span></td><td class="cell-@z;}"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Scalable</span></td><td class="cell-tGcX">10</td><td class="cell-QPRV">50</td><td class="cell-BocC">2022</td></tr><tr id="d7e5fa99-b3a0-4fd9-89eb-cdbd8bd9a95e"><td class="cell-title"><a href="https://www.notion.so/AnyMaze-d7e5fa99b3a04fd989ebcdbd8bd9a95e?pvs=21">AnyMaze</a></td><td class="cell-gBhX"><span class="status-value"><div class="status-dot"></div>N/A</span></td><td class="cell-@eqG"><span class="status-value"><div class="status-dot"></div>N/A</span></td><td class="cell-DaSw">100</td><td class="cell-_`ur">100</td><td class="cell-Ycxk"><span class="status-value select-value-color-red"><div class="status-dot status-dot-color-red"></div>NO</span></td><td class="cell-{azb"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Yes</span></td><td class="cell-@z;}"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Highly</span></td><td class="cell-tGcX">100</td><td class="cell-QPRV">100</td><td class="cell-BocC">2022</td></tr><tr id="3ea7b5f7-47b8-4845-9967-82ec557128d8"><td class="cell-title"><a href="https://www.notion.so/DeepPoseKit-3ea7b5f747b84845996782ec557128d8?pvs=21">DeepPoseKit</a></td><td class="cell-gBhX"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-@eqG"><span class="status-value"><div class="status-dot"></div>N/A</span></td><td class="cell-DaSw">60</td><td class="cell-_`ur">60</td><td class="cell-Ycxk"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>YES</span></td><td class="cell-{azb"><span class="status-value select-value-color-blue"><div class="status-dot status-dot-color-blue"></div>Incomplete</span></td><td class="cell-@z;}"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Scalable</span></td><td class="cell-tGcX">90</td><td class="cell-QPRV">80</td><td class="cell-BocC">2022</td></tr><tr id="663c0d41-c565-40ef-bc73-25c9601b89d7"><td class="cell-title"><a href="https://www.notion.so/DeepEthogram-663c0d41c56540efbc7325c9601b89d7?pvs=21">DeepEthogram</a></td><td class="cell-gBhX"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-@eqG"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-DaSw">50</td><td class="cell-_`ur">50</td><td class="cell-Ycxk"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>YES</span></td><td class="cell-{azb"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Yes</span></td><td class="cell-@z;}"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Scalable</span></td><td class="cell-tGcX">90</td><td class="cell-QPRV">80</td><td class="cell-BocC">2021</td></tr><tr id="38fdba8a-cc3f-486a-b071-c88cf6ab0c74"><td class="cell-title"><a href="https://www.notion.so/MARS-38fdba8acc3f486ab071c88cf6ab0c74?pvs=21">MARS</a></td><td class="cell-gBhX"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-@eqG"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-DaSw">70</td><td class="cell-_`ur">80</td><td class="cell-Ycxk"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Partially</span></td><td class="cell-{azb"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Yes</span></td><td class="cell-@z;}"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Scalable</span></td><td class="cell-tGcX">80</td><td class="cell-QPRV">80</td><td class="cell-BocC">2021</td></tr><tr id="07b13337-ed93-4818-817f-cab99e7e453a"><td class="cell-title"><a href="https://www.notion.so/VAME-07b13337ed934818817fcab99e7e453a?pvs=21">VAME</a></td><td class="cell-gBhX"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-@eqG"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-DaSw">40</td><td class="cell-_`ur">70</td><td class="cell-Ycxk"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>YES</span></td><td class="cell-{azb"><span class="status-value select-value-color-red"><div class="status-dot status-dot-color-red"></div>N/A</span></td><td class="cell-@z;}"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Scalable</span></td><td class="cell-tGcX">20</td><td class="cell-QPRV">90</td><td class="cell-BocC">2022</td></tr><tr id="98ec3f76-47d8-4622-8c75-376d445eb4ed"><td class="cell-title"><a href="https://www.notion.so/B-SOiD-98ec3f7647d846228c75376d445eb4ed?pvs=21">B-SOiD</a></td><td class="cell-gBhX"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-@eqG"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-DaSw">80</td><td class="cell-_`ur">80</td><td class="cell-Ycxk"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>YES</span></td><td class="cell-{azb"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Yes</span></td><td class="cell-@z;}"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Highly</span></td><td class="cell-tGcX">90</td><td class="cell-QPRV">85</td><td class="cell-BocC">2021</td></tr><tr id="2e319372-e014-4875-ab31-fedd50ec680d"><td class="cell-title"><a href="https://www.notion.so/BehaviorAtlas-2e319372e0144875ab31fedd50ec680d?pvs=21">BehaviorAtlas</a></td><td class="cell-gBhX"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-@eqG"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-DaSw">40</td><td class="cell-_`ur">50</td><td class="cell-Ycxk"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Partially</span></td><td class="cell-{azb"><span class="status-value select-value-color-red"><div class="status-dot status-dot-color-red"></div>N/A</span></td><td class="cell-@z;}"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Scalable</span></td><td class="cell-tGcX">50</td><td class="cell-QPRV">30</td><td class="cell-BocC">2021</td></tr><tr id="4c701e9c-504f-402d-8d89-4fe8ec07ac4d"><td class="cell-title"><a href="https://www.notion.so/Skeletal-Estimation-4c701e9c504f402d8d894fe8ec07ac4d?pvs=21">Skeletal Estimation</a></td><td class="cell-gBhX"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-@eqG"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>Available</span></td><td class="cell-DaSw">60</td><td class="cell-_`ur">70</td><td class="cell-Ycxk"><span class="status-value select-value-color-green"><div class="status-dot status-dot-color-green"></div>YES</span></td><td class="cell-{azb"><span class="status-value select-value-color-red"><div class="status-dot status-dot-color-red"></div>N/A</span></td><td class="cell-@z;}"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Scalable</span></td><td class="cell-tGcX">20</td><td class="cell-QPRV">85</td><td class="cell-BocC">2023</td></tr><tr id="1de84423-38d1-486d-831a-af0347836956"><td class="cell-title"><a href="https://www.notion.so/AVATAR-1de8442338d1486d831aaf0347836956?pvs=21">AVATAR</a></td><td class="cell-gBhX"><span class="status-value"><div class="status-dot"></div>N/A</span></td><td class="cell-@eqG"><span class="status-value"><div class="status-dot"></div>N/A</span></td><td class="cell-DaSw">10</td><td class="cell-_`ur">10</td><td class="cell-Ycxk"><span class="status-value select-value-color-red"><div class="status-dot status-dot-color-red"></div>NO</span></td><td class="cell-{azb"><span class="status-value select-value-color-red"><div class="status-dot status-dot-color-red"></div>N/A</span></td><td class="cell-@z;}"><span class="status-value select-value-color-yellow"><div class="status-dot status-dot-color-yellow"></div>Scalable</span></td><td class="cell-tGcX">95</td><td class="cell-QPRV">10</td><td class="cell-BocC">2022</td></tr></tbody></table><br/><br/></div><h1 id="ee931a5a-a041-42b6-9f92-b27a857e529e" class="">Overview</h1><p id="67c57841-f142-41b8-bd7e-2e21ef2e8c61" class="">When evaluating these above mentioned tools, there are several important criteria to consider such as user-friendliness, code availability, reproducibility, documentation, and real-time support.</p><p id="ae84242e-b783-47f5-b8a7-a31eebbd3ebf" class="">For user-friendliness, the technologies should be easy to use and understand, with minimal setup and configuration requirements. The code should be readily available and open source, allowing for maximum flexibility and allowing users to modify the code to their needs. Additionally, the code should be well-documented and easy to understand, with clear instructions on how to use the tool.</p><p id="fbaca82e-c3d3-41b8-9c9d-a2602a1b0571" class="">Reproducibility is also an important criterion, as it allows for results to be easily replicated and verified. Good documentation and code availability can help ensure reproducibility, while also making it easier for users to review and understand the results.</p><p id="220cb663-863a-48af-9a7f-2361fec8a406" class="">Additionally, real-time support is an important factor in evaluating animal pose estimation tools, as it can have a major impact on the usability and accuracy of the tool in applications that require real-time feedback.</p><p id="5ccea4d4-e16c-4467-b274-9b7cbc1dcb8a" class="">Overall, each of these criteria should be taken into account when evaluating animal pose estimation tools. By considering these criteria, users can make an informed decision about which tool is best for their needs.</p><h2 id="6e725e81-913b-4010-a5c2-c797b1684282" class="">DeepLabCut</h2><p id="8119b6d9-dbba-4ab0-a47d-fe4a5658561e" class="">DeepLabCut is based on the concept of Transfer Learning and uses ResNets, similar to those employed in DeeperCut, for feature extraction. As compared to DeeperCut, DeepLabCut has omitted certain elements such as Pairwise Refinement and Integer Linear Programming, resulting in a faster inference speed.  DeepLabCut has been tested to work across a range of animals with distinct morphology from humans. Additionally, it is an integral component of various above mentioned pose estimation pipelines that will be described later on. The overall architecture of the DeepLabCut is shown below:</p><figure id="db9350a3-7d1d-4c8d-8ab5-4baec913bcf3" class="image" style="text-align:center"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled.png"><img style="width:384px" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled.png"/></a><figcaption>DeepLabCut uses general feature extractors like ResNet50 and MobileNet as a feature extractor combined with a decoder that takes these deep low resolution features from the encoder and upsamples them to output a heatmap of the bodypart/keypoint </figcaption></figure><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="901b3eb3-4d42-4b93-a273-59fbe80a7ca4"><div style="font-size:1.5em"><span class="icon">💪🏽</span></div><div style="width:100%">pros:<ul id="89376efc-34c6-4e04-be59-0bba5e2677fe" class="bulleted-list"><li style="list-style-type:disc">The DeepLabCut (DLC) is a highly popular and widely utilized tool in the scientific community for markerless tracking. As such, it has a comprehensive amount of documentation, as well as a large support community for seeking assistance and resolving any issues that may arise.</li></ul><ul id="dca358dc-0c71-4494-971a-676b2eb36c53" class="bulleted-list"><li style="list-style-type:disc">The predictions are quite accurate.</li></ul><ul id="7159d294-b1d1-4e75-91ba-fbc682f07703" class="bulleted-list"><li style="list-style-type:disc">The GUI interface is user-friendly and also includes a very intuitive labelling functionality to label keypoints and body parts.</li></ul><ul id="0d9d72c5-dd4a-44d3-a418-e60126ebfada" class="bulleted-list"><li style="list-style-type:disc">The bult-in functionality supports transcoding videos that are very helpful to visualize the prediction results that are </li></ul></div></figure><figure class="block-color-yellow_background callout" style="white-space:pre-wrap;display:flex" id="160eadc3-e7bc-4f0f-9951-0278a962a3a3"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Cons:<ul id="3627c09c-835e-4023-8cb5-e441bdf8faf1" class="bulleted-list"><li style="list-style-type:disc">DLC utilizes large models such as ResNe50 and MobileNet, resulting in a slow inference time that is not appropriate for real-time applications. While DLC Live is available for real-time inference, it is not commonly utilized by many methods that are already developed with offline DLC as their baseline model prior to DLC Live release.</li></ul><ul id="30981f70-d494-4675-9af3-07eef334b494" class="bulleted-list"><li style="list-style-type:disc">The 3D reconstruction currently only supports two cameras, and there are some drawbacks to the 3D pose estimation. For example, it can be difficult to accurately determine the exact position and orientation of an object in 3D space. Additionally, the accuracy of the reconstruction can be affected by the quality of the camera images. Finally, the 3D reconstruction process can be computationally intensive.</li></ul><ul id="648d7143-3d88-48c1-b4f5-9294cfb69244" class="bulleted-list"><li style="list-style-type:disc">Training time can be lengthy. Although there are many pre-trained models available on the ModelZoo, it can be difficult to find one that meets one’s specific needs.</li></ul></div></figure><figure id="b31b740c-e20f-43f1-bcbf-48804fa035f1"><div class="source"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/DLC_3D_-_Made_with_Clipchamp.mp4">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/46f03737-64e4-4bf2-a026-601aa37d9693/DLC_3D_-_Made_with_Clipchamp.mp4</a></div></figure><h2 id="fb4b7336-d05d-4ded-9e34-11a5649cd141" class="">SLEAP</h2><p id="2a573def-0849-472e-88fb-5c67f8bbf685" class="">LEAP and SLEAP, developed by another group, are two of the alternatives to DeepLabCut that have been proven to achieve great performance for animal tracking. LEAP is based on an iterative, human-in-loop training scheme. A subset of frames from a video is extracted and manually labeled using an interactive GUI. The initial pose estimates on a portion of the frames can be predicted using this labeled data (~10 frames). Then, the original labels, along with manually refined predictions, can be iteratively trained to predict new frames. This process is repeated until the desired pose estimation performance is achieved.</p><p id="756cc31d-e7e0-40b1-9d28-8d6d4c96b1e4" class="">SLEAP is an extended version of LEAP for multi-animal tracking. The major thing that distinguishes SLEAP from DLC is its choice of architecture. Instead of relying on larger models like ReseNet and MobileNet, SLEAP uses a set of small specialized UNet-based data-specific architectures that specialize in key points detection in smaller and larger FOV subjects with fine and coarse features like rats/Mice and Flies respectively.</p><div id="de26b4e6-97dd-4e9c-8166-1c30d61df58b" class="column-list"><div id="6006ab4f-e339-43e0-9d74-a2abff8f63c6" style="width:50%" class="column"><figure id="fa96a157-1cee-4197-86ad-59689cd3fae8" class="image"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%201.png"><img style="width:954px" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%201.png"/></a></figure></div><div id="6b638926-bcee-4a6d-a06e-dfe9cd262825" style="width:50%" class="column"><figure id="4d60f356-1d9a-4a05-8aca-ac6172775cf8" class="image"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%202.png"><img style="width:432px" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%202.png"/></a></figure></div></div><p id="579616d8-0bd3-4fc2-8e7d-2ad71a0457c8" class="">The architecture used in SLEAP and the overall schema is shown below:</p><figure id="e3e124cf-6916-43ab-975d-24247a7926af" class="image"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%203.png"><img style="width:624px" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%203.png"/></a></figure><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="8e26e461-13f1-4827-97d2-c41a28d7d161"><div style="font-size:1.5em"><span class="icon">💪🏽</span></div><div style="width:100%">pros:<ul id="e3791781-c848-4e80-8f7f-a1a35a4b8f28" class="bulleted-list"><li style="list-style-type:disc">Suitable for Real-time application.</li></ul><ul id="852fee9b-9bde-4520-9342-9c020b7b42b6" class="bulleted-list"><li style="list-style-type:disc">Smaller Architecture footprint that is faster to train.</li></ul><ul id="55b40fc0-c8fd-43eb-854a-2a7d4617ca1a" class="bulleted-list"><li style="list-style-type:disc">Accurate Predictions</li></ul><ul id="6323ba51-851b-420d-a5d6-e2c4bc6b3a8d" class="bulleted-list"><li style="list-style-type:disc">The GUI interface is user-friendly and also includes a very intuitive labeling functionality to label keypoints and body parts.</li></ul><ul id="8da5b882-18f5-41db-933d-ceca6256c1e0" class="bulleted-list"><li style="list-style-type:disc">Predicted keypoints visualization in a transcoded video</li></ul><ul id="1af347e1-0828-4f41-bd97-e637acd0e0b6" class="bulleted-list"><li style="list-style-type:disc">Good for multi-animal pose estimation with a bottom-up approach while preserving the animal&#x27;s identities.</li></ul></div></figure><figure class="block-color-yellow_background callout" style="white-space:pre-wrap;display:flex" id="879e3805-e3f6-4137-a818-92a43f1e8ff9"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">Cons:<ul id="2832edfc-e627-49d5-af6f-9a884104d457" class="bulleted-list"><li style="list-style-type:disc">Doesn’t utilize transfer learning, therefore larger training data is required for better predictions and acceptable real-time application accuracy</li></ul><ul id="0628cd62-a49c-4dda-b601-d65b0c0b8a39" class="bulleted-list"><li style="list-style-type:disc">Doesn’t support 3D reconstruction.</li></ul><ul id="9e01d341-bbe2-4617-9c3a-4bd1f82dc57e" class="bulleted-list"><li style="list-style-type:disc">Not as well documented and supported as DLC</li></ul></div></figure><p id="bc2139e6-1840-41ae-b643-2413bd50e1c5" class="">
+    </p><p id="4e9f71f6-1d52-4bdf-9f27-77d126236cc8" class="">having reviewed two of the most fundamental components in current pose estimation methods, we can describe and analyze the rest of the solutions listed above. Most of these use DLC and/or SLEAP as their baseline. </p><h2 id="082f29a4-328b-47bd-9ac7-a3d395099f3f" class="">Anipose:</h2><p id="014859f5-6382-49ff-93c9-1af143d32354" class="">Anipose is a modular solution for animal pose estimation, consisting of a 3D calibration module, a set of filters to resolve 2D detection errors, a triangulation module to obtain accurate 3D trajectories, and a pipeline for efficient video processing. </p><p id="a3ef2df5-582e-4167-ae80-3551681a4ed3" class="">Anipose extends the DLC to include support for more than 2 cameras. It is recommended to use 3-6 cameras for recording the subject from different angles for an accurate 3D reconstruction of the 2D pose estimation. However, including more cameras means more frames to label and even longer training time. </p><figure class="block-color-pink_background callout" style="white-space:pre-wrap;display:flex" id="83a1abc1-c0ea-4ce4-9a70-c7da1908ea23"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">Since it uses original offline DLC for 2D pose estimation, it comes with all the cons and a tedious camera calibration process that has to be repeated for each of the cameras installed. This makes adipose practical for only a few applications. </div></figure><p id="7cebd16f-cbe9-486a-958b-5a4d41e26de3" class="">
+    </p><figure id="28146748-c499-41c4-9c4e-f03d8f58818f" class="image"><a href="https://anipose.readthedocs.io/en/latest/_images/tracking_3cams_full_slower5.gif"><img src="https://anipose.readthedocs.io/en/latest/_images/tracking_3cams_full_slower5.gif"/></a></figure><h2 id="9195be81-1d3a-4cb4-9101-9aa52a417d05" class="">DANNCE</h2><p id="3aeff634-15ef-4942-b280-a7469b3a2b22" class="">DANNCE is a 3D approach designed to track anatomical landmarks in various species and behaviors, using projective geometry and a convolutional neural network to construct inputs. It has been trained and benchmarked using a dataset of nearly seven million frames and has been extended to datasets from rat pups, marmosets, and chickadees, allowing for the quantitative profiling of behavioral lineage during development.</p><p id="a51a1ecb-15bd-408c-889c-aa55216c83a5" class="">Unlike the rest of the methods that use 2D key points input data taken from multiple views for triangulation to construct 3D poses, DANNCE uses projective geometry to construct a 3D input from 2D keypoints to train a 3D CNN for directly predicting 3D poses. This has been shown to greatly increase robustness.</p><p id="6754d250-7654-4feb-9da0-f81aeffc7e55" class="">It is important to notice that DANNCE uses its own developed labeling tool that can label frames taken from 6 camera views at the same time. </p><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="6e17aa02-4a19-41d8-9b61-f70e8f0381a1"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><strong>The main advantage</strong> of using this labeling too is that it can take any keypoints that are labeled in any 2 of the views, triangulate them and project them onto the rest of the views. there are several advantages to this approach namely:<ul id="d6d8531d-4164-4bb2-869a-a161ca88ae5c" class="bulleted-list"><li style="list-style-type:disc">It reduced the amount of labeling time significantly.</li></ul><ul id="c2cb60da-fdec-4134-a585-85e78ab5fbef" class="bulleted-list"><li style="list-style-type:disc">It creates a spatial consistency between the one keypoint across all views. mean if you move key point in one view it also moves in the other view. This means that key points in all views accurately represent a single point in 3D space. and the 3D reconstruction error is greatly reduced.</li></ul><ul id="c5e45c30-bd68-4cf7-8ab2-1bca0911c0ab" class="bulleted-list"><li style="list-style-type:disc">The second most important advantage is that it enables users to label the obstructed keypoints/body parts accurately which is not possible to label in the rest of the pose estimation tools where we have to label the hidden parts based on guess or leave them altogether. </li></ul></div></figure><figure id="0d591441-3ab1-4974-9a91-f3de7c14b8cd"><div class="source"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Media1.mp4">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d447ffed-9212-490f-a64c-6ed0992d5069/Media1.mp4</a></div></figure><figure class="block-color-purple_background callout" style="white-space:pre-wrap;display:flex" id="851493c9-62d6-4513-a2fb-7af01a9d52bd"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">DANNCE does not have a user-friendly GUI and is implemented in Matlab. and it has not been tested in a real-time scenario.</div></figure><p id="ed667fc3-0058-453d-9c4a-a3b2b9cf2cf0" class="">
+    </p><figure id="c2cb80a2-625d-493d-9be6-1372ef945720" class="image"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%204.png"><img style="width:1495px" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%204.png"/></a></figure><h2 id="c6eb0330-2983-43e1-bf7b-1e86479cfc28" class="">AnyMaze</h2><p id="06206d3c-6917-49fa-af3c-e6c51d502244" class="">AnyMaze is a commercial software for tracking rats in different lab environments and mazes. It comes equipped with a very familiar interface resembling Microsoft Office. As a commercial solution, It is designed to control, record, and analyze animal behavior in laboratory experiments. It can be used to conduct a variety of behavioral assays, including operant conditioning, classical conditioning, and passive avoidance tasks. </p><p id="ba2df3a0-ace8-4a05-94fa-b946d0a23a17" class="">The software provides a user-friendly interface for controlling stimuli presentation and recording animal behavior, and it also includes analysis tools for quantifying behavioral data. It is widely used in neuroscience and psychology research to study a range of topics, including learning and memory, attention, and decision making. </p><p id="9bea261d-129c-4ace-b616-113af4393c2f" class="">AnyMaze is developed to be used for a  variety of laboratory animals, including rodents (such as mice and rats) and larger animals like non-human primates. The software is highly flexible and can be adapted to suit the needs of different experimental paradigms and species. The system can be used to control and record behavior in both simple and complex tasks,</p><p id="4e2b2c5f-f75d-43b3-9a25-436f4419951e" class="">Despite not having the capability to perform pose estimation. It can be used for almost all the standard set of tasks and tests performed on laboratory animals. </p><figure id="8236d93d-e4dc-461e-b1d7-b7543a9b78f0" class="image"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%205.png"><img style="width:1436px" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%205.png"/></a></figure><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="aae69cd2-b7ef-4b68-abdb-16e90def2b79"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">AnyMaze is a complete solution for animal test tracking and analysis. The company also provide apparatus and other accessories that seamlessly integrate with the tracking software.  In the software, user can define different regions of the test arena or maze, referred to as zones, and observe the animal interactions with them,  and  view reports on the test results in form of intuitive plots, graphs and insights.<p id="818089e8-8162-4df3-98ef-e63118dce356" class=""> AnyMaze can be used to automate tests and run them in batches on up to 40 different apparatus simultaneously therefore, greatly increasing the throughput.</p><p id="a78430e0-5e0b-4e92-90f5-fac6bad87c06" class="">AnyMaze is a No-code platform thus no programming experience required</p></div></figure><p id="a9a50fbe-b8bf-4f83-a63f-dc39e2ff1c91" class="">
+    </p><h2 id="ecf79de4-4d43-49dc-9454-2ef6c5dc92d4" class="">DeepPoseKit</h2><p id="1f5c0c81-9dbc-4fba-9228-dfd6e7f74010" class="">DeepPoseKit software is designed to be fast, flexible, and robust, with a high-level programming interface and graphical user-interface for annotations. The software is built using TensorFlow as a backend and is written in Python. The authors have also developed two new models for animal pose estimation, <strong>Stacked DenseNet</strong> and a modified version of Stacked Hourglass. These models are designed to be more efficient and accurate than previous models. It comes equipped with a newly  developed method to process model outputs called<strong> Subpixel Maxima </strong>to allow for fast and accurate keypoint predictions with subpixel precision. The proposed models incorporate a <strong>hierarchical posture graph </strong>to learn the multi-scale geometry between keypoints. The software package, models, and method have been compared to existing models and shown to perform well in terms of speed, accuracy, training time, and generalization ability. The code, documentation, and examples are available on GitHub.</p><div id="744e3278-e158-4baf-9128-161765a85fd2" class="column-list"><div id="1a88aa2e-2ea0-4ff9-9b61-3b9e42756c03" style="width:50%" class="column"><figure id="7673f022-c625-471f-bfb0-46f2a0b3f06f" class="image" style="text-align:right"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/zebra.gif"><img style="width:240px" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/zebra.gif"/></a></figure></div><div id="f67ec234-5246-4b41-80b0-c4c321997a66" style="width:50%" class="column"><figure id="5c471c3c-9817-4cf4-ac8e-67f362322f9f" class="image" style="text-align:left"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/locust.gif"><img style="width:240px" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/locust.gif"/></a></figure></div></div><p id="04a0d97f-23c7-4cdc-8568-cd3c55605b18" class="">
+    </p><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="ddbef954-8db3-43e6-a1bd-5c27843a043f"><div style="font-size:1.5em"><span class="icon">💪🏽</span></div><div style="width:100%">DeepPoseKit is a well rounded program for animal pose estimation that is built on top of the current latest trends in deep learning and computer vison. The models and architecures it offers are accurate and faster than the compteteros.</div></figure><figure class="block-color-yellow_background callout" style="white-space:pre-wrap;display:flex" id="18a2b9dc-9dd1-4a55-8829-6e567210ce1f"><div style="font-size:1.5em"><span class="icon">⚠️</span></div><div style="width:100%">It lack a completely polished UI with an end-to-end pose estimation solution.<ul id="b8626158-6360-4af5-b137-c48afce904a1" class="bulleted-list"><li style="list-style-type:disc"> It offers a labeling <em>UI</em>, but for the remaining operations such as training, selecting parameters and models, extracting frames, and visualizing results, one must use the code base provided in the Google Colab notebook..</li></ul><ul id="ba38fb4b-62aa-4a81-8225-39b01c35e40d" class="bulleted-list"><li style="list-style-type:disc">Installing a complex development environment can be a barrier to getting started with this tool. However, it&#x27;s worth the effort, as it will enable you to take full advantage of the tool&#x27;s features.</li></ul></div></figure><p id="dd52cf1e-5664-44f9-94f6-b175774fe85f" class="">
+    </p><h2 id="5c6d6547-068f-4a43-8b41-36756487fa9b" class="">DeepEthogram</h2><p id="2f1801a9-f4ba-44ef-9dbb-83355e4a1d0b" class="">DeepEthogram is a tool that uses videos to predict the probability of certain behaviors. To use it, you must first train the flow generator on a set of videos without user input. Then, you must label each frame in a set of training videos for the presence of each behavior of interest. After that, the spatial and flow feature extractors will use the labels to create separate estimates of the probability of each behavior. The extracted feature vectors are then used to train the sequence models to make the final predictions. The models are trained in series by design, instead of all at once, to avoid overfitting and other issues.</p><p id="81eb94d1-e6a1-4de7-825c-35eb05bbdad9" class="">DeepEthogram employs a variety of deep neural networks to generate optic flow, compress the frames into features, and estimate the probability of each behavior. Its system consists of three versions that use different models, depending on the accuracy and speed required. For example, the first version of DeepEthogram utilizes convolutional neural networks to identify motion and structure in the frames and generate a prediction. The second version combines convolutional neural networks and long short-term memory networks, which are recurrent neural networks capable of remembering information from previous frames. The third version uses a combination of convolutional neural networks and support vector machines to process the frames and generate robust predictions.</p><figure id="becd1767-cf7c-4791-b54c-1738a5c60010" class="image"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%206.png"><img style="width:617px" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%206.png"/></a></figure><p id="0f46ea1b-b6f7-4a2b-ae00-3c8c05ffe446" class="">. </p><p id="8088f2ee-2714-48e7-bd3c-a6eb7d44922a" class="">
+    </p><h2 id="5c9dc06f-1944-4205-9fc4-d0c88a0f1222" class="">MARS</h2><p id="6bbbc5ac-0995-496d-a16d-78c7ebe01fc9" class="">MARS is a system that uses deep learning to automatically detect and classify the behavior of mice in videos. It includes three tools: MARS itself, MARS_Developer, and BENTO. </p><ol type="1" id="f218dcbc-8e9c-4709-9dd5-6ddb6e814a94" class="numbered-list" start="1"><li>MARS itself is a pipeline for detecting and classifying the behavior of mice in videos, and comes with a pose estimator and behavior classifiers. </li></ol><ol type="1" id="6ea1f27d-b9ee-4a00-b882-6da3b50ddb39" class="numbered-list" start="2"><li>MARS_Developer is a tool for re-training MARS on new data.</li></ol><ol type="1" id="3498d607-ba94-4698-a39f-79eeb3bed332" class="numbered-list" start="3"><li> BENTO is a tool for managing, visualizing, and analyzing data, including neural recordings, videos, behavior annotations, and audio.</li></ol><p id="3e9bf48a-8b89-4d9a-8bd2-39614e615e77" class="">Thus, It’s an end-to-end computational pipeline for tracking, pose estimation, and behavior classification in interacting laboratory mice. MARS can detect attack, mounting, and close investigation behaviors in a standard resident-intruder assay. </p><p id="e1078d88-59c4-4bfc-a9cf-e62d7f39e1ed" class=""> MARS also includes a MATLAB-based GUI  (BENTO)for synchronous display of neural recording data, multiple videos, human/automated behavior annotations, spectrograms of recorded audio, pose estimations, and other relevant information</p><p id="5d8ffb8b-3831-4517-b5bd-c057314d37c7" class="">MARS can be used to monitor animal behavior over long periods of time. It has the ability to track and measure parameters such as speed, acceleration, and direction. Additionally, the software can detect subtle changes in behavior that may not be easily visible to the naked eye. The data collected can be used in a variety of ways, such as to explore the impact of environmental factors on animal behavior or to identify potential changes in behavior that may be indicative of disease. </p><p id="ef4ca26c-018d-431e-affb-b073c26105ba" class="">MARS comes pre-packaged with a pose estimator trained on manual keypoint annotations of 15,000 video frames of interacting mice, and a set of behavior classifiers trained to detect aggression, mounting, and close investigation behaviors.</p><figure id="6b160f5f-a9c2-4384-bc0a-ba792608a806" class="image"><a href="https://github.com/annkennedy/bento/blob/master/docs/tracking_demo.gif?raw=true"><img src="https://github.com/annkennedy/bento/blob/master/docs/tracking_demo.gif?raw=true"/></a></figure><h2 id="482d6ca1-7bb5-48af-92b1-67cae7c31cc7" class="">VAME</h2><p id="b9f4dfd3-faa9-4d39-9aed-56b8282d07e1" class="">VAME is a PyTorch-based deep learning framework for clustering behavioral signals obtained from pose-estimation tools like DLC. It leverages the power of recurrent neural networks (RNNs) to model sequential data. To learn the complex data distribution, we use the RNN in a variational autoencoder (VAE) setting to extract the latent state of the animal at each step of the input time series.</p><figure id="5c8bb9a4-7f5e-4117-9bb5-75782322160b" class="image"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled_video_-_Made_with_Clipchamp.gif"><img style="width:426px" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled_video_-_Made_with_Clipchamp.gif"/></a></figure><p id="9d4b803b-b0d0-459e-b7a8-f36e47f72b0a" class="">It consists of three bidirectional recurrent neural networks, to identify behavioral motifs. and uses a Hidden-Markov-Model to segment the continuous latent space into discrete behavioral motifs. </p><p id="2a914339-81ce-4195-bb16-85e181d0f086" class="">
+    </p><h2 id="088b1512-4037-4857-bf6f-5292b5992b51" class="">B-SOiD</h2><p id="b58835ca-8e56-4554-b3ec-529c5f5cfa9a" class="">Similar to VAME, B-SOiD is an open-source, unsupervised algorithm that is designed to identify behavior patterns without user bias. It take pose estimation from DLC but uses a set of unsupervised algorithms different from VAME. It extracts features from these poses through their define algorithms and utilized UMAP for non-linear dimensionality reduction. </p><p id="f36eef80-9373-474b-ae79-1f53794c38ed" class="">Contrast to VAME B-SOiD comes nicely packages as a python streamlit app that is intuitive to run.</p><figure id="93f19e82-c081-42dd-94ff-235f15afa444" class="image"><a href="https://github.com/YttriLab/B-SOID/raw/master/demo/appv2_files/bsoid_mouse_openfield1.gif"><img src="https://github.com/YttriLab/B-SOID/raw/master/demo/appv2_files/bsoid_mouse_openfield1.gif"/></a></figure><p id="8d28e6d3-f1c1-44d9-9c2a-22f909a8ab97" class="">
+    </p><h2 id="42144c5e-8f76-45a5-98d3-f57d6ab5f304" class="">BehaviorAtlas</h2><p id="703acd54-8c8e-47ba-aaea-37569575672e" class="">Behavior Atlas is a spatio-temporal decomposition framework for detecting behavioral phenotypes from 3D/2D continuous multidimensional motion features data input. It unsupervisedly decomposes movements (e.g. walking, running, rearing) and emphasizes temporal dynamics. The self-similarity matrix of movement segments describes structure, and enables dimensionality reduction and visualization to construct feature space. This helps to study evolution of movement sequences, higher-order behavior and behavioral state transitions.</p><p id="46088e26-fef3-4487-bb1a-1d45956e5fd2" class="">It comes equipped with a 3D pose estimation code that utilized DLC tracked 2D poses from multiple cameras to construct 3D pose using a MATLAB toolbox. </p><p id="567a1265-ca84-4d1c-8c3b-42f6d2c6d727" class="">BehaviorAtlas is specifically designed to analyze rodent behavior, which has a lot of variation and is hard to measure. It uses a two-step process to break down the continuous animal skeleton postural data into two parts: locomotion and non-locomotor movement. Then, applies a unsupervised clustering to figure out the structure of the behavior. The results are visualized using UMAP </p><figure id="5a225570-4a8e-4f1f-8ccc-12e41244045a"><div class="source"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/BehaviorAtlas-_Made_with_Clipchamp.mp4">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ab8fc6f1-5236-4e3f-86b0-8aedd83f9d60/BehaviorAtlas-_Made_with_Clipchamp.mp4</a></div></figure><p id="17df33c2-4dfd-497c-8619-8e8e9377b3f7" class="">
+    </p><h2 id="d5e755af-5e0d-4ccd-a7c9-c36ea725caf7" class="">Skeletal Estimation</h2><p id="a93edf11-8130-4119-accd-5a548944bb91" class="">In order to discuss the disparity between the limb kinematics detected by surface tracking using DLC and the underlying skeletal motion, This method utilizes anatomical constraint model to restrict the poses estimation markers into a skeletal and utilizes (Inertial Measurement Unit) IMU readings and (Magnetic Resonance Imaging) MRI scans to verify results.</p><p id="d464aed1-1fe2-4d50-b7c5-a9086d648fff" class="">It relies on DLC for 2D pose estimation which is then lifted to 3D via triangulation and then combined with anatomical constraint model  to do skeletal estimation.</p><p id="edf0d4dc-be04-4ac3-b168-5dfaa8a46115" class="">By inferring to the  skeleton based model constrained using anatomical principles such as joint motion limits, bone rotations, and temporal constraints; it can help better estimate the underlying skeletal of rat with different sizes.</p><figure id="cb53e60a-c912-4bf2-bc4a-c36b2a2f1894"><div class="source"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/41592_2022_1634_MOESM8_ESM.mp4">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52d6a614-8ee5-4714-afc5-5944ce61b716/41592_2022_1634_MOESM8_ESM.mp4</a></div></figure><p id="b0a8e62a-bc93-42ea-b238-74d38032971d" class="">
+    </p><h2 id="9dfb7a9d-57ad-418d-9d3e-98bbc1b2ae65" class="">AVATAR</h2><p id="20efb947-6045-457b-8584-cb8737505655" class="">AVATAR, based on YOLOv4, is used to detect body parts on rats. These detected body parts are then used for 3D reconstruction with off-the-shelf computer vision algorithms. The results of the 3D reconstruction are visualized through an &quot;action skeletal&quot; of polygons, created by joining the detected 3D parts. </p><p id="d425bb37-a68d-43ce-afef-b2b7a0120c97" class="">For behavior&#x27;s classification, it uses LSTM models. </p><p id="3d95c80e-d4db-4c8f-abc8-7352d2606128" class="">Although being straightforward in nature, the setup was tested to derive phot stimulation rat’s ventral tegmental area (VTA) within 90ms latency.</p><p id="be6a90bf-5d36-4841-a5d1-8f88429955fa" class=""> </p><figure id="dbce1dae-86c0-4d61-a68e-b9c40540b1fe" class="image"><a href="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%207.png"><img style="width:592px" src="/Current%20Opinion%20on%20Animal%20Pose%20Estimation%20and%20Beha%20a4821611be9f48c19cdef8bafc7cbbba/Untitled%207.png"/></a></figure><p id="3dbeb686-b8f3-4947-8fa1-71001685349d" class="">
+    </p><h1 id="60a26119-1689-426a-ba60-65e57f975607" class="">Final Thoughts</h1><p id="68a33cca-12a1-4f56-8f83-492a6a68bc80" class="">There are a variety of methods available for animal pose estimation and behavior analysis. Each of these methods has its own unique advantages and disadvantages. DeepEthogram is a convolutional neural network-based system that is geared towards accuracy and speed. MARS combines both convolutional neural networks and long short-term memory networks for robust predictions. VAME and B-SOiD are unsupervised algorithms for clustering behavioral signals from pose-estimation tools like DLC. BehaviorAtlas separates skeletal kinematics into locomotor and non-locomotor movements for clustering rodent behavior. Skeletal Estimation utilizes an anatomical constraint model to restrict the poses estimation markers into a skeletal. Finally, AVATAR is a YOLOv4-based system that is used to detect body parts on rats and classify behavior using LSTM models.</p><p id="0dbbcb66-9096-4898-9f44-c052f47b9df2" class="">We have compiled an exhaustive list of high-impact papers on animal neuroethology for a comprehensive literature review.</p><p id="8b811b5e-c461-4bed-8f40-1a634a8bfdf6" class="">No matter which method you choose to use, it is important to consider the pros and cons of each system carefully. Additionally, it is important to consider the resources that are required to use each system and the time it takes to train and run the model. Ultimately, the best system for your application will depend on the data that you have, the accuracy and speed that is required, and the resources that are available.</p><p id="a1b406db-af13-4641-8f18-ba8dd40638f6" class="">In the near future, animal pose estimation is likely to become more accurate and efficient due to continued research and development. This could revolutionize the way we study animals in their natural habitat and in the laboratory.</p><figure class="block-color-pink_background callout" style="white-space:pre-wrap;display:flex" id="6a93f69f-038c-4cfc-9603-3a1a54f9b2d0"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">Needless to say Animal pose estimation has come a long way in the last five years however, <strong>it still falls short of being a comprehensive, well-rounded solution for practical applications that requires minimal setup.</strong> This is because more focus has been placed on making pose models larger and more accurate, rather than doing the engineering work to make them fast and deployable everywhere. In Future , our mission is to design and optimize a model that leverages the best aspects of state-of-the-art architectures, while keeping inference times as low as possible. The result will be a model that can deliver accurate keypoints across a wide variety of poses, environments, and hardware setups. It will be the ideal choice for any practical application.</div></figure><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="55aa79f8-f8a1-4a45-b8c4-8edf96c98ec1"><div style="font-size:1.5em"><span class="icon">✅</span></div><div style="width:100%">I have curated a list of papers related to the topic of <strong>Animal Pose estimation and Computational Neuro Ethology </strong>that can be accessed <a href="https://github.com/snawarhussain/ComputationalNeuroEthologyPapers/">here</a> 🔗</div></figure><p id="88f52fd1-9182-498e-b7d2-5b9fc2c30e74" class="">
+    </p><p id="a8b281ed-fc32-4c4d-850e-8819e7f458ad" class="">
+    </p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span>
+    <!-- Citation Note -->
+    <p class="citation"><h2> Cite this article as: </h2></p>
+    <div class="citation-container">
+        <code class="hljs">
+@article{hussain2023animalPos,
+  title   = "Current Opinion on Animal Pose Estimation and Behavior Analysis Tools",
+  author  = "Snawar Hussain",
+  journal = "snawarhussain.github.io",
+  year    = "2023",
+  url     = "snawarhussain.com//Current-Opinion-on-Animal-Pose-Estimation-Tools-A-Review/"
+}</code>
+        <button class="copy-code">copy</button>
+</div>
+
+
+    <script>
+    function copyCitation() {
+        var citationText = document.querySelector(".citation-container").innerText;
+        var textarea = document.createElement("textarea");
+        textarea.value = citationText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        
+        var copyButton = document.querySelector(".copy-code");
+        copyButton.textContent = "copied";
+        copyButton.classList.add("copied");
+
+        setTimeout(() => {
+            copyButton.textContent = "copy";
+            copyButton.classList.remove("copied");
+        }, 2000);
+    }
+
+    document.querySelector(".copy-code").addEventListener("click", copyCitation);
+    </script>
+
+
+</body></html>]]></content><author><name>Snawar Hussain</name></author><summary type="html"><![CDATA[Current Opinion on Animal Pose Estimation and Behavior Analysis Tools /* cspell:disable-file */ /* webkit printing magic: print all background colors */ html { -webkit-print-color-adjust: exact; } * { box-sizing: border-box; -webkit-print-color-adjust: exact; } html, body { margin: 0; padding: 0; } @media only screen { body { margin: 2em auto; max-width: 900px; color: rgb(55, 53, 47); } } body { line-height: 1.5; white-space: pre-wrap; } a, a.visited { color: inherit; text-decoration: underline; } .pdf-relative-link-path { font-size: 80%; color: #444; } h1, h2, h3 { letter-spacing: -0.01em; line-height: 1.2; font-weight: 600; margin-bottom: 0; } .page-title { font-size: 2.5rem; font-weight: 700; margin-top: 0; margin-bottom: 0.75em; } h1 { font-size: 1.875rem; margin-top: 1.875rem; } h2 { font-size: 1.5rem; margin-top: 1.5rem; } h3 { font-size: 1.25rem; margin-top: 1.25rem; } .source { border: 1px solid #ddd; border-radius: 3px; padding: 1.5em; word-break: break-all; } .callout { border-radius: 3px; padding: 1rem; } figure { margin: 1.25em 0; page-break-inside: avoid; } figcaption { opacity: 0.5; font-size: 85%; margin-top: 0.5em; } mark { background-color: transparent; } .indented { padding-left: 1.5em; } hr { background: transparent; display: block; width: 100%; height: 1px; visibility: visible; border: none; border-bottom: 1px solid rgba(55, 53, 47, 0.09); } img { max-width: 100%; } @media only print { img { max-height: 100vh; object-fit: contain; } } @page { margin: 1in; } .collection-content { font-size: 0.875rem; } .column-list { display: flex; justify-content: space-between; } .column { padding: 0 1em; } .column:first-child { padding-left: 0; } .column:last-child { padding-right: 0; } .table_of_contents-item { display: block; font-size: 0.875rem; line-height: 1.3; padding: 0.125rem; } .table_of_contents-indent-1 { margin-left: 1.5rem; } .table_of_contents-indent-2 { margin-left: 3rem; } .table_of_contents-indent-3 { margin-left: 4.5rem; } .table_of_contents-link { text-decoration: none; opacity: 0.7; border-bottom: 1px solid rgba(55, 53, 47, 0.18); } table, th, td { border: 1px solid rgba(55, 53, 47, 0.09); border-collapse: collapse; } table { border-left: none; border-right: none; } th, td { font-weight: normal; padding: 0.25em 0.5em; line-height: 1.5; min-height: 1.5em; text-align: left; } th { color: rgba(55, 53, 47, 0.6); } ol, ul { margin: 0; margin-block-start: 0.6em; margin-block-end: 0.6em; } li > ol:first-child, li > ul:first-child { margin-block-start: 0.6em; } ul > li { list-style: disc; } ul.to-do-list { padding-inline-start: 0; } ul.to-do-list > li { list-style: none; } .to-do-children-checked { text-decoration: line-through; opacity: 0.375; } ul.toggle > li { list-style: none; } ul { padding-inline-start: 1.7em; } ul > li { padding-left: 0.1em; } ol { padding-inline-start: 1.6em; } ol > li { padding-left: 0.2em; } .mono ol { padding-inline-start: 2em; } .mono ol > li { text-indent: -0.4em; } .toggle { padding-inline-start: 0em; list-style-type: none; } /* Indent toggle children */ .toggle > li > details { padding-left: 1.7em; } .toggle > li > details > summary { margin-left: -1.1em; } .selected-value { display: inline-block; padding: 0 0.5em; background: rgba(206, 205, 202, 0.5); border-radius: 3px; margin-right: 0.5em; margin-top: 0.3em; margin-bottom: 0.3em; white-space: nowrap; } .collection-title { display: inline-block; margin-right: 1em; } .page-description { margin-bottom: 2em; } .simple-table { margin-top: 1em; font-size: 0.875rem; empty-cells: show; } .simple-table td { height: 29px; min-width: 120px; } .simple-table th { height: 29px; min-width: 120px; } .simple-table-header-color { background: rgb(247, 246, 243); color: black; } .simple-table-header { font-weight: 500; } time { opacity: 0.5; } .icon { display: inline-block; max-width: 1.2em; max-height: 1.2em; text-decoration: none; vertical-align: text-bottom; margin-right: 0.5em; } img.icon { border-radius: 3px; } .user-icon { width: 1.5em; height: 1.5em; border-radius: 100%; margin-right: 0.5rem; } .user-icon-inner { font-size: 0.8em; } .text-icon { border: 1px solid #000; text-align: center; } .page-cover-image { display: block; object-fit: cover; width: 100%; max-height: 30vh; } .page-header-icon { font-size: 3rem; margin-bottom: 1rem; } .page-header-icon-with-cover { margin-top: -0.72em; margin-left: 0.07em; } .page-header-icon img { border-radius: 3px; } .link-to-page { margin: 1em 0; padding: 0; border: none; font-weight: 500; } p > .user { opacity: 0.5; } td > .user, td > time { white-space: nowrap; } input[type="checkbox"] { transform: scale(1.5); margin-right: 0.6em; vertical-align: middle; } p { margin-top: 0.5em; margin-bottom: 0.5em; } .image { border: none; margin: 1.5em 0; padding: 0; border-radius: 0; text-align: center; } .code, code { background: rgba(135, 131, 120, 0.15); border-radius: 3px; padding: 0.2em 0.4em; border-radius: 3px; font-size: 85%; tab-size: 2; } code { color: #eb5757; } .code { padding: 1.5em 1em; } .code-wrap { white-space: pre-wrap; word-break: break-all; } .code > code { background: none; padding: 0; font-size: 100%; color: inherit; } blockquote { font-size: 1.25em; margin: 1em 0; padding-left: 1em; border-left: 3px solid rgb(55, 53, 47); } .bookmark { text-decoration: none; max-height: 8em; padding: 0; display: flex; width: 100%; align-items: stretch; } .bookmark-title { font-size: 0.85em; overflow: hidden; text-overflow: ellipsis; height: 1.75em; white-space: nowrap; } .bookmark-text { display: flex; flex-direction: column; } .bookmark-info { flex: 4 1 180px; padding: 12px 14px 14px; display: flex; flex-direction: column; justify-content: space-between; } .bookmark-image { width: 33%; flex: 1 1 180px; display: block; position: relative; object-fit: cover; border-radius: 1px; } .bookmark-description { color: rgba(55, 53, 47, 0.6); font-size: 0.75em; overflow: hidden; max-height: 4.5em; word-break: break-word; } .bookmark-href { font-size: 0.75em; margin-top: 0.25em; } .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; } .code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; } .serif { font-family: Lyon-Text, Georgia, ui-serif, serif; } .mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; } .pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; } .pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; } .pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; } .pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; } .pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; } .pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; } .pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; } .pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; } .pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; } .pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; } .pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; } .pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; } .pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; } .pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; } .pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; } .pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; } .highlight-default { color: rgba(55, 53, 47, 1); } .highlight-gray { color: rgba(120, 119, 116, 1); fill: rgba(120, 119, 116, 1); } .highlight-brown { color: rgba(159, 107, 83, 1); fill: rgba(159, 107, 83, 1); } .highlight-orange { color: rgba(217, 115, 13, 1); fill: rgba(217, 115, 13, 1); } .highlight-yellow { color: rgba(203, 145, 47, 1); fill: rgba(203, 145, 47, 1); } .highlight-teal { color: rgba(68, 131, 97, 1); fill: rgba(68, 131, 97, 1); } .highlight-blue { color: rgba(51, 126, 169, 1); fill: rgba(51, 126, 169, 1); } .highlight-purple { color: rgba(144, 101, 176, 1); fill: rgba(144, 101, 176, 1); } .highlight-pink { color: rgba(193, 76, 138, 1); fill: rgba(193, 76, 138, 1); } .highlight-red { color: rgba(212, 76, 71, 1); fill: rgba(212, 76, 71, 1); } .highlight-gray_background { background: rgba(241, 241, 239, 1); } .highlight-brown_background { background: rgba(244, 238, 238, 1); } .highlight-orange_background { background: rgba(251, 236, 221, 1); } .highlight-yellow_background { background: rgba(251, 243, 219, 1); } .highlight-teal_background { background: rgba(237, 243, 236, 1); } .highlight-blue_background { background: rgba(231, 243, 248, 1); } .highlight-purple_background { background: rgba(244, 240, 247, 0.8); } .highlight-pink_background { background: rgba(249, 238, 243, 0.8); } .highlight-red_background { background: rgba(253, 235, 236, 1); } .block-color-default { color: inherit; fill: inherit; } .block-color-gray { color: rgba(120, 119, 116, 1); fill: rgba(120, 119, 116, 1); } .block-color-brown { color: rgba(159, 107, 83, 1); fill: rgba(159, 107, 83, 1); } .block-color-orange { color: rgba(217, 115, 13, 1); fill: rgba(217, 115, 13, 1); } .block-color-yellow { color: rgba(203, 145, 47, 1); fill: rgba(203, 145, 47, 1); } .block-color-teal { color: rgba(68, 131, 97, 1); fill: rgba(68, 131, 97, 1); } .block-color-blue { color: rgba(51, 126, 169, 1); fill: rgba(51, 126, 169, 1); } .block-color-purple { color: rgba(144, 101, 176, 1); fill: rgba(144, 101, 176, 1); } .block-color-pink { color: rgba(193, 76, 138, 1); fill: rgba(193, 76, 138, 1); } .block-color-red { color: rgba(212, 76, 71, 1); fill: rgba(212, 76, 71, 1); } .block-color-gray_background { background: rgba(241, 241, 239, 1); } .block-color-brown_background { background: rgba(244, 238, 238, 1); } .block-color-orange_background { background: rgba(251, 236, 221, 1); } .block-color-yellow_background { background: rgba(251, 243, 219, 1); } .block-color-teal_background { background: rgba(237, 243, 236, 1); } .block-color-blue_background { background: rgba(231, 243, 248, 1); } .block-color-purple_background { background: rgba(244, 240, 247, 0.8); } .block-color-pink_background { background: rgba(249, 238, 243, 0.8); } .block-color-red_background { background: rgba(253, 235, 236, 1); } .select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); } .select-value-color-pink { background-color: rgba(245, 224, 233, 1); } .select-value-color-purple { background-color: rgba(232, 222, 238, 1); } .select-value-color-green { background-color: rgba(219, 237, 219, 1); } .select-value-color-gray { background-color: rgba(227, 226, 224, 1); } .select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); } .select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); } .select-value-color-orange { background-color: rgba(250, 222, 201, 1); } .select-value-color-brown { background-color: rgba(238, 224, 218, 1); } .select-value-color-red { background-color: rgba(255, 226, 221, 1); } .select-value-color-yellow { background-color: rgba(253, 236, 200, 1); } .select-value-color-blue { background-color: rgba(211, 229, 239, 1); } .select-value-color-pageGlass { background-color: undefined; } .select-value-color-washGlass { background-color: undefined; } .checkbox { display: inline-flex; vertical-align: text-bottom; width: 16; height: 16; background-size: 16px; margin-left: 2px; margin-right: 5px; } .checkbox-on { background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E"); } .checkbox-off { background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E"); }]]></summary></entry><entry><title type="html">2D Fourier Transform and Complex Numbers in MR Physics</title><link href="https://snawarhussain.com/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI/" rel="alternate" type="text/html" title="2D Fourier Transform and Complex Numbers in MR Physics" /><published>2023-11-24T00:00:00+00:00</published><updated>2023-11-24T00:00:00+00:00</updated><id>https://snawarhussain.com/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI</id><content type="html" xml:base="https://snawarhussain.com/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI/"><![CDATA[<h2 id="introduction">Introduction</h2>
 
 <p>Magnetic Resonance Imaging (MRI) relies heavily on understanding the shift from 1D Fourier transforms, which deal with time-based signals, to 2D Fourier transforms, crucial for spatial imaging. This post aims to clarify the connection between 1D and 2D Fourier Transform  and later bulding upon these concepts we will explore concepts like K-spaceand MRI. Blending mathematical theory with practical code examples the goal is to enhance basic understanding of MR Physics and Simulation.</p>
 
@@ -1540,182 +2320,4 @@ x_{recons,M1} &amp; x_{recons,M2} &amp; \cdots &amp; x_{recons,MN}
 
 <p>It’s important to note that PCA is a linear method, which means it assumes that the main modes of variation in your data are linear. If this is not the case, other methods like Independent Component Analysis (ICA) or Non-negative Matrix Factorization (NMF) might be more appropriate.</p>
 
-<p>Also, PCA does not take into account the temporal structure of the data. If the temporal dynamics are important, methods like time-lagged PCA or dynamical systems analysis might be more appropriate.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Neuroscience" /><category term="Neural Data" /><category term="PCA" /><category term="Dimensionality Reduction" /><category term="Neural Modes" /><category term="Neural Manifolds" /><summary type="html"><![CDATA[A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds and modes in neuroscience]]></summary></entry><entry><title type="html">Understanding Probability Theory: A Primer for Computational Neuroethologists</title><link href="https://snawarhussain.com/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/" rel="alternate" type="text/html" title="Understanding Probability Theory: A Primer for Computational Neuroethologists" /><published>2023-06-08T00:00:00+00:00</published><updated>2023-06-08T00:00:00+00:00</updated><id>https://snawarhussain.com/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer</id><content type="html" xml:base="https://snawarhussain.com/blog/probability%20theory/computational%20neuroethology/tutorial/Probabiltiy-Theory_Primer/"><![CDATA[<p>Probability theory is the mathematical framework that underpins statistical analysis. It’s a field that has its roots in the study of gambling and uncertainty, but it’s now an essential tool for a wide range of disciplines. For computational neuroethologists, understanding probability theory is crucial for everything from designing experiments and analyzing data, to building and testing models of neural systems. In this post, we’ll cover the basics of probability theory, using examples from the field of computational neuroethology to illustrate key concepts.</p>
-
-<h2 id="sample-space-and-events">Sample Space and Events</h2>
-
-<p>The <strong>sample space</strong> \(Ω\) is the set of all possible outcomes of a random experiment. Each outcome \(ω ∈ Ω\) can be thought of as a complete description of the state of the world at the end of the experiment. For example, in a study of rat behavior, the sample space might be the set of all possible sequences of a rat’s movements in a maze.</p>
-
-<p>An <strong>event</strong> \(A\) is a subset of the sample space, i.e., \(A ⊆ Ω\). It’s a collection of possible outcomes of an experiment. For example, an event might be that a rat reaches the end of a maze.</p>
-
-<h2 id="probability-measure">Probability Measure</h2>
-
-<p>A <strong>probability measure</strong> \(P\) is a function \(P : F → R\) that assigns a probability to each event. It satisfies the following properties:</p>
-
-<ul>
-  <li>\(P(A) ≥ 0\), for all \(A ∈ F\)</li>
-  <li>
-\[P(Ω) = 1\]
-  </li>
-  <li>If \(A_1, A_2, ...\) are disjoint events (i.e., \(A_i ∩ A_j = ∅\) whenever \(i ≠ j\)), then \(P(∪_iA_i) = ∑_iP(A_i)\)</li>
-</ul>
-
-<p>These are known as the Axioms of Probability.</p>
-
-<h2 id="random-variables">Random Variables</h2>
-
-<p>A <strong>random variable</strong> \(X\) is a function \(X : Ω → R\). Typically, random variables are denoted using upper case letters \(X(ω)\) or more simply \(X\) (where the dependence on the random outcome \(ω\) is implied). The value that a random variable may take on is denoted using lower case letters \(x\).</p>
-
-<p>For example, in a study of rat behavior, the elements of the sample space \(Ω\) are sequences of the rat’s movements. Suppose that \(X(ω)\) is the time it takes for the rat to reach the end of the maze. Given that the maze has a fixed length, \(X(ω)\) can take only a finite number of values, so it is known as a discrete random variable.</p>
-
-<h2 id="cumulative-distribution-functions-cdfs">Cumulative Distribution Functions (CDFs)</h2>
-
-<p>A cumulative distribution function (CDF) is a function \(F_X : R → [0, 1]\) which specifies a probability measure as, \(F_X(x) ≜ P(X ≤ x)\). Here, \(F_X(x)\) is the CDF of the random variable \(X\), \(R\) represents the set of real numbers, and \(P(X ≤ x)\) is the probability that the random variable \(X\) takes a value less than or equal to \(x\).</p>
-
-<h3 id="example">Example</h3>
-
-<p>Consider a rat navigating through a maze. Let \(X\) be the time it takes for the rat to reach the end of the maze. The CDF \(F_X(t)\) gives the probability that the rat will reach the end of the maze in time less than or equal to \(t\).</p>
-
-<p align="center">
-<img src="/assets/images/prob_for_neuro/rat_maze.jpg" width="400" />
- <center> <figcaption>Illustration generated by DALL-E</figcaption> </center>
-</p>
-
-<h2 id="probability-mass-functions-pmfs">Probability Mass Functions (PMFs)</h2>
-
-<p>When a random variable \(X\) takes on a finite set of possible values (i.e., \(X\) is a discrete random variable), a simpler way to represent the probability measure associated with a random variable is to directly specify the probability of each value that the random variable can assume. In particular, a probability mass function (PMF) is a function \(p_X : Ω → R\) such that</p>
-
-\[p_X(x) ≜ P(X = x)\]
-
-<p>In the case of discrete random variable, we use the notation \(Val(X)\) for the set of possible values that the random variable \(X\) may assume. For example, if \(X(ω)\) is a random variable indicating the number of heads out of ten tosses of coin, then \(Val(X) = {0, 1, 2, . . . , 10}\).</p>
-
-<h3 id="example-1">Example</h3>
-
-<p>Consider a rat navigating through a maze. Let \(X\) be the number of turns it takes for the rat to reach the end of the maze. The PMF \(p_X(k)\) gives the probability that the rat will reach the end of the maze in \(k\) turns.</p>
-
-<h2 id="probability-density-functions-pdfs">Probability Density Functions (PDFs)</h2>
-
-<p>For some continuous random variables, the cumulative distribution function \(F_X(x)\) is differentiable everywhere. In these cases, we define the Probability Density Function or PDF as the derivative of the CDF, i.e.,</p>
-
-\[f_X(x) ≜ \frac{dF_X(x)}{dx}\]
-
-<p>Note here, that the PDF for a continuous random variable may not always exist (i.e., if \(F_X(x)\) is not differentiable everywhere).</p>
-
-<p>According to the properties of differentiation, for very small $∆x$,</p>
-
-\[P(x ≤ X ≤ x + ∆x) ≈ f_X(x)∆x\]
-
-<h3 id="example-2">Example</h3>
-
-<p>Consider a rat navigating through a maze. Let \(X\) be the time it takes for the rat to reach the end of the maze. The PDF \(f_X(t)\) gives the probability density function of the time it takes for the rat to reach the end of the maze.</p>
-
-<h2 id="joint-and-marginal-probability-mass-functions">Joint and Marginal Probability Mass Functions</h2>
-
-<p>If \(X\) and \(Y\) are discrete random variables, then the joint probability mass function \(p_{XY} : R×R → [0, 1]\) is defined by</p>
-
-\[p_{XY}(x, y) = P(X = x, Y = y)\]
-
-<p>Here, \(0 ≤ p_{XY}(x, y) ≤ 1\) for all \(x, y\), and \(\sum_{x∈Val(X)}\sum_{y∈Val(Y)} p_{XY}(x, y) = 1\).</p>
-
-<p>How does the joint PMF over two variables relate to the probability mass function for each variable separately? It turns out that</p>
-
-\[p_X(x) = \sum_{y} p_{XY}(x, y)\]
-
-<p>and similarly for \(p_Y(y)\). In this case, we refer to \(p_X(x)\) as the marginal probability mass function of \(X\). In statistics, the process of forming the marginal distribution with respect to one variable by summing out the other variable is often known as “marginalization”.</p>
-
-<h3 id="example-3">Example</h3>
-
-<p>Consider a rat navigating through a maze. Let \(X\) be the number of turns it takes for the rat to reach the end of the maze, and let \(Y\) be the number of times the rat retraces its steps. The joint PMF \(p_{XY}(k, l)\) gives the probability that the rat will reach the end of the maze in \(k\) turns and retrace its steps l times. The marginal PMF \(p_X(k)\) gives the probability that the rat will reach the end of the maze in \(k\) turns, regardless of how many times it retraces its steps.</p>
-
-<h2 id="joint-and-marginal-probability-density-functions">Joint and Marginal Probability Density Functions</h2>
-
-<p>Let \(X\) and \(Y\) be two continuous random variables with joint distribution function \(F_{XY}\). In the case that \(F_{XY}(x, y)\) is everywhere differentiable in both \(x\) and \(y\), then we can define the joint probability density function as,</p>
-
-\[f_{XY}(x, y) = \frac{\partial^2 F_{XY}(x, y)}{\partial x \partial y}\]
-
-<p>Like in the single-dimensional case, \(f_{XY}(x, y) ≠ P(X = x, Y = y)\), but rather,</p>
-
-\[\int_{x \in A} f_{XY}(x, y) dx dy = P((X, Y) ∈ A)\]
-
-<p>Note that the values of the probability density function \(f_{XY}(x, y)\) are always nonnegative, but they may be greater than 1. Nonetheless, it must be the case that,</p>
-
-\[\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{XY}(x, y) dx dy = 1\]
-
-<p>Analogous to the discrete case, we define</p>
-
-\[f_X(x) = \int_{-\infty}^{\infty} f_{XY}(x, y) dy\]
-
-<p>as the marginal probability density function (or marginal density) of \(X\), and similarly for \(f_Y(y)\).</p>
-
-<h3 id="example-4">Example</h3>
-
-<p>Consider a rat navigating through a maze. Let \(X\) be the time it takes for the rat to reach the end of the maze, and let \(Y\) be the speed of the rat. The joint PDF \(f_{XY}(t, v)\) gives the probability density function of the time and speed it takes for the rat to reach the end of the maze. The marginal PDF \(f_X(t)\) gives the probability density function of the time it takes for the rat to reach the end of the maze, regardless of its speed.</p>
-
-<h2 id="conditional-distributions">Conditional Distributions</h2>
-
-<p>Conditional distributions seek to answer the question, what is the probability distribution over \(Y\), when we know that \(X\) must take on a certain value \(x\)? In the discrete case, the conditional probability mass function of \(X\) given \(Y\) is simply:</p>
-
-\[p_{Y|X}(y|x) = \frac{p_{XY}(x, y)}{p_X(x)}\]
-
-<p>assuming that \(p_X(x) ≠ 0\).</p>
-
-<p>In the continuous case, the situation is technically a little more complicated because the probability that a continuous random variable \(X\) takes on a specific value \(x\) is equal to zero. Ignoring this technical point, we simply define, by analogy to the discrete case, the conditional probability density of \(Y\) given \(X = x\) to be:</p>
-
-\[f_{Y|X}(y|x) = \frac{f_{XY}(x, y)}{f_X(x)}\]
-
-<p>provided \(f_X(x) ≠ 0\).</p>
-
-<h3 id="example-5">Example</h3>
-
-<p>Consider a rat navigating through a maze. Let \(X\) be the time it takes for the rat to reach the end of the maze, and let \(Y\) be the speed of the rat. The conditional PDF \(f_{Y|X}(y|x)\)
-gives the probability density function of the speed of the rat given that it reaches the end of the maze in time \(t\)</p>
-
-<h2 id="independence">Independence</h2>
-
-<p>Two random variables \(X\) and \(Y\) are independent if \(F_{XY}(x, y)= FX(x)FY (y)\) for all values of \(x\) and \(y\). Equivalently,</p>
-
-<ul>
-  <li>For discrete random variables, \(p_{XY}(x, y) = p_X(x)p_Y(y)\) for all \(x ∈ Val(X)\), \(y ∈ Val(Y)\).</li>
-  <li>For discrete random variables,
-\(p_{Y|X}(y|x) = p_Y(y)\) whenever \(p_X(x) ≠ 0\) for all \(y ∈ Val(Y)\).</li>
-  <li>For continuous random variables, \(f_{XY}(x, y) = f_X(x)f_Y(y)\) for all \(x, y ∈ R\).</li>
-  <li>For continuous random variables,
-\(f_{Y|X}(y|x) = f_Y(y)\) whenever \(f_X(x) ≠ 0\) for all \(y ∈ R\).</li>
-</ul>
-
-<p>Independent random variables often arise in machine learning algorithms where we assume that the training examples belonging to the training set represent independent samples from some unknown probability distribution. To make the significance of independence clear, consider a “bad” training set in which we first sample a single training example \((x^{(1)}, y^{(1)})\) from some unknown distribution, and then add \(m - 1\) copies of the exact same training example to the training set. In this case, we have (with some abuse of notation)</p>
-
-\[P((x^{(1)}, y^{(1)}), . . . .(x^{(m)}, y^{(m)})) ≠ \sum_{i=1}^{m} P(x^{(i)}, y^{(i)}).\]
-
-<p>Despite the fact that the training set has size \(m\), the examples are not independent! While clearly the procedure described here is not a sensible method for building a training set for a machine learning algorithm, it turns out that in practice, non-independence of samples does come up often, and it has the effect of reducing the “effective size” of the training set.</p>
-
-<h2 id="bayess-rule">Bayes’s Rule</h2>
-
-<p>A useful formula that often arises when trying to derive expression for the conditional probability of one variable given another, is Bayes’s rule.</p>
-
-<p>In the case of discrete random variables \(X\) and \(Y\),</p>
-
-\[P_{Y|X}(y|x) = \frac{P_{XY}(x, y)}{P_X(x)} = \frac{P_{X|Y}(x|y)P_Y(y)}{\sum_{y' ∈ Val(Y)} P_{X|Y}(x|y')P_Y(y')}.\]
-
-<p>If the random variables \(X\) and \(Y\) are continuous,</p>
-
-\[f_{Y|X}(y|x) = \frac{f_{XY}(x, y)}{f_X(x)} = \frac{f_{X|Y}(x|y)f_Y(y)}{\int_{-\infty}^{\infty} f_{X|Y}(x|y')f_Y(y')dy'}.\]
-
-<h3 id="example-6">Example</h3>
-
-<p>In a Brain-Computer Interface (BCI) experiment, suppose \(X\) is the event that a rat successfully performs a task, and \(Y\) is the event that a specific pattern of neural activity is observed. We are interested in \(P(X|Y)\),
-the probability that the rat successfully performs the task given that the specific pattern of neural activity is observed. According to Bayes’ rule, we can calculate this as:</p>
-
-\[P(X|Y) = \frac{P(Y|X)P(X)}{P(Y|X)P(X) + P(Y|\neg X)P(\neg X)}\]
-
-<p>Here, \(P(Y|X)\)
-is the probability that the specific pattern of neural activity is observed given that the rat successfully performs the task, \(P(X)\)
-is the prior probability that the rat successfully performs the task, \(P(Y|\neg X)\) is the probability that the specific pattern of neural activity is observed given that the rat does not successfully perform the task, and \(P(\neg X)\) is the prior probability that the rat does not successfully perform the task.</p>
-
-<p>This formula allows us to update our belief about the rat’s performance based on the observed neural activity. If the specific pattern of neural activity is highly indicative of successful task performance and the rat is generally successful at performing the task, \(P(X|Y)\)
-will be high. If the specific pattern of neural activity is not very indicative of successful task performance or the rat is generally not successful at performing the task, \(P(X|Y)\)
-will be lower.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>In this post, we’ve covered the basics of probability theory, using examples from the field of computational neuroethology to illustrate key concepts. We’ve seen how these concepts can be applied to understand and analyze the behavior of rats in a maze and in a BCI experiment. Understanding these concepts is crucial for designing experiments, analyzing data, and building models in computational neuroethology. I hope that this post has provided a useful introduction to these topics and has sparked your interest in further study.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Probability Theory" /><category term="Computational Neuroethology" /><category term="Tutorial" /><category term="Probability Theory" /><category term="Computational Neuroethology" /><category term="Experimental Design" /><category term="Data Analysis" /><category term="Neural Systems Modeling" /><summary type="html"><![CDATA[This post covers the basics of probability theory, using examples from the field of computational neuroethology. It provides a fundamental understanding of designing experiments, analyzing data, and building/testing models of neural systems.]]></summary></entry></feed>
+<p>Also, PCA does not take into account the temporal structure of the data. If the temporal dynamics are important, methods like time-lagged PCA or dynamical systems analysis might be more appropriate.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Neuroscience" /><category term="Neural Data" /><category term="PCA" /><category term="Dimensionality Reduction" /><category term="Neural Modes" /><category term="Neural Manifolds" /><summary type="html"><![CDATA[A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds and modes in neuroscience]]></summary></entry></feed>

@@ -1,0 +1,14 @@
+﻿Tools,Code,Dataset,UF,Doc,Open-Source?,TT,GUI,scaleable,RT,RP,Updated
+DLC,Available,N/A,90,80,YES,90,Yes,Scalable,50,90,2021
+SLEAP,Available,N/A,85,65,YES,10,Yes,Scalable,90,90,2021
+Anipose,Available,N/A,80,60,YES,90,N/A,Highly,10,60,2020
+DANNCE,Available,Available,60,50,Partially,90,N/A,Scalable,10,50,2022
+AnyMaze,N/A,N/A,100,100,NO,10,Yes,Highly,100,100,2022
+DeepPoseKit,Available,N/A,60,60,YES,70,Incomplete,Scalable,90,80,2022
+DeepEthogram,Available,Available,50,50,YES,70,Yes,Scalable,90,80,2021
+MARS,Available,Available,70,80,Partially,80,Yes,Scalable,80,80,2021
+VAME,Available,Available,40,70,YES,80,N/A,Scalable,20,90,2022
+B-SOiD,Available,Available,80,80,YES,30,Yes,Highly,90,85,2021
+BehaviorAtlas,Available,Available,40,50,Partially,,N/A,Scalable,50,30,2021
+Skeletal Estimation,Available,Available,60,70,YES,,N/A,Scalable,20,85,2023
+AVATAR,N/A,N/A,10,10,NO,,N/A,Scalable,95,10,2022

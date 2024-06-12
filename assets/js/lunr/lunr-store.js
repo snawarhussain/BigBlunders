@@ -101,6 +101,12 @@ var store = [{
         "url": "/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI/",
         "teaser": "/assets/images/coding_stock.jpg"
       },{
+        "title": "Current Opinion On Animal Pose Estimation Tools A Review",
+        "excerpt":"Current Opinion on Animal Pose Estimation and Behavior Analysis Tools🐁Current Opinion on Animal Pose Estimation and Behavior Analysis Tools IntroductionList of Current TechnologiesOverviewDeepLabCutSLEAPAnipose:DANNCEAnyMazeDeepPoseKitDeepEthogramMARSVAMEB-SOiDBehaviorAtlasSkeletal EstimationAVATARFinal ThoughtsIntroduction Animal pose estimation tools have become increasingly popular in recent years, as they provide a way to accurately track and measure the movement and behavior...","categories": [],
+        "tags": [],
+        "url": "/Current-Opinion-on-Animal-Pose-Estimation-Tools-A-Review/",
+        "teaser": "/assets/images/coding_stock.jpg"
+      },{
         "title": "Navigating K-space in MRI: The Role of Gradient Fields",
         "excerpt":"Introduction In Magnetic Resonance Imaging (MRI), gradient fields, among many other things, are used to encode spatial information. This post aims to clarify the connection between gradient fields and spatial frequencies in the K-space, and how gradients walks us through K-space. Blending mathematical theory with practical code examples, the goal...","categories": ["Educational","MRI Technology"],
         "tags": ["MRI","K-space","Gradient Fields","Fourier Transform","Spin Magnetic Moments","Image Reconstruction","Medical Imaging"],
