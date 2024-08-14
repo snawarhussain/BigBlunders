@@ -1,0 +1,998 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face - Snawar Hussain</title>
+<meta name="description" content="Exploring the different methods to load and work with the LLaMA 3.1 model using Hugging Face’s APIs and Meta’s original implementation. Learn which approach best suits your needs for inference, fine-tuning, or training from scratch.">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face">
+<meta property="og:url" content="https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1/">
+
+
+  <meta property="og:description" content="Exploring the different methods to load and work with the LLaMA 3.1 model using Hugging Face’s APIs and Meta’s original implementation. Learn which approach best suits your needs for inference, fine-tuning, or training from scratch.">
+
+
+
+  <meta property="og:image" content="https://snawarhussain.com/assets/images/llama/llama31.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2024-08-14T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script type="text/javascript">
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <link rel='icon' href='/assets/favicon.ico' type='image/x-icon'>
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/posts/"
+                
+                
+              >Posts</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags/"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/cv/"
+                
+                
+              >CV</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/llama/llama31.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face
+
+        
+      </h1>
+      
+        <p class="page__lead">Exploring the different methods to load and work with the LLaMA 3.1 model using Hugging Face’s APIs and Meta’s original implementation. Learn which approach best suits your needs for inference, fine-tuning, or training from scratch.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://snawarhussain.com/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://snawarhussain.com/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow @ Fraunhofer <br />Research Areas: Computational MRI, AI for Science</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Bremen, Germany</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face">
+    <meta itemprop="description" content="Exploring the different methods to load and work with the LLaMA 3.1 model using Hugging Face’s APIs and Meta’s original implementation. Learn which approach best suits your needs for inference, fine-tuning, or training from scratch.">
+    <meta itemprop="datePublished" content="2024-08-14T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-cog"></i> Guide Overview</h4></header>
+              <ul class="toc__menu"><li><a href="#introduction">Introduction</a></li><li><a href="#using-hugging-faces-pipelines">Using Hugging Face’s Pipelines</a></li><li><a href="#using-automodelforcausallm">Using AutoModelForCausalLM:</a><ul><li><a href="#why-use-automodelforcausallm-for-fine-tuning">Why Use AutoModelForCausalLM for Fine-Tuning?</a></li><li><a href="#example-of-loading-with-automodelforcausallm">Example of Loading with AutoModelForCausalLM</a></li></ul></li><li><a href="#quantized-loading-with-automodelforcausallm-and-bitsandbytes-efficient-inference">Quantized Loading with AutoModelForCausalLM and BitsAndBytes: Efficient Inference</a></li><li><a href="#loading-llama-with-local-weights">Loading LLama with local weights:</a></li><li><a href="#using-llamaconfig-and--llamaforcausallm">Using LlamaConfig and  LlamaForCausalLM:</a></li><li><a href="#metas-original-implementation-the-full-llama-experience">Meta’s Original Implementation: The Full LLaMA Experience</a><ul><li><a href="#why-use-it">Why Use It?</a></li></ul></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="introduction">Introduction</h2>
+<p>The Meta Llama 3.1 is a collection of pretrained and instruction tuned generative models in 8B, 70B and 405B sizes (text in/text out).</p>
+
+<p><strong>Model Release Date:</strong> July 23, 2024.</p>
+
+<p>When it comes to loading and fine-tuning LLMs using various tools and libraries. Hugging Face, with its extensive API, offers multiple methods to load and interact with these LLMs, each tailored to different needs. However, this flexibility can also be confusing.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/llama/llama_arch.png" height="400" />
+  <figcaption>LLama model architecture: The Llama 2, 3 and 3.1 share the same model architecture but differ in parameters values i.e context length, vocab size, etc. Source:https://github.com/hkproj/pytorch-llama-notes </figcaption>
+</figure>
+
+<link rel="stylesheet" href="/assets/css/atten_mech/style.css" />
+
+<h2 id="using-hugging-faces-pipelines">Using Hugging Face’s <code class="language-plaintext highlighter-rouge">Pipelines</code></h2>
+
+<p>This is the simplest and easiest way when you need to get up and running with LLaMA 3.1 as quickly as possible, Hugging Face’s pipeline API is your go-to. This method abstracts away most of the complexity, allowing you to focus on the task at hand, whether it’s text generation, sentiment analysis, or translation.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">transformers</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">model_id</span> <span class="o">=</span> <span class="s">"meta-llama/Meta-Llama-3.1-8B"</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">.</span><span class="n">pipeline</span><span class="p">(</span>
+    <span class="s">"text-generation"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">"torch_dtype"</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">},</span> <span class="n">device_map</span><span class="o">=</span><span class="s">"auto"</span>
+<span class="p">)</span>
+
+<span class="n">pipeline</span><span class="p">(</span><span class="s">"The reason why bigbang happend is"</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loading checkpoint shards: 100%|██████████| 4/4 [00:01&lt;00:00,  2.95it/s],
+"[{'generated_text': 'The reason why bigbang happend is because of the big bang theory. The big bang theory is a theory that explains the origin of the universe. The theory was first proposed by the Belgian priest Georges Lemaître in the 1920s. The big bang theory is based on the idea that the universe began as a small, hot, dense point and then expanded and cooled to form the universe we see today.\\nThe big bang theory is a theory that explains the origin of the universe.'}]"
+</code></pre></div></div>
+<p>The pipeline API automatically handles model loading, tokenization, and inference, making it ideal for developers who need results fast without diving into the nitty-gritty details of model configuration.</p>
+
+<p><strong>Class Used:</strong> <code class="language-plaintext highlighter-rouge">transformers.pipeline</code>
+<strong>Ideal For:</strong> Quick prototyping, minimal setup, and rapid testing.
+<strong>Limitations:</strong> Limited flexibility in customizing model behavior. Not suited for fine-tuning or large-scale training.</p>
+
+<p>HuggingFace will automatically download the model weights and everything necessary,
+the model weights are usually stored in <code class="language-plaintext highlighter-rouge">~/.cache/huggingface/hub/</code> directory.</p>
+
+<h2 id="using-automodelforcausallm">Using <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code>:</h2>
+
+<p>When it comes to fine-tuning a pre-trained model like LLaMA 3.1, the <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> class from Hugging Face can be regarded as a good choice. This class is designed to handle causal language models, and it makes the process of loading and configuring the model straightforward. One of the key advantages of using <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> is that it automatically reads the model’s JSON configuration file, setting up the architecture based on the parameters defined during pre-training.</p>
+
+<h3 id="why-use-automodelforcausallm-for-fine-tuning">Why Use <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> for Fine-Tuning?</h3>
+
+<ul>
+  <li><strong>Automatic Configuration</strong>: Hugging Face’s <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> automatically loads the model’s architecture from the JSON configuration. This means you don’t have to manually specify the model’s layers, attention heads, or other parameters; it’s all taken care of for you.</li>
+  <li><strong>Flexibility for Fine-Tuning</strong>: Since the model is loaded with all its pre-trained parameters intact, you can easily fine-tune it on new data with minimal changes. This makes it a great choice when you need to adapt LLaMA 3.1 to a specific task or domain.</li>
+</ul>
+
+<h3 id="example-of-loading-with-automodelforcausallm">Example of Loading with <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code></h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForCausalLM</span><span class="p">,</span> <span class="n">AutoTokenizer</span>
+
+<span class="n">model_id</span> <span class="o">=</span> <span class="s">"meta-llama/Meta-Llama-3.1-8B"</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span>
+ <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">,</span>
+<span class="n">attn_implementation</span><span class="o">=</span><span class="s">"flash_attention_2"</span><span class="p">,)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
+
+<span class="c1"># Preparing input text for fine-tuning
+</span><span class="n">input_text</span> <span class="o">=</span> <span class="s">"Fine-tuning LLaMA on new data is straightforward with AutoModelForCausalLM."</span>
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">input_text</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s">"pt"</span><span class="p">).</span><span class="n">input_ids</span>
+
+<span class="c1"># Model is now ready for fine-tuning
+</span>
+</code></pre></div></div>
+<p>This model is now ready for fine-tuning on new data. The <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> class has loaded the pre-trained LLaMA 3.1 model with the specified configuration, and the tokenizer is set up to process input text for inference or fine-tuning. One can write their own training loop utilizing packages like <code class="language-plaintext highlighter-rouge">PEFT</code> and <code class="language-plaintext highlighter-rouge">accelerate</code> for efficient model training and fine-tuning.</p>
+
+<h2 id="quantized-loading-with-automodelforcausallm-and-bitsandbytes-efficient-inference">Quantized Loading with <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> and <code class="language-plaintext highlighter-rouge">BitsAndBytes</code>: Efficient Inference</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForCausalLM</span><span class="p">,</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">BitsAndBytesConfig</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">model_id</span> <span class="o">=</span> <span class="s">"meta-llama/Meta-Llama-3.1-8B"</span>
+
+<span class="n">quant_config</span> <span class="o">=</span> <span class="n">BitsAndBytesConfig</span><span class="p">(</span><span class="n">load_in_8bit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="n">model_id</span><span class="p">,</span>
+    <span class="n">quantization_config</span><span class="o">=</span><span class="n">quant_config</span><span class="p">,</span>
+    <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">,</span>
+    <span class="n">attn_implementation</span><span class="o">=</span><span class="s">"flash_attention_2"</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`low_cpu_mem_usage` was None, now set to True since model is quantized.
+Loading checkpoint shards: 100%|██████████| 4/4 [00:03&lt;00:00,  1.11it/s]
+</code></pre></div></div>
+<p>We can print the model architecture.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LlamaForCausalLM(
+  (model): LlamaModel(
+    (embed_tokens): Embedding(128256, 4096)
+    (layers): ModuleList(
+      (0-31): 32 x LlamaDecoderLayer(
+        (self_attn): LlamaFlashAttention2(
+          (q_proj): Linear8bitLt(in_features=4096, out_features=4096, bias=False)
+          (k_proj): Linear8bitLt(in_features=4096, out_features=1024, bias=False)
+          (v_proj): Linear8bitLt(in_features=4096, out_features=1024, bias=False)
+          (o_proj): Linear8bitLt(in_features=4096, out_features=4096, bias=False)
+          (rotary_emb): LlamaRotaryEmbedding()
+        )
+        (mlp): LlamaMLP(
+          (gate_proj): Linear8bitLt(in_features=4096, out_features=14336, bias=False)
+          (up_proj): Linear8bitLt(in_features=4096, out_features=14336, bias=False)
+          (down_proj): Linear8bitLt(in_features=14336, out_features=4096, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): LlamaRMSNorm((4096,), eps=1e-05)
+        (post_attention_layernorm): LlamaRMSNorm((4096,), eps=1e-05)
+      )
+    )
+    (norm): LlamaRMSNorm((4096,), eps=1e-05)
+    (rotary_emb): LlamaRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=4096, out_features=128256, bias=False)
+)
+</code></pre></div></div>
+
+<p>For running inference with the quantized model, we can use the similar code as before.:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">input_text</span> <span class="o">=</span> <span class="s">"The reason why bigbang happend is "</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="n">generation_config</span><span class="p">.</span><span class="n">pad_token_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">.</span><span class="n">pad_token_id</span>
+
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">input_text</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s">"pt"</span><span class="p">).</span><span class="n">input_ids</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">pad_token_id</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">eos_token_id</span><span class="p">,</span> <span class="n">do_sample</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">top_p</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The reason why bigbang happend is 1. gravity 2. mass 3. energy 4. light 5. space 6. time 7. matter 8. dark matter 9. dark energy 10. space-time 11. mass-energy 12. mass-energy-time 13. mass-energy-time-space 14. mass-energy-time-space-dark matter 15. mass-energy-time-space-dark matter-dark energy 16. mass-energy-time-space-dark matter-dark
+</code></pre></div></div>
+<p>you can read the documentations for more details on the <code class="language-plaintext highlighter-rouge">generate</code> method and its parameters.</p>
+
+<p>Since we are using the pre-trained LLama 3.1 which was not fine-tuned for anything specific, the output might not be coherent or relevant to the input text.</p>
+
+<blockquote>
+  <p>The quantized model is now ready for efficient inference with reduced memory usage and faster execution times.</p>
+</blockquote>
+
+<div style="border-left: 5px solid #007bff; padding: 10px; margin: 20px 0;">
+Here in these examples we are using <b>Meta-Llama-3.1-8B</b> model and not the <b>Meta-Llama-3.1-8B-intstruct</b> model, the latter one is fine-tuned with RLHF and is more suitable for answering questions and generating coherent responses. The former is mainly for fine-tuning on your own data and tasks since it is not fine-tuned for any specific task.
+</div>
+
+<h2 id="loading-llama-with-local-weights">Loading LLama with local weights:</h2>
+
+<p>If you have model weight available locally, for example you downloaded the orignal .pth file from the Meta repo for LLama 3.1 and converted them into Hugging face weights locally and would like to load from there. Then you can use the <code class="language-plaintext highlighter-rouge">from_pretrained</code> method with the <code class="language-plaintext highlighter-rouge">local_files_only</code> parameter set to <code class="language-plaintext highlighter-rouge">True</code>. This will ensure that the model is loaded from the local directory and not downloaded from the Hugging Face model hub.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">local_model_path</span> <span class="o">=</span> <span class="s">"~/.cache/huggingface/hub/DirectorytoModelWeights"</span>
+<span class="n">local_model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">local_model_path</span><span class="p">,</span>
+                                                   <span class="n">local_files_only</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                                   <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">,)</span>
+
+</code></pre></div></div>
+
+<h2 id="using-llamaconfig-and--llamaforcausallm">Using <code class="language-plaintext highlighter-rouge">LlamaConfig</code> and  <code class="language-plaintext highlighter-rouge">LlamaForCausalLM</code>:</h2>
+<p>LlamaConfig is a configuration class that allows you to define the architecture and parameters of the LLaMA model before loading it. This class gives you the flexibility to customize aspects like the number of layers, attention heads, and more.</p>
+
+<p>Why Use It?
+Customization: Allows for tailored model architectures and hyperparameters.
+Research and Experimentation: Ideal for exploring different model configurations. Adding enhancement or modifications to the model architecture.</p>
+
+<p>The famous example of using <code class="language-plaintext highlighter-rouge">LlamaConfig</code> is the the repo <a href="https://github.com/jquesnelle/yarn.git">YARN</a> where authors loaded LLama model with <code class="language-plaintext highlighter-rouge">LlamaConfig</code> and <code class="language-plaintext highlighter-rouge">LlamaForCausalLM</code> with pretrained weights and changed the RoPe (Rotary Positional Embeddings) with their proposed YARN (Yet Another Rotary Positional Embedding) to improve the context window of the model.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">LlamaConfig</span><span class="p">,</span> <span class="n">LlamaForCausalLM</span><span class="p">,</span><span class="n">AutoTokenizer</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">params</span><span class="o">=</span> <span class="p">{</span>
+
+  <span class="s">"attention_bias"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+  <span class="s">"attention_dropout"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+  <span class="s">"bos_token_id"</span><span class="p">:</span> <span class="mi">128000</span><span class="p">,</span>
+  <span class="s">"eos_token_id"</span><span class="p">:</span> <span class="mi">128001</span><span class="p">,</span>
+  <span class="s">"hidden_act"</span><span class="p">:</span> <span class="s">"silu"</span><span class="p">,</span>
+  <span class="s">"hidden_size"</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+  <span class="s">"initializer_range"</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>
+  <span class="s">"intermediate_size"</span><span class="p">:</span> <span class="mi">14336</span><span class="p">,</span>
+  <span class="s">"max_position_embeddings"</span><span class="p">:</span> <span class="mi">131072</span><span class="p">,</span>
+  <span class="s">"mlp_bias"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+  <span class="s">"model_type"</span><span class="p">:</span> <span class="s">"llama"</span><span class="p">,</span>
+  <span class="s">"num_attention_heads"</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="c1"># 32-&gt;16
+</span>  <span class="s">"num_hidden_layers"</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="c1"># 32-&gt;16
+</span>  <span class="s">"num_key_value_heads"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+  <span class="s">"pretraining_tp"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s">"rms_norm_eps"</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">,</span>
+  <span class="s">"rope_scaling"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">"factor"</span><span class="p">:</span> <span class="mf">8.0</span><span class="p">,</span>
+    <span class="s">"low_freq_factor"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="s">"high_freq_factor"</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+    <span class="s">"original_max_position_embeddings"</span><span class="p">:</span> <span class="mi">8192</span><span class="p">,</span>
+    <span class="s">"rope_type"</span><span class="p">:</span> <span class="s">"llama3"</span>
+  <span class="p">},</span>
+  <span class="s">"rope_theta"</span><span class="p">:</span> <span class="mf">500000.0</span><span class="p">,</span>
+  <span class="s">"tie_word_embeddings"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+  <span class="s">"torch_dtype"</span><span class="p">:</span> <span class="s">"bfloat16"</span><span class="p">,</span>
+  <span class="s">"transformers_version"</span><span class="p">:</span> <span class="s">"4.43.0.dev0"</span><span class="p">,</span>
+  <span class="s">"use_cache"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+  <span class="s">"vocab_size"</span><span class="p">:</span> <span class="mi">128256</span>
+<span class="p">}</span>
+<span class="n">congig_cls</span> <span class="o">=</span> <span class="n">LlamaConfig</span>
+<span class="n">model_cls</span> <span class="o">=</span> <span class="n">LlamaForCausalLM</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">congig_cls</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">model_cls</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">local_model_path</span> <span class="o">=</span> <span class="s">"/home/snawar/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3.1-8B/snapshots/48d6d0fc4e02fb1269b36940650a1b7233035cbb"</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">local_model_path</span><span class="p">,</span>
+                                                   <span class="n">local_files_only</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                                   <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">,).</span><span class="n">to</span><span class="p">(</span><span class="s">'cuda'</span><span class="p">)</span>
+
+
+
+<span class="n">model_id</span> <span class="o">=</span> <span class="s">"meta-llama/Meta-Llama-3.1-8B"</span>
+
+<span class="n">input_text</span> <span class="o">=</span> <span class="s">"The reason why bigbang happend is "</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="n">generation_config</span><span class="p">.</span><span class="n">pad_token_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">.</span><span class="n">pad_token_id</span>
+
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">input_text</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s">"pt"</span><span class="p">).</span><span class="n">input_ids</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">pad_token_id</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">eos_token_id</span><span class="p">,</span> <span class="n">do_sample</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">top_p</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loading checkpoint shards: 100%|████████████████████████████████████████████████████████████████| 4/4 [00:00&lt;00:00, 24.87it/s]
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+The reason why bigbang happend is 2nd law of thermodynamics.
+2nd law of thermodynamics is entropy increase.
+Entropy is probability of disorder.
+So, there is always probability of disorder.
+But, there is no probability of order.
+That is, the probability of order is 0.
+So, entropy can be 0.
+And, when entropy is 0, temperature is infinite.
+Infinite temperature is infinite energy.
+So, the universe will have infinite energy.
+And,
+</code></pre></div></div>
+
+<p class="notice--warning">Even though i changed the <code class="language-plaintext highlighter-rouge">num_hidden_layers</code> and <code class="language-plaintext highlighter-rouge">num_attention_heads</code> in the <code class="language-plaintext highlighter-rouge">param</code> from 32 to 16 , The model weights were still loaded.</p>
+
+<h2 id="metas-original-implementation-the-full-llama-experience">Meta’s Original Implementation: The Full LLaMA Experience</h2>
+
+<p>Meta’s original <a href="https://github.com/meta-llama/llama-models/tree/main">implementation</a> offers the most control, particularly for large-scale distributed training. The original LLama 3.1 architecture is purely implemented in PyTorch.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch.distributed</span> <span class="k">as</span> <span class="n">dist</span>
+<span class="kn">from</span> <span class="nn">fairscale.nn.model_parallel.initialize</span> <span class="kn">import</span> <span class="n">initialize_model_parallel</span><span class="p">,</span> <span class="n">get_model_parallel_world_size</span>
+<span class="kn">from</span> <span class="nn">models.llama3_1.api.args</span> <span class="kn">import</span> <span class="n">ModelArgs</span>
+<span class="kn">from</span> <span class="nn">models.llama3_1.reference_impl.model</span> <span class="kn">import</span> <span class="n">Transformer</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch.distributed</span> <span class="k">as</span> <span class="n">dist</span>
+
+<span class="c1"># Set environment variables manually if not running in a distributed launcher
+</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'RANK'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'0'</span>
+<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'WORLD_SIZE'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'1'</span>
+<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'MASTER_ADDR'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'localhost'</span>
+<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'MASTER_PORT'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'9300'</span>
+
+
+
+<span class="c1"># Continue with the rest of the script...
+</span>
+<span class="c1"># Initialize the PyTorch distributed environment
+</span><span class="n">dist</span><span class="p">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s">'nccl'</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">world_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Initialize the model parallel group
+</span><span class="n">initialize_model_parallel</span><span class="p">(</span><span class="n">model_parallel_size_</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Define your configuration
+</span><span class="n">json</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"dim"</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+    <span class="s">"ffn_dim_multiplier"</span><span class="p">:</span> <span class="mf">1.3</span><span class="p">,</span>
+    <span class="s">"multiple_of"</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span>
+    <span class="s">"n_heads"</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="s">"n_kv_heads"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="s">"n_layers"</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="s">"norm_eps"</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">,</span>
+    <span class="s">"rope_theta"</span><span class="p">:</span> <span class="mf">500000.0</span><span class="p">,</span>
+    <span class="s">"use_scaled_rope"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="s">"vocab_size"</span><span class="p">:</span> <span class="mi">128256</span>
+<span class="p">}</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">ModelArgs</span>
+<span class="n">param</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="o">**</span><span class="n">json</span><span class="p">)</span>
+
+<span class="c1"># Initialize the model
+</span><span class="k">print</span><span class="p">(</span><span class="s">"loading model ...."</span><span class="p">)</span>
+<span class="n">llama_model</span> <span class="o">=</span> <span class="n">Transformer</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">llama_model</span><span class="p">)</span>
+
+<span class="c1"># load the .pth model weigths with model.load_state_dict(torch.load("path/to/your/model.pth"))
+# Now you can proceed with your training or inference tasks
+</span></code></pre></div></div>
+<p>This method is geared towards advanced users who are comfortable managing distributed systems and need to train or fine-tune LLaMA 3.1 at scale.</p>
+
+<p>The repo for LLama 3.1 itself does not contain the scripts for traning, finetuning and inference but there is a separate repo for that called <a href="https://github.com/meta-llama/llama-recipes.git">llama-recipies</a> which containes several useful scripts.</p>
+
+<h4 id="why-use-it">Why Use It?</h4>
+<p><strong>Full Control:</strong> Best for complex setups requiring model parallelism and distributed training.</p>
+
+<p><strong>Large-Scale Training:</strong> Ideal for scenarios where you need to fully leverage your hardware resources.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#ai" class="page__taxonomy-item p-category" rel="tag">AI</a><span class="sep">, </span>
+    
+      <a href="/tags/#causal-attention" class="page__taxonomy-item p-category" rel="tag">Causal Attention</a><span class="sep">, </span>
+    
+      <a href="/tags/#deep-learning" class="page__taxonomy-item p-category" rel="tag">Deep Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#generative-models" class="page__taxonomy-item p-category" rel="tag">Generative Models</a><span class="sep">, </span>
+    
+      <a href="/tags/#hugging-face" class="page__taxonomy-item p-category" rel="tag">Hugging Face</a><span class="sep">, </span>
+    
+      <a href="/tags/#llama" class="page__taxonomy-item p-category" rel="tag">LLaMA</a><span class="sep">, </span>
+    
+      <a href="/tags/#machine-learning" class="page__taxonomy-item p-category" rel="tag">Machine Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#model-loading" class="page__taxonomy-item p-category" rel="tag">Model Loading</a><span class="sep">, </span>
+    
+      <a href="/tags/#self-attention" class="page__taxonomy-item p-category" rel="tag">Self-Attention</a><span class="sep">, </span>
+    
+      <a href="/tags/#transformers" class="page__taxonomy-item p-category" rel="tag">Transformers</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#educational" class="page__taxonomy-item p-category" rel="tag">Educational</a><span class="sep">, </span>
+    
+      <a href="/categories/#llms" class="page__taxonomy-item p-category" rel="tag">LLMs</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-08-14T00:00:00+00:00">August 14, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Taming+the+LLaMA%3A+A+Guide+to+Herding+LLaMA+3.1+with+Hugging+Face%20https%3A%2F%2Fsnawarhussain.com%2Feducational%2Fllms%2FTaming-the-LLaMA-3.1%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsnawarhussain.com%2Feducational%2Fllms%2FTaming-the-LLaMA-3.1%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/" class="pagination--pager" title="GPT model Causal Multi-Head Attention Mechanism: Pure and Simple
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You May Also Enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/" rel="permalink">GPT model Causal Multi-Head Attention Mechanism: Pure and Simple
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          14 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How does the multi-head attention mechanism work in transformers? Let’s break it down step-by-step, starting from the input sequence and moving through the e...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" rel="permalink">Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Guide to set-up TensorFlow to use GPU in a Conda environment.Follow these steps to ensure TensorFlow leverages CUDA and cuDNN installed in your Conda environ...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/mri%20technology/Kspace-walk-using-encoding-gradients-in-MRI/" rel="permalink">Navigating K-space in MRI: The Role of Gradient Fields
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Exploring the crucial role of gradient fields in MRI for stepping through K-space.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/Current-Opinion-on-Animal-Pose-Estimation-Tools-A-Review/" rel="permalink">Current Opinion On Animal Pose Estimation Tools A Review
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          23 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Current Opinion on Animal Pose Estimation and Behavior Analysis Tools
+</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://snawarhussain.com">Snawar Hussain</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+  </body>
+</html>

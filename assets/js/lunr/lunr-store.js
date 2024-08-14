@@ -124,4 +124,10 @@ var store = [{
         "tags": ["GPT","Generative Models","Attention Mechanism","Multi-Head Attention","Transformers","Causal Attention","Self-Attention","Machine Learning","Deep Learning","AI"],
         "url": "/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/",
         "teaser": "/assets/images/coding_stock.jpg"
+      },{
+        "title": "Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face",
+        "excerpt":"Introduction The Meta Llama 3.1 is a collection of pretrained and instruction tuned generative models in 8B, 70B and 405B sizes (text in/text out). Model Release Date: July 23, 2024. When it comes to loading and fine-tuning LLMs using various tools and libraries. Hugging Face, with its extensive API, offers...","categories": ["Educational","LLMs"],
+        "tags": ["LLaMA","Generative Models","Model Loading","Hugging Face","Transformers","Causal Attention","Self-Attention","Machine Learning","Deep Learning","AI"],
+        "url": "/educational/llms/Taming-the-LLaMA-3.1/",
+        "teaser": "/assets/images/coding_stock.jpg"
       }]

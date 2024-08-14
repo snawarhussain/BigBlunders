@@ -1,4 +1,299 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="https://snawarhussain.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://snawarhussain.com/" rel="alternate" type="text/html" /><updated>2024-07-12T14:16:57+00:00</updated><id>https://snawarhussain.com/feed.xml</id><title type="html">Snawar Hussain</title><subtitle></subtitle><author><name>Snawar Hussain</name></author><entry><title type="html">GPT model Causal Multi-Head Attention Mechanism: Pure and Simple</title><link href="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/" rel="alternate" type="text/html" title="GPT model Causal Multi-Head Attention Mechanism: Pure and Simple" /><published>2024-06-10T00:00:00+00:00</published><updated>2024-06-10T00:00:00+00:00</updated><id>https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and%20Simple</id><content type="html" xml:base="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/"><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://snawarhussain.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://snawarhussain.com/" rel="alternate" type="text/html" /><updated>2024-08-14T13:13:42+00:00</updated><id>https://snawarhussain.com/feed.xml</id><title type="html">Snawar Hussain</title><subtitle></subtitle><author><name>Snawar Hussain</name></author><entry><title type="html">Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face</title><link href="https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1/" rel="alternate" type="text/html" title="Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face" /><published>2024-08-14T00:00:00+00:00</published><updated>2024-08-14T00:00:00+00:00</updated><id>https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1</id><content type="html" xml:base="https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1/"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p>The Meta Llama 3.1 is a collection of pretrained and instruction tuned generative models in 8B, 70B and 405B sizes (text in/text out).</p>
+
+<p><strong>Model Release Date:</strong> July 23, 2024.</p>
+
+<p>When it comes to loading and fine-tuning LLMs using various tools and libraries. Hugging Face, with its extensive API, offers multiple methods to load and interact with these LLMs, each tailored to different needs. However, this flexibility can also be confusing.</p>
+
+<figure class="styled-figure">
+  <img src="/assets/images/llama/llama_arch.png" height="400" />
+  <figcaption>LLama model architecture: The Llama 2, 3 and 3.1 share the same model architecture but differ in parameters values i.e context length, vocab size, etc. Source:https://github.com/hkproj/pytorch-llama-notes </figcaption>
+</figure>
+
+<link rel="stylesheet" href="/assets/css/atten_mech/style.css" />
+
+<h2 id="using-hugging-faces-pipelines">Using Hugging Face’s <code class="language-plaintext highlighter-rouge">Pipelines</code></h2>
+
+<p>This is the simplest and easiest way when you need to get up and running with LLaMA 3.1 as quickly as possible, Hugging Face’s pipeline API is your go-to. This method abstracts away most of the complexity, allowing you to focus on the task at hand, whether it’s text generation, sentiment analysis, or translation.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">transformers</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">model_id</span> <span class="o">=</span> <span class="s">"meta-llama/Meta-Llama-3.1-8B"</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">.</span><span class="n">pipeline</span><span class="p">(</span>
+    <span class="s">"text-generation"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">model_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">"torch_dtype"</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">},</span> <span class="n">device_map</span><span class="o">=</span><span class="s">"auto"</span>
+<span class="p">)</span>
+
+<span class="n">pipeline</span><span class="p">(</span><span class="s">"The reason why bigbang happend is"</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loading checkpoint shards: 100%|██████████| 4/4 [00:01&lt;00:00,  2.95it/s],
+"[{'generated_text': 'The reason why bigbang happend is because of the big bang theory. The big bang theory is a theory that explains the origin of the universe. The theory was first proposed by the Belgian priest Georges Lemaître in the 1920s. The big bang theory is based on the idea that the universe began as a small, hot, dense point and then expanded and cooled to form the universe we see today.\\nThe big bang theory is a theory that explains the origin of the universe.'}]"
+</code></pre></div></div>
+<p>The pipeline API automatically handles model loading, tokenization, and inference, making it ideal for developers who need results fast without diving into the nitty-gritty details of model configuration.</p>
+
+<p><strong>Class Used:</strong> <code class="language-plaintext highlighter-rouge">transformers.pipeline</code>
+<strong>Ideal For:</strong> Quick prototyping, minimal setup, and rapid testing.
+<strong>Limitations:</strong> Limited flexibility in customizing model behavior. Not suited for fine-tuning or large-scale training.</p>
+
+<p>HuggingFace will automatically download the model weights and everything necessary,
+the model weights are usually stored in <code class="language-plaintext highlighter-rouge">~/.cache/huggingface/hub/</code> directory.</p>
+
+<h2 id="using-automodelforcausallm">Using <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code>:</h2>
+
+<p>When it comes to fine-tuning a pre-trained model like LLaMA 3.1, the <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> class from Hugging Face can be regarded as a good choice. This class is designed to handle causal language models, and it makes the process of loading and configuring the model straightforward. One of the key advantages of using <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> is that it automatically reads the model’s JSON configuration file, setting up the architecture based on the parameters defined during pre-training.</p>
+
+<h3 id="why-use-automodelforcausallm-for-fine-tuning">Why Use <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> for Fine-Tuning?</h3>
+
+<ul>
+  <li><strong>Automatic Configuration</strong>: Hugging Face’s <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> automatically loads the model’s architecture from the JSON configuration. This means you don’t have to manually specify the model’s layers, attention heads, or other parameters; it’s all taken care of for you.</li>
+  <li><strong>Flexibility for Fine-Tuning</strong>: Since the model is loaded with all its pre-trained parameters intact, you can easily fine-tune it on new data with minimal changes. This makes it a great choice when you need to adapt LLaMA 3.1 to a specific task or domain.</li>
+</ul>
+
+<h3 id="example-of-loading-with-automodelforcausallm">Example of Loading with <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code></h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForCausalLM</span><span class="p">,</span> <span class="n">AutoTokenizer</span>
+
+<span class="n">model_id</span> <span class="o">=</span> <span class="s">"meta-llama/Meta-Llama-3.1-8B"</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span>
+ <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">,</span>
+<span class="n">attn_implementation</span><span class="o">=</span><span class="s">"flash_attention_2"</span><span class="p">,)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
+
+<span class="c1"># Preparing input text for fine-tuning
+</span><span class="n">input_text</span> <span class="o">=</span> <span class="s">"Fine-tuning LLaMA on new data is straightforward with AutoModelForCausalLM."</span>
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">input_text</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s">"pt"</span><span class="p">).</span><span class="n">input_ids</span>
+
+<span class="c1"># Model is now ready for fine-tuning
+</span>
+</code></pre></div></div>
+<p>This model is now ready for fine-tuning on new data. The <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> class has loaded the pre-trained LLaMA 3.1 model with the specified configuration, and the tokenizer is set up to process input text for inference or fine-tuning. One can write their own training loop utilizing packages like <code class="language-plaintext highlighter-rouge">PEFT</code> and <code class="language-plaintext highlighter-rouge">accelerate</code> for efficient model training and fine-tuning.</p>
+
+<h2 id="quantized-loading-with-automodelforcausallm-and-bitsandbytes-efficient-inference">Quantized Loading with <code class="language-plaintext highlighter-rouge">AutoModelForCausalLM</code> and <code class="language-plaintext highlighter-rouge">BitsAndBytes</code>: Efficient Inference</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForCausalLM</span><span class="p">,</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">BitsAndBytesConfig</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">model_id</span> <span class="o">=</span> <span class="s">"meta-llama/Meta-Llama-3.1-8B"</span>
+
+<span class="n">quant_config</span> <span class="o">=</span> <span class="n">BitsAndBytesConfig</span><span class="p">(</span><span class="n">load_in_8bit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="n">model_id</span><span class="p">,</span>
+    <span class="n">quantization_config</span><span class="o">=</span><span class="n">quant_config</span><span class="p">,</span>
+    <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">,</span>
+    <span class="n">attn_implementation</span><span class="o">=</span><span class="s">"flash_attention_2"</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`low_cpu_mem_usage` was None, now set to True since model is quantized.
+Loading checkpoint shards: 100%|██████████| 4/4 [00:03&lt;00:00,  1.11it/s]
+</code></pre></div></div>
+<p>We can print the model architecture.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>LlamaForCausalLM(
+  (model): LlamaModel(
+    (embed_tokens): Embedding(128256, 4096)
+    (layers): ModuleList(
+      (0-31): 32 x LlamaDecoderLayer(
+        (self_attn): LlamaFlashAttention2(
+          (q_proj): Linear8bitLt(in_features=4096, out_features=4096, bias=False)
+          (k_proj): Linear8bitLt(in_features=4096, out_features=1024, bias=False)
+          (v_proj): Linear8bitLt(in_features=4096, out_features=1024, bias=False)
+          (o_proj): Linear8bitLt(in_features=4096, out_features=4096, bias=False)
+          (rotary_emb): LlamaRotaryEmbedding()
+        )
+        (mlp): LlamaMLP(
+          (gate_proj): Linear8bitLt(in_features=4096, out_features=14336, bias=False)
+          (up_proj): Linear8bitLt(in_features=4096, out_features=14336, bias=False)
+          (down_proj): Linear8bitLt(in_features=14336, out_features=4096, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): LlamaRMSNorm((4096,), eps=1e-05)
+        (post_attention_layernorm): LlamaRMSNorm((4096,), eps=1e-05)
+      )
+    )
+    (norm): LlamaRMSNorm((4096,), eps=1e-05)
+    (rotary_emb): LlamaRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=4096, out_features=128256, bias=False)
+)
+</code></pre></div></div>
+
+<p>For running inference with the quantized model, we can use the similar code as before.:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">input_text</span> <span class="o">=</span> <span class="s">"The reason why bigbang happend is "</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="n">generation_config</span><span class="p">.</span><span class="n">pad_token_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">.</span><span class="n">pad_token_id</span>
+
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">input_text</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s">"pt"</span><span class="p">).</span><span class="n">input_ids</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">pad_token_id</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">eos_token_id</span><span class="p">,</span> <span class="n">do_sample</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">top_p</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The reason why bigbang happend is 1. gravity 2. mass 3. energy 4. light 5. space 6. time 7. matter 8. dark matter 9. dark energy 10. space-time 11. mass-energy 12. mass-energy-time 13. mass-energy-time-space 14. mass-energy-time-space-dark matter 15. mass-energy-time-space-dark matter-dark energy 16. mass-energy-time-space-dark matter-dark
+</code></pre></div></div>
+<p>you can read the documentations for more details on the <code class="language-plaintext highlighter-rouge">generate</code> method and its parameters.</p>
+
+<p>Since we are using the pre-trained LLama 3.1 which was not fine-tuned for anything specific, the output might not be coherent or relevant to the input text.</p>
+
+<blockquote>
+  <p>The quantized model is now ready for efficient inference with reduced memory usage and faster execution times.</p>
+</blockquote>
+
+<div style="border-left: 5px solid #007bff; padding: 10px; margin: 20px 0;">
+Here in these examples we are using <b>Meta-Llama-3.1-8B</b> model and not the <b>Meta-Llama-3.1-8B-intstruct</b> model, the latter one is fine-tuned with RLHF and is more suitable for answering questions and generating coherent responses. The former is mainly for fine-tuning on your own data and tasks since it is not fine-tuned for any specific task.
+</div>
+
+<h2 id="loading-llama-with-local-weights">Loading LLama with local weights:</h2>
+
+<p>If you have model weight available locally, for example you downloaded the orignal .pth file from the Meta repo for LLama 3.1 and converted them into Hugging face weights locally and would like to load from there. Then you can use the <code class="language-plaintext highlighter-rouge">from_pretrained</code> method with the <code class="language-plaintext highlighter-rouge">local_files_only</code> parameter set to <code class="language-plaintext highlighter-rouge">True</code>. This will ensure that the model is loaded from the local directory and not downloaded from the Hugging Face model hub.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">local_model_path</span> <span class="o">=</span> <span class="s">"~/.cache/huggingface/hub/DirectorytoModelWeights"</span>
+<span class="n">local_model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">local_model_path</span><span class="p">,</span>
+                                                   <span class="n">local_files_only</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                                   <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">,)</span>
+
+</code></pre></div></div>
+
+<h2 id="using-llamaconfig-and--llamaforcausallm">Using <code class="language-plaintext highlighter-rouge">LlamaConfig</code> and  <code class="language-plaintext highlighter-rouge">LlamaForCausalLM</code>:</h2>
+<p>LlamaConfig is a configuration class that allows you to define the architecture and parameters of the LLaMA model before loading it. This class gives you the flexibility to customize aspects like the number of layers, attention heads, and more.</p>
+
+<p>Why Use It?
+Customization: Allows for tailored model architectures and hyperparameters.
+Research and Experimentation: Ideal for exploring different model configurations. Adding enhancement or modifications to the model architecture.</p>
+
+<p>The famous example of using <code class="language-plaintext highlighter-rouge">LlamaConfig</code> is the the repo <a href="https://github.com/jquesnelle/yarn.git">YARN</a> where authors loaded LLama model with <code class="language-plaintext highlighter-rouge">LlamaConfig</code> and <code class="language-plaintext highlighter-rouge">LlamaForCausalLM</code> with pretrained weights and changed the RoPe (Rotary Positional Embeddings) with their proposed YARN (Yet Another Rotary Positional Embedding) to improve the context window of the model.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">LlamaConfig</span><span class="p">,</span> <span class="n">LlamaForCausalLM</span><span class="p">,</span><span class="n">AutoTokenizer</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">params</span><span class="o">=</span> <span class="p">{</span>
+
+  <span class="s">"attention_bias"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+  <span class="s">"attention_dropout"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+  <span class="s">"bos_token_id"</span><span class="p">:</span> <span class="mi">128000</span><span class="p">,</span>
+  <span class="s">"eos_token_id"</span><span class="p">:</span> <span class="mi">128001</span><span class="p">,</span>
+  <span class="s">"hidden_act"</span><span class="p">:</span> <span class="s">"silu"</span><span class="p">,</span>
+  <span class="s">"hidden_size"</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+  <span class="s">"initializer_range"</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>
+  <span class="s">"intermediate_size"</span><span class="p">:</span> <span class="mi">14336</span><span class="p">,</span>
+  <span class="s">"max_position_embeddings"</span><span class="p">:</span> <span class="mi">131072</span><span class="p">,</span>
+  <span class="s">"mlp_bias"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+  <span class="s">"model_type"</span><span class="p">:</span> <span class="s">"llama"</span><span class="p">,</span>
+  <span class="s">"num_attention_heads"</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="c1"># 32-&gt;16
+</span>  <span class="s">"num_hidden_layers"</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="c1"># 32-&gt;16
+</span>  <span class="s">"num_key_value_heads"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+  <span class="s">"pretraining_tp"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s">"rms_norm_eps"</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">,</span>
+  <span class="s">"rope_scaling"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">"factor"</span><span class="p">:</span> <span class="mf">8.0</span><span class="p">,</span>
+    <span class="s">"low_freq_factor"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="s">"high_freq_factor"</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span>
+    <span class="s">"original_max_position_embeddings"</span><span class="p">:</span> <span class="mi">8192</span><span class="p">,</span>
+    <span class="s">"rope_type"</span><span class="p">:</span> <span class="s">"llama3"</span>
+  <span class="p">},</span>
+  <span class="s">"rope_theta"</span><span class="p">:</span> <span class="mf">500000.0</span><span class="p">,</span>
+  <span class="s">"tie_word_embeddings"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+  <span class="s">"torch_dtype"</span><span class="p">:</span> <span class="s">"bfloat16"</span><span class="p">,</span>
+  <span class="s">"transformers_version"</span><span class="p">:</span> <span class="s">"4.43.0.dev0"</span><span class="p">,</span>
+  <span class="s">"use_cache"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+  <span class="s">"vocab_size"</span><span class="p">:</span> <span class="mi">128256</span>
+<span class="p">}</span>
+<span class="n">congig_cls</span> <span class="o">=</span> <span class="n">LlamaConfig</span>
+<span class="n">model_cls</span> <span class="o">=</span> <span class="n">LlamaForCausalLM</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">congig_cls</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">model_cls</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">local_model_path</span> <span class="o">=</span> <span class="s">"/home/snawar/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3.1-8B/snapshots/48d6d0fc4e02fb1269b36940650a1b7233035cbb"</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">local_model_path</span><span class="p">,</span>
+                                                   <span class="n">local_files_only</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                                   <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span><span class="p">,).</span><span class="n">to</span><span class="p">(</span><span class="s">'cuda'</span><span class="p">)</span>
+
+
+
+<span class="n">model_id</span> <span class="o">=</span> <span class="s">"meta-llama/Meta-Llama-3.1-8B"</span>
+
+<span class="n">input_text</span> <span class="o">=</span> <span class="s">"The reason why bigbang happend is "</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="n">generation_config</span><span class="p">.</span><span class="n">pad_token_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">.</span><span class="n">pad_token_id</span>
+
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">input_text</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s">"pt"</span><span class="p">).</span><span class="n">input_ids</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">generate</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">pad_token_id</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">eos_token_id</span><span class="p">,</span> <span class="n">do_sample</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">top_p</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loading checkpoint shards: 100%|████████████████████████████████████████████████████████████████| 4/4 [00:00&lt;00:00, 24.87it/s]
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+The reason why bigbang happend is 2nd law of thermodynamics.
+2nd law of thermodynamics is entropy increase.
+Entropy is probability of disorder.
+So, there is always probability of disorder.
+But, there is no probability of order.
+That is, the probability of order is 0.
+So, entropy can be 0.
+And, when entropy is 0, temperature is infinite.
+Infinite temperature is infinite energy.
+So, the universe will have infinite energy.
+And,
+</code></pre></div></div>
+
+<p class="notice--warning">Even though i changed the <code class="language-plaintext highlighter-rouge">num_hidden_layers</code> and <code class="language-plaintext highlighter-rouge">num_attention_heads</code> in the <code class="language-plaintext highlighter-rouge">param</code> from 32 to 16 , The model weights were still loaded.</p>
+
+<h2 id="metas-original-implementation-the-full-llama-experience">Meta’s Original Implementation: The Full LLaMA Experience</h2>
+
+<p>Meta’s original <a href="https://github.com/meta-llama/llama-models/tree/main">implementation</a> offers the most control, particularly for large-scale distributed training. The original LLama 3.1 architecture is purely implemented in PyTorch.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch.distributed</span> <span class="k">as</span> <span class="n">dist</span>
+<span class="kn">from</span> <span class="nn">fairscale.nn.model_parallel.initialize</span> <span class="kn">import</span> <span class="n">initialize_model_parallel</span><span class="p">,</span> <span class="n">get_model_parallel_world_size</span>
+<span class="kn">from</span> <span class="nn">models.llama3_1.api.args</span> <span class="kn">import</span> <span class="n">ModelArgs</span>
+<span class="kn">from</span> <span class="nn">models.llama3_1.reference_impl.model</span> <span class="kn">import</span> <span class="n">Transformer</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch.distributed</span> <span class="k">as</span> <span class="n">dist</span>
+
+<span class="c1"># Set environment variables manually if not running in a distributed launcher
+</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'RANK'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'0'</span>
+<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'WORLD_SIZE'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'1'</span>
+<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'MASTER_ADDR'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'localhost'</span>
+<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'MASTER_PORT'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'9300'</span>
+
+
+
+<span class="c1"># Continue with the rest of the script...
+</span>
+<span class="c1"># Initialize the PyTorch distributed environment
+</span><span class="n">dist</span><span class="p">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s">'nccl'</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">world_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Initialize the model parallel group
+</span><span class="n">initialize_model_parallel</span><span class="p">(</span><span class="n">model_parallel_size_</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Define your configuration
+</span><span class="n">json</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"dim"</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+    <span class="s">"ffn_dim_multiplier"</span><span class="p">:</span> <span class="mf">1.3</span><span class="p">,</span>
+    <span class="s">"multiple_of"</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span>
+    <span class="s">"n_heads"</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="s">"n_kv_heads"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="s">"n_layers"</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="s">"norm_eps"</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">,</span>
+    <span class="s">"rope_theta"</span><span class="p">:</span> <span class="mf">500000.0</span><span class="p">,</span>
+    <span class="s">"use_scaled_rope"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="s">"vocab_size"</span><span class="p">:</span> <span class="mi">128256</span>
+<span class="p">}</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">ModelArgs</span>
+<span class="n">param</span> <span class="o">=</span> <span class="n">config</span><span class="p">(</span><span class="o">**</span><span class="n">json</span><span class="p">)</span>
+
+<span class="c1"># Initialize the model
+</span><span class="k">print</span><span class="p">(</span><span class="s">"loading model ...."</span><span class="p">)</span>
+<span class="n">llama_model</span> <span class="o">=</span> <span class="n">Transformer</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">llama_model</span><span class="p">)</span>
+
+<span class="c1"># load the .pth model weigths with model.load_state_dict(torch.load("path/to/your/model.pth"))
+# Now you can proceed with your training or inference tasks
+</span></code></pre></div></div>
+<p>This method is geared towards advanced users who are comfortable managing distributed systems and need to train or fine-tune LLaMA 3.1 at scale.</p>
+
+<p>The repo for LLama 3.1 itself does not contain the scripts for traning, finetuning and inference but there is a separate repo for that called <a href="https://github.com/meta-llama/llama-recipes.git">llama-recipies</a> which containes several useful scripts.</p>
+
+<h4 id="why-use-it">Why Use It?</h4>
+<p><strong>Full Control:</strong> Best for complex setups requiring model parallelism and distributed training.</p>
+
+<p><strong>Large-Scale Training:</strong> Ideal for scenarios where you need to fully leverage your hardware resources.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Educational" /><category term="LLMs" /><category term="LLaMA" /><category term="Generative Models" /><category term="Model Loading" /><category term="Hugging Face" /><category term="Transformers" /><category term="Causal Attention" /><category term="Self-Attention" /><category term="Machine Learning" /><category term="Deep Learning" /><category term="AI" /><summary type="html"><![CDATA[Exploring the different methods to load and work with the LLaMA 3.1 model using Hugging Face's APIs and Meta's original implementation. Learn which approach best suits your needs for inference, fine-tuning, or training from scratch.]]></summary></entry><entry><title type="html">GPT model Causal Multi-Head Attention Mechanism: Pure and Simple</title><link href="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/" rel="alternate" type="text/html" title="GPT model Causal Multi-Head Attention Mechanism: Pure and Simple" /><published>2024-06-10T00:00:00+00:00</published><updated>2024-06-10T00:00:00+00:00</updated><id>https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and%20Simple</id><content type="html" xml:base="https://snawarhussain.com/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/"><![CDATA[<h2 id="introduction">Introduction</h2>
 
 <p>I have always found a disconnect between the theoretical understanding of attention mechanisms, the illustrations and their practical code implementation in models like GPT and wasn’t able to merge all the knowledge while I was trying to understand multi-head attention mechanism in-depth. Since transformers work on batched input, they things change up a bit and it is always confusion to relate the illustration and theory to the code implementation. In this post, I aim to bridge this gap by providing a simple and intuitive explanation of the vanilla as well as causal attention mechanism in GPT models.</p>
 
@@ -1914,410 +2209,4 @@ plotter.close<span class="o">()</span>
 
 <h2 id="5-conclusion">5. Conclusion</h2>
 
-<p>In this post, we’ve explored how to use PyVista to visualize and animate 3D motion capture data with high frame rate. By leveraging the power of PyVista, we can create compelling visualizations that not only bring our data to life but also provide deep insights into the underlying dynamicsand animations with high frame rates, making it an excellent choice for visualizing motion capture data.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Data Visualization" /><category term="Python" /><category term="Tutorial" /><category term="Python3" /><category term="PyVista" /><category term="3D Visualization" /><category term="Motion Capture" /><category term="Animation" /><category term="High FPS 3D plotting" /><summary type="html"><![CDATA[A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.]]></summary></entry><entry><title type="html">Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction</title><link href="https://snawarhussain.com/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/" rel="alternate" type="text/html" title="Unraveling the Complexity of Neural Data: Neural Modes, Manifolds, and Dimensionality Reduction" /><published>2023-06-08T00:00:00+00:00</published><updated>2023-06-08T00:00:00+00:00</updated><id>https://snawarhussain.com/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds</id><content type="html" xml:base="https://snawarhussain.com/blog/neuroscience/PCA-Neural-modes-and-Neural-Manifolds/"><![CDATA[<table>
-  <thead>
-    <tr>
-      <th>Symbol</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>\(X\)</td>
-      <td>The original data matrix, where each row corresponds to a neuron and each column corresponds to a time point</td>
-    </tr>
-    <tr>
-      <td>\(N\)</td>
-      <td>The number of neurons</td>
-    </tr>
-    <tr>
-      <td>\(M\)</td>
-      <td>The number of observations (time points)</td>
-    </tr>
-    <tr>
-      <td>\(x_{ij}\)</td>
-      <td>The activity of the \(i\)th neuron at the \(j\)th time point</td>
-    </tr>
-    <tr>
-      <td>\(v_1, v_2, v_3\)</td>
-      <td>The first three principal components</td>
-    </tr>
-    <tr>
-      <td>\(v_{ij}\)</td>
-      <td>The contribution of the \(j\)th time point to the \(i\)th principal component</td>
-    </tr>
-    <tr>
-      <td>\(V\)</td>
-      <td>The matrix of the first three principal components</td>
-    </tr>
-    <tr>
-      <td>\(A\)</td>
-      <td>The matrix of activation dynamics of the principal components</td>
-    </tr>
-    <tr>
-      <td>\(a_{ij}\)</td>
-      <td>The activation of the \(i\)th principal component for the \(j\)th neuron</td>
-    </tr>
-    <tr>
-      <td>\(X_{recons}\)</td>
-      <td>The reconstructed data matrix</td>
-    </tr>
-    <tr>
-      <td>\(x_{recons,ij}\)</td>
-      <td>The reconstructed activity of the \(i\)th neuron at the \(j\)th time point</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="introduction">Introduction</h2>
-
-<p>The human brain, with its billions of interconnected neurons, is a complex system that generates a vast amount of data. Understanding this data is a significant challenge in neuroscience. One of the key tools neuroscientists use to tackle this challenge is dimensionality reduction, a statistical technique that simplifies high-dimensional data while preserving its essential structure. In this post, we’ll explore how dimensionality reduction, particularly through methods like Principal Component Analysis (PCA), helps us understand neural data by identifying neural modes and neural manifolds.</p>
-
-<h2 id="preprocessing-of-neural-spike-data">Preprocessing of Neural Spike Data</h2>
-
-<p>Neural spikes can be recorded by inserting an electrode into a specific region of interest in the brain. This allows us to capture the neural spiking activity of hundreds of neurons in the vicinity. This neural spike activity is stored in a matrix where each row corresponds to a different neuron and each column contains the time in seconds/milliseconds when that specific neuron fired. This is a common format for neural spiking data, but it’s not immediately suitable for analysis like dimensionality reduction, which requires a fixed-length vector for each observation (in this case, each time point).</p>
-
-<h3 id="binning">Binning</h3>
-
-<p>One common way to handle this kind of data is to convert it into a “binned” format, where you divide time into small bins and count the number of spikes from each neuron in each bin. This gives you a 2D array where each row corresponds to a time bin and each column corresponds to a neuron.</p>
-
-<h3 id="smoothing">Smoothing</h3>
-
-<p>The raw binned data can be quite noisy, as it includes both the signal (the underlying neural activity) and the noise (random fluctuations). Smoothing can help reduce this noise and make the signal more apparent. One common way to smooth the data is to convolve it with a Gaussian kernel. This is equivalent to replacing each spike count with a weighted average of the spike counts in nearby time bins, where the weights are determined by a Gaussian function. This has the effect of smoothing out rapid fluctuations in the spike counts.</p>
-
-<p>After initial binning and smoothing, we get
-the data \(X\) in an \(M \times{N}\) matrix format where \(N\) is the number of neurons and the \(M\) is the fixed length time dimension.</p>
-
-<p>Given this format, the neural population activity at any given point in time \(t\) can be plotted in this \(N\)-dimensional space that is spanned by the \(N\) number of neurons. So each sample in this matrix \(X\) is a point in this \(N\)-dimensional space.</p>
-
-<p align="center">
-<img src="/assets/images/neural_modes/N-space.png" width="400" />
- <figcaption>Neural population activity spanned across N-dimensional space.</figcaption>
-</p>
-
-<p>If we were to plot the recorded neuronal population activity in this \(N\)-dimensional space within a certain time interval, one might hypothesize that the neurons will explore the whole space. But this is not the case.</p>
-
-<p align="center">
-<img src="/assets/images/neural_modes/hypo.gif" width="700" />
- <figcaption>Recorded activity of neural population plotted after preprocessing. The neurons do not seem to explore the high dimensional space in its entirety.</figcaption>
-</p>
-
-<p>It has been shown through several repeated experiments that a population of neurons does not explore the whole high \(N\)-dimensional space. Instead, due to the fact that these neurons are interconnected to each other and are not entirely independent, their overall activity is confined to a lower dimensional subspace residing in this high dimensional space. These subspaces are often referred to as  <strong>Neural Manifolds</strong>.</p>
-
-<p align="center">
-<img src="/assets/images/neural_modes/low_mani.gif" width="700" />
- <figcaption>Population of neurons confining their activity into a lower dimensional manifold within the high N-dimensional space due to interconnectivity.</figcaption>
-</p>
-
-<p>These Neural Manifolds can be uncovered with dimensionality reduction techniques like PCA. The idea is to reduce the dimensionality of the data and to identify these main modes of variation in the neural activity.</p>
-
-<p>The Manifolds are spanned by these <strong>Neural Modes</strong>. These modes capture the coordinated activity among neurons that often underlie specific functions or behaviors.</p>
-
-<h2 id="principle-component-analysis">Principle Component Analysis</h2>
-
-<p>Principal Component Analysis (PCA) is a statistical procedure that uses an orthogonal transformation to convert a set of observations of possibly correlated variables into a set of values of linearly uncorrelated variables called principal components. This transformation is defined in such a way that the first principal component has the largest possible variance (that is, accounts for as much of the variability in the data as possible), and each succeeding component in turn has the highest variance possible under the constraint that it is orthogonal to the preceding components. The resulting vectors are an uncorrelated orthogonal basis set.</p>
-
-<p>In other words, the Principal components are basically the orthogonal neural modes. When the original neural population activity is projected onto these neural modes (Principal components), they reveal the underlying pattern of activity. Since the results of projecting the neural activity onto a neural mode is basically equivalent to finding the weighted linear combination of the original neurons that shows their contribution to that specific mode.</p>
-
-<p>Now, let’s dive a bit deeper into the mathematics of PCA.</p>
-
-<p>Sticking to our previous notation for the neural data. Given a dataset \(X\) of dimension \(M \times N\) (where \(M\) is the number of observations and \(N\) is the number of variables), the goal of PCA is to find a new set of variables, the principal components, that are uncorrelated and that explain the most variance. In other words, we want to find a new basis for the data that retains the most information.
-In machine learning terms, the \(M\) observations are the samples and the \(N\) variables are the features. The principal components are the new features that we want to find.</p>
-
-<p class="notice--info"><strong>Note:</strong> In case of our neural data, our observations (\(N\)) are the neurons and the and each value across \(M\) is the activity of a certain neuron at a certain time point. According to the hypothesis we established earlier, the neural activity is confined to a lower dimensional manifold. So, the principal components are the new features that we want to find that span this \(d\)-dimensional manifold such that \(d &lt; N\). Implying that the neural population activity can be explained with a lower number of hidden variables (refer to as neural modes) instead of the original \(N\) neurons.</p>
-
-<p>The first step in PCA is to standardize the data. This involves subtracting the mean and dividing by the standard deviation for each variable. Let’s denote the standardized data as \(Z\).</p>
-
-<p>The next step is to compute the covariance matrix of \(Z\). The covariance matrix \(C\) is given by:</p>
-
-\[C = \frac{1}{N-1} Z^T Z\]
-
-<p>The covariance matrix is a symmetric matrix that contains the variances of the variables on its diagonal and the covariances between each pair of variables in the other entries.</p>
-
-<p>The next step is to compute the eigenvalues and eigenvectors of the covariance matrix. The eigenvectors of the covariance matrix correspond to the principal components and the eigenvalues correspond to the variance explained by the principal components.</p>
-
-<p>Let’s denote the eigenvalues by \(\lambda_i\) and the eigenvectors by \(v_i\). They satisfy the following equation:</p>
-
-\[C v_i = \lambda_i v_i\]
-
-<p>The principal components are then given by projecting the standardized data \(Z\) onto the eigenvectors:</p>
-
-\[PC_i = Z v_i\]
-
-<p>The variance explained by the \(i\) th principal component is given by the corresponding eigenvalue \(\lambda_i\).</p>
-
-<p>Let’s denote our data matrix as \(X\), where each row corresponds to a single time point and each column corresponds to a single neuron. After preprocessing and standardizing our data, we perform PCA on \(X\).</p>
-
-<p>The PCA procedure will yield a set of eigenvectors \(v_i\) (the principal components) and corresponding eigenvalues \(\lambda_i\). Each eigenvector \(v_i\) is a vector of the same length as the number of neurons, and its elements are the coefficients of the linear combination of the original neurons’ activities that forms the principal component.</p>
-
-<p>So, if we have \(N\) neurons, each eigenvector \(v_i\) will be a \(N\)-dimensional vector, where the \(j\)th element of \(v_i\) represents the contribution of the \(j\)th neuron to the \(i\)th principal component.</p>
-
-<p>To be more explicit, if \(v_i = [c_1, c_2, ..., c_N]\) is the \(i\)th principal component, then the \(i\)th principal component is a linear combination of the original neurons given by:</p>
-
-\[PC_i = c_1 * neuron_1 + c_2 * neuron_2 + ... + c_N * neuron_N\]
-
-<p>where \(c_j\) is the contribution (or weight) of the \(j\) th neuron to the \(i\) th principal component, and \(neuron_j\) is the activity of the \(j\) th neuron.</p>
-
-<p>These weights \(c_j\) can be positive or negative, and their magnitude indicates the degree to which each neuron contributes to the principal component. A large positive weight means that the neuron strongly contributes to the principal component, while a large negative weight means that the neuron contributes in the opposite direction. A weight close to zero means that the neuron does not contribute much to the principal component.</p>
-
-<p class="notice--warning"><strong>Note:</strong> The goal of apply PCA is to achieve dimetionality reduction across the neurons and NOT the time points.</p>
-
-<p>Let’s consider our original  neural dataset \(X\)  of dimension \(M \times N\) , where \(N\)  is the number of neurons and \(M\)  is the number of observations (time points). The data matrix \(X\)  can be written as:</p>
-
-\[X = [x_1, x_2, ..., x_N] = \begin{bmatrix}
-x_{11} &amp; x_{12} &amp; \cdots &amp; x_{1N} \\
-x_{21} &amp; x_{22} &amp; \cdots &amp; x_{2N} \\
-\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-x_{M1} &amp; x_{M2} &amp; \cdots &amp; x_{MN}
-\end{bmatrix}\]
-
-<p>where \(x_{ij}\)  is the activity at the \(i\) th time pooint of the \(j\) th neuron time point.</p>
-
-<p>After applying PCA, we obtain a set of principal components. Let’s denote the first three principal components as \(v_1\) , \(v_2\) , and \(v_3\) . Each of these is a vector of length \(M\) , so they can be written as:</p>
-
-<p>\(v_1 = [v_{11}, v_{12}, ..., v_{1N}]^T\) <br />
-\(v_2 = [v_{21}, v_{22}, ..., v_{2N}]^T\)<br />
-\(v_3 = [v_{31}, v_{32}, ..., v_{3N}]^T\)</p>
-
-<p>Here, \(v_{ij}\)  is the contribution of the \(j\) th neuron to the \(i\) th principal component or neural mode.</p>
-
-<p>These principal components can be combined into a \(3 \times N\)  matrix \(V\) , where each row is a principal component:</p>
-
-\[V = [v_1^T; v_2^T; v_3^T] = \begin{bmatrix}
-v_{11} &amp; v_{12} &amp; \cdots &amp; v_{1N} \\
-v_{21} &amp; v_{22} &amp; \cdots &amp; v_{2N} \\
-v_{31} &amp; v_{32} &amp; \cdots &amp; v_{3N}
-\end{bmatrix}\]
-
-<p>The activation dynamics of the principal components can be computed by projecting the original data onto the principal components. This can be done via matrix multiplication:</p>
-
-\[A = XV^T\]
-
-<p>Here, \(A\)  is a \(M \times 3\)  matrix, where each column is the activation dynamics of a principal component:</p>
-
-\[A = [a_1, a_2, a_3] = \begin{bmatrix}
-a_{11} &amp; a_{21} &amp; a_{31} \\
-a_{12} &amp; a_{22} &amp; a_{32} \\
-\vdots &amp; \vdots &amp; \vdots \\
-a_{M1} &amp; a_{M2} &amp; a_{M3}
-\end{bmatrix}\]
-
-<p>Here, \(a_{ij}\)  is the activation of the \(i\) th principal component for the \(j\) th neuron.</p>
-
-<p>So, the matrix \(V\)  represents the principal components in the space of the original time points, and the matrix \(A\)  represents the activation dynamics of the principal components for each neuron.</p>
-
-<p>The original neuron activity can be reconstructed from the principal components by reversing the projection. This can be done via matrix multiplication:</p>
-
-\[X_{recons} = AV\]
-
-<p>Here, \(X_{recons}\) is a \(M \times N\) matrix, where each column is the recons activity of a neuron:</p>
-
-\[X_{recons} =  \\  
-
-[x_{recons,1}, x_{recons,2}, ..., x_{recons,M}] = \\  
-
-\begin{bmatrix}  
-x_{recons,11} &amp; x_{recons,12} &amp; \cdots &amp; x_{recons,1N} \\
-x_{recons,21} &amp; x_{recons,22} &amp; \cdots &amp; x_{recons,2N} \\
-\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-x_{recons,M1} &amp; x_{recons,M2} &amp; \cdots &amp; x_{recons,MN}
-\end{bmatrix}\]
-
-<p>Here, \(x_{recons,ij}\) is the reconstructed activity of the \(i\) th neuron at the \(j\) th time point.</p>
-
-<p>This is how you can interpret the principal components representing the neural modes that are computed as the linear combinations of the original neurons and how the original neural activity can be represented as the linear combination of the activation dynamics \(A\) and the neural modes or eigen matrix \(V\)</p>
-
-<p>Now let’s implement this in python.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#@title Data retrieval
-#@markdown This cell downloads the example dataset that we will use in this tutorial.
-</span><span class="kn">import</span> <span class="nn">io</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://osf.io/sy5xt/download'</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">r</span><span class="p">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
-  <span class="k">print</span><span class="p">(</span><span class="s">'Failed to download data'</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-  <span class="n">spike_times</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">io</span><span class="p">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">content</span><span class="p">),</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="s">'spike_times'</span><span class="p">]</span>
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spike_times</span><span class="p">.</span><span class="n">shape</span>
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(734,)
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># Define the bin edges (for example, bins of 1 millisecond from 0 to the maximum spike time)
-</span><span class="n">bin_edges</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">st</span><span class="p">)</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">spike_times</span><span class="p">]),</span> <span class="mf">0.001</span><span class="p">)</span>
-
-<span class="c1"># Initialize an empty array to hold the binned data
-</span><span class="n">binned_data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">bin_edges</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">spike_times</span><span class="p">)))</span>
-
-<span class="c1"># For each neuron, count the number of spikes in each bin
-</span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">neuron_spike_times</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spike_times</span><span class="p">):</span>
-    <span class="n">binned_data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">neuron_spike_times</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bin_edges</span><span class="p">)</span>
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">gaussian_filter1d</span>
-
-<span class="c1"># Apply a Gaussian filter to each neuron's binned spike counts
-</span><span class="n">smoothed_data</span> <span class="o">=</span> <span class="n">gaussian_filter1d</span><span class="p">(</span><span class="n">binned_data</span><span class="p">[:</span><span class="mi">50000</span><span class="p">,</span> <span class="p">:],</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">smoothed_data</span><span class="p">.</span><span class="n">shape</span>
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(50000, 734)
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-<span class="c1"># Choose a neuron to visualize
-</span><span class="n">neuron</span> <span class="o">=</span> <span class="mi">200</span>
-
-<span class="c1"># Plot the raw binned spike counts
-</span><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">binned_data</span><span class="p">[:</span><span class="mi">1000</span><span class="p">,</span> <span class="n">neuron</span><span class="p">])</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Raw Binned Spike Counts for Neuron {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">neuron</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Time Bin'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Spike Count'</span><span class="p">)</span>
-
-<span class="c1"># Plot the smoothed spike counts
-</span><span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smoothed_data</span><span class="p">[:</span><span class="mi">1000</span><span class="p">,</span> <span class="n">neuron</span><span class="p">])</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Smoothed Spike Counts for Neuron {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">neuron</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Time Bin'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Spike Count'</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
-
-</code></pre></div></div>
-
-<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_5_0.png" alt="png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">smoothed_data</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">100</span><span class="p">].</span><span class="n">shape</span>
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(50000, 100)
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
-
-<span class="c1"># Apply PCA
-</span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">()</span>
-<span class="n">pca</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">smoothed_data</span><span class="p">[:,</span> <span class="p">:])</span>
-
-<span class="c1"># Transform the data into the principal component space
-</span><span class="n">smoothed_data_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">smoothed_data</span><span class="p">[:,</span> <span class="p">:])</span>
-
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pca</span><span class="p">.</span><span class="n">explained_variance_ratio_</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Explained Variance Ratio of Principal Components'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Principal Component'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Explained Variance Ratio'</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_8_0.png" alt="png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smoothed_data_pca</span><span class="p">[:</span><span class="mi">1000</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s">'Principal Component </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
-
-</code></pre></div></div>
-
-<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_9_0.png" alt="png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Principal Component 1'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Principal Component 2'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Neural Manifold'</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
-
-</code></pre></div></div>
-
-<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_10_0.png" alt="png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s">'3d'</span><span class="p">)</span>
-
-<span class="c1"># Create a sequence of colors based on time
-</span><span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">cm</span><span class="p">.</span><span class="n">viridis</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">smoothed_data_pca</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-
-<span class="c1"># Plot a line in 3D space
-</span><span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">'darkblue'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="c1"># Plot points along the line
-</span><span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-
-<span class="n">ax</span><span class="p">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Principal Component 1'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'Principal Component 2'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s">'Principal Component 3'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'3D Visualization of First Three Principal Components'</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
-
-</code></pre></div></div>
-
-<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_11_0.png" alt="png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-<span class="c1"># Define the number of principal components to plot
-</span><span class="n">num_components</span> <span class="o">=</span> <span class="mi">3</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-
-<span class="c1"># Plot each principal component
-</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_components</span><span class="p">):</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">num_components</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smoothed_data_pca</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s">'Principal Component </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Time (bins)'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Activity'</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
-
-</code></pre></div></div>
-
-<p><img src="/assets/images/neural_modes/nerual_modes_files/nerual_modes_12_0.png" alt="png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-</code></pre></div></div>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>Applying PCA to neural data, which is essentially time series data, is a common practice in neuroscience. The idea is to reduce the dimensionality of the data and to identify the main modes of variation in the neural activity. Here’s how it can be done</p>
-
-<p><strong>Preprocessing</strong>: Neural data often needs to be preprocessed before PCA can be applied. This can involve steps like filtering the data to remove noise, normalizing the data, or subtracting the mean activity across all neurons.</p>
-
-<p><strong>Formatting the data</strong>: For PCA, the data needs to be in a 2D matrix format, where each row is an observation and each column is a variable. In the context of neural data, an observation could be the activity of all neurons at a single point in time, and a variable would be the activity of a single neuron over time. So, you would reshape your data such that each row of your matrix corresponds to a single time point, and each column corresponds to a single neuron.</p>
-
-<p><strong>Applying PCA</strong>: Once your data is in the correct format, you can apply PCA as usual. This involves computing the covariance matrix of your data, and then finding the eigenvalues and eigenvectors of this matrix. The eigenvectors are the principal components, and they represent the directions in which your data varies the most.</p>
-
-<p><strong>Interpreting the results</strong>: The output of PCA will be a set of principal components, which are orthogonal to each other and explain the maximum variance in the data. Each principal component is a linear combination of the original neurons, and the coefficients in this linear combination tell you how much each neuron contributes to that component. The first few principal components often capture a large portion of the variance in the data, and can be used to visualize and further analyze the data.</p>
-
-<p>It’s important to note that PCA is a linear method, which means it assumes that the main modes of variation in your data are linear. If this is not the case, other methods like Independent Component Analysis (ICA) or Non-negative Matrix Factorization (NMF) might be more appropriate.</p>
-
-<p>Also, PCA does not take into account the temporal structure of the data. If the temporal dynamics are important, methods like time-lagged PCA or dynamical systems analysis might be more appropriate.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Neuroscience" /><category term="Neural Data" /><category term="PCA" /><category term="Dimensionality Reduction" /><category term="Neural Modes" /><category term="Neural Manifolds" /><summary type="html"><![CDATA[A guide to understanding neural data using dimensionality reduction techniques such as Principal Component Analysis (PCA). The concept of neural manifolds and modes in neuroscience]]></summary></entry></feed>
+<p>In this post, we’ve explored how to use PyVista to visualize and animate 3D motion capture data with high frame rate. By leveraging the power of PyVista, we can create compelling visualizations that not only bring our data to life but also provide deep insights into the underlying dynamicsand animations with high frame rates, making it an excellent choice for visualizing motion capture data.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Data Visualization" /><category term="Python" /><category term="Tutorial" /><category term="Python3" /><category term="PyVista" /><category term="3D Visualization" /><category term="Motion Capture" /><category term="Animation" /><category term="High FPS 3D plotting" /><summary type="html"><![CDATA[A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.]]></summary></entry></feed>
