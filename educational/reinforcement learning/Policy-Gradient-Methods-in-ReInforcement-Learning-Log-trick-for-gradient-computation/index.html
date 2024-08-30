@@ -1,0 +1,1128 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Policy Optimization with REINFORCE: A Deep Dive into Policy Gradients and related concepts - Snawar Hussain</title>
+<meta name="description" content="Discover how the REINFORCE algorithm leverages policy gradients, the log-trick, and Monte Carlo sampling to optimize decision-making in reinforcement learning environments. This guide offers a detailed walkthrough for understanding and implementing REINFORCE with Python and PyTorch.">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Policy Optimization with REINFORCE: A Deep Dive into Policy Gradients and related concepts">
+<meta property="og:url" content="https://snawarhussain.com/educational/reinforcement%20learning/Policy-Gradient-Methods-in-ReInforcement-Learning-Log-trick-for-gradient-computation/">
+
+
+  <meta property="og:description" content="Discover how the REINFORCE algorithm leverages policy gradients, the log-trick, and Monte Carlo sampling to optimize decision-making in reinforcement learning environments. This guide offers a detailed walkthrough for understanding and implementing REINFORCE with Python and PyTorch.">
+
+
+
+  <meta property="og:image" content="https://snawarhussain.com/assets/images/reinforce/reinforce_cover.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2024-08-30T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://snawarhussain.com/educational/reinforcement%20learning/Policy-Gradient-Methods-in-ReInforcement-Learning-Log-trick-for-gradient-computation/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <link rel='icon' href='/assets/favicon.ico' type='image/x-icon'>
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/posts/"
+                
+                
+              >Posts</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags/"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/cv/"
+                
+                
+              >CV</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/reinforce/reinforce_cover.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Policy Optimization with REINFORCE: A Deep Dive into Policy Gradients and related concepts
+
+        
+      </h1>
+      
+        <p class="page__lead">Discover how the REINFORCE algorithm leverages policy gradients, the log-trick, and Monte Carlo sampling to optimize decision-making in reinforcement learning environments. This guide offers a detailed walkthrough for understanding and implementing REINFORCE with Python and PyTorch.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          18 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://snawarhussain.com/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://snawarhussain.com/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow @ Fraunhofer <br />Research Areas: Computational MRI, AI for Science</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Bremen, Germany</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Policy Optimization with REINFORCE: A Deep Dive into Policy Gradients and related concepts">
+    <meta itemprop="description" content="Discover how the REINFORCE algorithm leverages policy gradients, the log-trick, and Monte Carlo sampling to optimize decision-making in reinforcement learning environments. This guide offers a detailed walkthrough for understanding and implementing REINFORCE with Python and PyTorch.">
+    <meta itemprop="datePublished" content="2024-08-30T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-cog"></i> Article Overview</h4></header>
+              <ul class="toc__menu"><li><a href="#introduction">Introduction</a></li><li><a href="#historical-context-and-intuition">Historical Context and Intuition</a><ul><li><a href="#the-challenge-of-policy-optimization-in-rl">The Challenge of Policy Optimization in RL</a></li></ul></li><li><a href="#but-why-is-computing-the-gradient-of-the-expected-reward-difficult">But Why is Computing the Gradient of the Expected Reward Difficult?</a><ul><li><a href="#understanding-the-infeasibility-of-direct-gradient-calculation">Understanding the Infeasibility of Direct Gradient Calculation</a><ul><li><a href="#1-combinatorial-explosion-of-trajectories">1. Combinatorial Explosion of Trajectories</a></li></ul></li></ul></li><li><a href="#the-log-derivative-trick">The Log-Derivative Trick</a><ul><li><a href="#derivation-of-the-log-derivative-trick">Derivation of the Log-Derivative Trick</a></li><li><a href="#benefits-of-this-transformation">Benefits of This Transformation</a></li></ul></li><li><a href="#bonus-lesson-on-monte-carlo-and-gradient-estimation">Bonus Lesson on Monte Carlo and Gradient Estimation</a><ul><li><a href="#what-happens-when-you-sample">What Happens When You Sample?</a></li><li><a href="#applying-this-to-policy-gradients">Applying This to Policy Gradients</a></li></ul></li><li><a href="#key-takeaways">Key Takeaways:</a></li><li><a href="#code-implementation">Code Implementation</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="introduction">Introduction</h2>
+
+<p>The REINFORCE algorithm is a classic method in policy gradient reinforcement learning. It directly optimizes the policy by maximizing the expected cumulative reward. To understand how REINFORCE uses stochastic gradient ascent to update policy parameters, we need to delve into the problem of computing gradients of the expected reward and the derivation of the policy gradient theorem.</p>
+
+<p>The development of the REINFORCE algorithm and the associated policy gradient theorem was driven by a need to optimize policies in reinforcement learning (RL) environments where the outcome (reward) is uncertain and depends on a sequence of actions. The challenges in computing gradients directly from the expected reward and the eventual adoption of the log-derivative trick stem from deep insights into how learning from rewards works in probabilistic environments.</p>
+
+<h2 id="historical-context-and-intuition">Historical Context and Intuition</h2>
+
+<h3 id="the-challenge-of-policy-optimization-in-rl">The Challenge of Policy Optimization in RL</h3>
+
+<p>Before policy gradient methods like REINFORCE were developed, many reinforcement learning approaches focused on value-based methods, like Q-learning, where the objective is to learn a value function that estimates the expected reward for a given state-action pair. However, these methods don’t directly optimize the policy itself.</p>
+
+<p>Researchers realized that directly optimizing the policy—learning the parameters that dictate which actions to take—could offer a more direct approach to solving RL problems. The policy \(\pi_\theta(a \mid s)\) is a function that gives the probability of taking action \(a\) given state \(s\), and it is parameterized by \(\theta\).</p>
+
+<p>The goal is to find the optimal policy parameters \(\theta^*\) that maximize the expected cumulative reward:</p>
+
+\[J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ R(\tau) \right]\]
+
+<p>Where:</p>
+
+<ul>
+  <li>\(\tau\) represents a trajectory (sequence of states, actions, and rewards).</li>
+  <li>\(R(\tau)\) is the total reward of the trajectory \(\tau\).</li>
+  <li>\(\pi_\theta\) is the policy parameterized by \(\theta\).</li>
+  <li>\(\mathbb{E}_{\tau \sim \pi_\theta}\) denotes the expectation over trajectories sampled from the policy \(\pi_\theta\).</li>
+</ul>
+
+<p>The challenge is that \(J(\theta)\) is an expectation, and directly computing its gradient \(\nabla_\theta J(\theta)\) is difficult because the expectation involves a distribution over trajectories, which depends on the policy parameters \(\theta\). The trajectory distribution itself is a complex, implicit function of \(\theta\), making it non-trivial to compute the gradient directly.</p>
+
+<p><a href="/gif/why-why-oh-thats-why-meme-sheldon-NLL1QB" title="why why oh that's why meme sheldon"><img src="https://i.makeagif.com/media/6-29-2021/NLL1QB.gif" alt="why why oh that's why meme sheldon" /></a></p>
+
+<p>Ok, here I said a lot of things regarding the challenges of computing gradients of an expectation but what does it actually mean? Let’s break it down.</p>
+
+<h2 id="but-why-is-computing-the-gradient-of-the-expected-reward-difficult">But Why is Computing the Gradient of the Expected Reward Difficult?</h2>
+
+<p>The primary challenge is that the expected reward \(J(\theta)\) is an expectation over a distribution of trajectories, which are indirectly dependent on the policy parameters \(\theta\).</p>
+
+<ol>
+  <li><strong>Complex Dependency</strong>:
+    <ul>
+      <li>The expectation \(\mathbb{E}_{\tau \sim \pi_\theta}\) involves summing over all possible trajectories \(\tau\), each of which is a sequence of states and actions influenced by the policy \(\pi_\theta\).</li>
+      <li>The distribution over trajectories itself depends on the policy parameters \(\theta\), making the expectation highly non-linear and difficult to differentiate directly.</li>
+    </ul>
+  </li>
+  <li><strong>Infeasibility of Direct Differentiation</strong>:
+    <ul>
+      <li>To compute the gradient \(\nabla_\theta J(\theta)\) directly, you would need to compute how changes in \(\theta\) affect the entire distribution of trajectories and how these changes in turn affect the expected reward.</li>
+      <li>For most practical problems, directly calculating this gradient is infeasible due to the combinatorial explosion of possible trajectories and the implicit, complex relationship between the policy parameters and the trajectories.</li>
+    </ul>
+  </li>
+</ol>
+
+<!-- gif centered -->
+<iframe src="https://giphy.com/embed/3ELtfmA4Apkju" width="330" style="align-items: center;
+justify-content: center" frameborder="0"></iframe>
+<p>Okkkk….? But let’s take another step back and try to understand in more depth:</p>
+
+<h3 id="understanding-the-infeasibility-of-direct-gradient-calculation">Understanding the Infeasibility of Direct Gradient Calculation</h3>
+
+<h4 id="1-combinatorial-explosion-of-trajectories">1. Combinatorial Explosion of Trajectories</h4>
+
+<p>Just as mentioned earlier, in reinforcement learning, a trajectory \(\tau\) refers to a sequence of states, actions, and rewards experienced by the agent from the start to the end of an episode. For example, a trajectory might look like this:</p>
+
+\[\tau = (s_0, a_0, r_0, s_1, a_1, r_1, \dots, s_T, a_T, r_T).\]
+
+<ul>
+  <li>
+    <p><strong>Combinatorial Explosion</strong>: The number of possible trajectories grows exponentially with the length of the episode and the number of possible actions at each state. If an environment has \(S\) states, \(A\) actions, and episodes of length \(T\), the number of possible trajectories could be as large as \((S \times A)^T\). This rapid growth in the number of trajectories is what we mean by combinatorial explosion.</p>
+
+    <ul>
+      <li><strong>Example</strong>: Suppose an environment has 100 states, 10 possible actions per state, and an episode length of 50 steps. The number of possible trajectories is \((100 \times 10)^{50} = 10^{100}\), an astronomically large number.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Implicit Dependence on Policy Parameters</strong>: Each trajectory’s probability depends on the policy parameters \(\theta\). Changing \(\theta\) alters the probabilities of taking specific actions in given states, which in turn alters the distribution of trajectories. The relationship between \(\theta\) and the trajectories is implicit and complex because small changes in \(\theta\) can lead to different sequences of states and actions, which accumulate over time.</p>
+
+    <ul>
+      <li><strong>Implication</strong>: Calculating the gradient of the expected reward directly would require summing over all possible trajectories, each weighted by its probability under the current policy. This would involve evaluating and differentiating an enormous number of terms, which is computationally infeasible.</li>
+    </ul>
+  </li>
+</ul>
+
+<iframe src="https://giphy.com/embed/3CXVJrUB2cJfbDi7DF" width="400" height="480" style="" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>
+<!-- put png image -->
+<p>Now… I hope things are a bit more clear as to why computing the gradient of the expected reward is difficult. But how do we actually go about solving this problem? This is where the log-derivative trick and the REINFORCE algorithm come into play.</p>
+
+<h2 id="the-log-derivative-trick">The Log-Derivative Trick</h2>
+
+<p>When early researchers realized the challenge of directly computing \(\nabla_\theta J(\theta)\), they sought an alternative way to express the gradient that would be easier to work with. They turned to the field of statistical estimation, where the log-derivative (likelihood ratio) trick was already known.</p>
+
+<iframe src="https://giphy.com/embed/iNQ2cIve8rUqI" width="400" style="" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>
+
+<h3 id="derivation-of-the-log-derivative-trick">Derivation of the Log-Derivative Trick</h3>
+
+<p>We’re starting with the goal of computing the gradient of the expected reward \(\mathbb{E}[R_t \mid \pi_\theta]\) with respect to the policy parameters \(\theta\).</p>
+
+<p>The key steps in the derivation are:</p>
+
+<ol>
+  <li><strong>Expectation of the Reward</strong>:
+    <ul>
+      <li>
+\[\nabla_\theta \mathbb{E}[R_t \mid \pi_\theta] = \nabla_\theta \sum_a \pi_\theta(a) \mathbb{E}[R_t \mid A_t = a]\]
+      </li>
+      <li>This expression shows the expectation as a sum over all possible actions \(a\), weighted by the probability \(\pi_\theta(a)\) of taking action \(a\) under the current policy.</li>
+    </ul>
+  </li>
+  <li><strong>Introducing the \(q(a)\) Function</strong>:
+    <ul>
+      <li>\(q(a) = \mathbb{E}[R_t \mid A_t = a]\) is the expected reward when taking action \(a\).</li>
+      <li>Substituting this into the original expression gives us:</li>
+    </ul>
+
+\[\nabla_\theta \sum_a \pi_\theta(a) q(a)\]
+  </li>
+  <li><strong>Gradient Expansion</strong>:
+    <ul>
+      <li>Using the product rule (since \(\pi_\theta(a)\) depends on \(\theta\)), we expand the gradient:
+\(\nabla_\theta \sum_a \pi_\theta(a) q(a) = \sum_a q(a) \nabla_\theta \pi_\theta(a)\)</li>
+    </ul>
+  </li>
+  <li><strong>Rewriting the Gradient Using \(\pi_\theta(a)\)</strong>:
+    <ul>
+      <li>Notice that \(\nabla_\theta \pi_\theta(a) = \pi_\theta(a) \frac{\nabla_\theta \pi_\theta(a)}{\pi_\theta(a)}\).</li>
+      <li>This allows us to rewrite the gradient as:
+ \(\sum_a q(a) \nabla_\theta \pi_\theta(a) = \sum_a \pi_\theta(a) q(a) \frac{\nabla_\theta \pi_\theta(a)}{\pi_\theta(a)}\)</li>
+    </ul>
+  </li>
+  <li><strong>Factoring out \(\pi_\theta(a)\)</strong>:
+    <ul>
+      <li>The expression simplifies to:
+\(\sum_a \pi_\theta(a) q(a) \frac{\nabla_\theta \pi_\theta(a)}{\pi_\theta(a)}\)</li>
+      <li>
+        <p>Here, we can see that \(\frac{\nabla_\theta \pi_\theta(a)}{\pi_\theta(a)}\) is the score function, often denoted as \(\nabla_\theta \log \pi_\theta(a)\).</p>
+      </li>
+      <li>This is still a sum over all possible actions \(a\). The term \(\pi_\theta(a) q(a)\) represents the contribution of action \(a\) to the expected reward, weighted by the likelihood of taking that action under the policy \(\pi_\theta\).</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Transition to Expectation</strong>:</p>
+
+    <ul>
+      <li>Recognize that \(\pi_\theta(a)\) is the probability of taking action \(a\). Therefore, summing over all actions can be viewed as taking an expectation over actions sampled from the policy distribution \(\pi_\theta\).</li>
+      <li>We replace the sum with an expectation over the distribution of actions \(A_t\) under policy \(\pi_\theta\):
+  \(\sum_a \pi_\theta(a) \left[ q(a) \frac{\nabla_\theta \pi_\theta(a)}{\pi_\theta(a)} \right] = \mathbb{E}_{A_t \sim \pi_\theta} \left[ q(A_t) \frac{\nabla_\theta \pi_\theta(A_t)}{\pi_\theta(A_t)} \right]\)
+      - Here, \(q(A_t) = R_t\) is the reward associated with taking action \(A_t\).</li>
+    </ul>
+  </li>
+  <li><strong>Finally:</strong>
+\(\mathbb{E}_{A_t \sim \pi_\theta} \left[ R_t \frac{\nabla_\theta \pi_\theta(A_t)}{\pi_\theta(A_t)} \right]\)</li>
+</ol>
+
+<p>The log-derivative trick allows us to express the gradient of the expectation in a different form that is more tractable:</p>
+
+\[\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ R(\tau) \nabla_\theta \log \pi_\theta(\tau) \right]\]
+
+<h3 id="benefits-of-this-transformation">Benefits of This Transformation</h3>
+
+<ol>
+  <li><strong>Sampling-Based Estimation</strong>:
+    <ul>
+      <li><strong>Original Problem</strong>: Directly computing \(\nabla_\theta J(\theta)\) would require summing over all possible trajectories and computing their derivatives, which is infeasible.</li>
+      <li>
+        <p><strong>Transformed Problem</strong>: The new expression is an expectation that we can estimate by sampling trajectories from the policy. Instead of needing to consider all possible trajectories, we can generate a few sample trajectories \(\tau \sim \pi_\theta\) and use these samples to approximate the gradient. We turn the problem of computing a complicated expectation over an enormous set into a simpler problem of estimating that expectation by sampling. This is much more feasible in practice, especially in environments where the state and action spaces are large.</p>
+      </li>
+      <li><strong>Formally</strong>: By expressing the gradient as an expectation, we can approximate it using Monte Carlo methods. We only need to sample actions from the policy, compute the reward, and update the policy based on those samples.</li>
+    </ul>
+  </li>
+  <li><strong>Gradient Computation Becomes Tractable</strong>:
+    <ul>
+      <li>The transformed expression \(\mathbb{E}_{\tau \sim \pi_\theta} \left[ R(\tau) \nabla_\theta \log \pi_\theta(\tau) \right]\) can be computed using the chain rule on the policy network. This is because \(\nabla_\theta \log \pi_\theta(\tau)\) is just the gradient of the log-probability of the trajectory, which is directly computable if we know the policy \(\pi_\theta\).
+Therefore, we can do <strong>stochastic gradient ascent</strong> in the space of policy parameters.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="bonus-lesson-on-monte-carlo-and-gradient-estimation">Bonus Lesson on Monte Carlo and Gradient Estimation</h2>
+
+<p>Monte Carlo (MC) methods are a broad class of computational algorithms that rely on repeated random sampling to obtain numerical results. In the context of reinforcement learning (RL) and specifically in policy gradient methods like REINFORCE, Monte Carlo methods are used to estimate the expectation of a function with respect to a probability distribution.</p>
+
+<h3 id="what-happens-when-you-sample">What Happens When You Sample?</h3>
+
+<ol>
+  <li><strong>Expectation of a Function</strong>:
+    <ul>
+      <li>Suppose you have a random variable \(X\) with a probability distribution \(p(X)\), and you want to compute the expected value of a function \(f(X)\) under this distribution:
+\(\mathbb{E}_{X \sim p(X)}[f(X)] = \int f(X) p(X) dX\)</li>
+      <li>In practice, for complex functions or high-dimensional spaces, computing this expectation analytically is difficult or impossible.</li>
+    </ul>
+  </li>
+  <li><strong>Monte Carlo Estimation</strong>:
+    <ul>
+      <li>Instead of calculating the integral directly, you can estimate the expectation by taking random samples \(X_i\) from the distribution \(p(X)\) and averaging the function values:
+\(\mathbb{E}_{X \sim p(X)}[f(X)] \approx \frac{1}{N} \sum_{i=1}^N f(X_i)\)</li>
+      <li>As \(N\) (the number of samples) increases, the average converges to the true expectation due to the Law of Large Numbers.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="applying-this-to-policy-gradients">Applying This to Policy Gradients</h3>
+
+<p>In the context of the policy gradient theorem:</p>
+
+<ol>
+  <li><strong>Gradient of the Expected Reward</strong>:
+    <ul>
+      <li>The gradient of the expected reward can be expressed as:
+\(\nabla_\theta J(\theta) = \mathbb{E}_{A_t \sim \pi_\theta} \left[ R_t \frac{\nabla_\theta \pi_\theta(A_t)}{\pi_\theta(A_t)} \right]\)</li>
+      <li>This expectation is over the distribution of actions \(A_t\) given by the policy \(\pi_\theta\).</li>
+    </ul>
+  </li>
+  <li><strong>Sampling from the Policy</strong>:
+    <ul>
+      <li>To estimate this gradient, you don’t need to evaluate every possible action (which would be computationally infeasible in large or continuous action spaces).</li>
+      <li>Instead, you draw samples of actions \(A_t\) from the policy \(\pi_\theta\), compute the associated reward \(R_t\) for those actions, and then compute the policy gradient for those specific samples.</li>
+    </ul>
+  </li>
+  <li><strong>Monte Carlo Estimation of the Gradient</strong>:
+    <ul>
+      <li>The policy gradient can be approximated by averaging the gradients computed for each sample:
+\(\nabla_\theta J(\theta) \approx \frac{1}{N} \sum_{i=1}^N R_{t,i} \frac{\nabla_\theta \pi_\theta(A_{t,i})}{\pi_\theta(A_{t,i})}\)</li>
+      <li>Here, \(A_{t,i}\) are the actions sampled from the policy \(\pi_\theta\), and \(R_{t,i}\) are the corresponding rewards.</li>
+      <li>As you draw more samples, the average of these gradients converges to the true gradient of the expected reward, allowing you to use this approximation to update the policy parameters \(\theta\).</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="key-takeaways">Key Takeaways:</h2>
+<ul>
+  <li>
+    <p><strong>Why It Works</strong>: By expressing the gradient as an expectation, you transform a potentially intractable sum (over all possible actions) into something you can approximate using a manageable number of samples. The Monte Carlo method is powerful because it allows you to estimate this expectation (and thus the gradient) by averaging over a relatively small number of samples from the policy.</p>
+  </li>
+  <li>
+    <p><strong>Key Insight</strong>: The crucial insight is that you don’t need to consider every possible action at every step. Instead, by randomly sampling actions according to the policy and averaging the results, you get an unbiased estimate of the true gradient. This is what enables policy gradient methods to scale to complex, high-dimensional action spaces.</p>
+  </li>
+  <li>
+    <p><strong>Implication for Learning</strong>: This approach is why we can effectively use stochastic gradient ascent to optimize policies in reinforcement learning. Even though each step in the optimization process is based on a noisy estimate of the gradient, as long as you sample enough and follow the gradient on average, the policy will improve over time.</p>
+  </li>
+</ul>
+
+<h2 id="code-implementation">Code Implementation</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">gymnasium</span> <span class="k">as</span> <span class="n">gym</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+<span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">Categorical</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span><span class="p">,</span> <span class="n">relu</span><span class="p">,</span> <span class="n">softmax</span>
+<span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">Categorical</span>
+
+
+<span class="k">class</span> <span class="nc">PolicyNetwork</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="s">"""
+    Policy Network that defines the policy π_θ(a | s) as a neural network.
+    This network takes in the state as input and outputs a probability distribution
+    over actions.
+    
+    Args:
+    - state_dim: Dimensionality of the state space.
+    - action_dim: Dimensionality of the action space.
+    - hidden_dim: Number of hidden units in the hidden layer.
+    """</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dim</span><span class="p">,</span> <span class="n">action_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PolicyNetwork</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="c1"># First fully connected layer
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">state_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">)</span>
+        <span class="c1"># Second fully connected layer (output layer)
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">action_dim</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="s">"""
+        Forward pass through the network. The output is a probability distribution
+        over actions, given the input state.
+
+        This corresponds to computing π_θ(a | s).
+        """</span>
+        <span class="c1"># Apply ReLU activation to the first layer's output
+</span>        <span class="n">x</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="c1"># Compute action probabilities using softmax
+</span>        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Output π_θ(a | s)
+</span>
+    <span class="k">def</span> <span class="nf">select_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy_net</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="s">"""
+        Select an action based on the current policy. This involves sampling from the
+        distribution π_θ(a | s) and returning both the action and its log-probability.
+
+        Args:
+        - policy_net: The policy network (self).
+        - state: The current state of the environment.
+
+        Returns:
+        - action: The action sampled from the policy.
+        - log_prob: The log-probability of the selected action.
+        """</span>
+        <span class="c1"># Convert state to tensor
+</span>        <span class="n">state</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">state</span><span class="p">).</span><span class="nb">float</span><span class="p">()</span>
+        <span class="c1"># Get action probabilities from the policy network
+</span>        <span class="n">probs</span> <span class="o">=</span> <span class="n">policy_net</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="c1"># Create a categorical distribution over actions
+</span>        <span class="n">m</span> <span class="o">=</span> <span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span>
+        <span class="c1"># Sample an action from the distribution
+</span>        <span class="n">action</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="n">sample</span><span class="p">()</span>
+        <span class="c1"># Return the action and its log-probability (log π_θ(a | s))
+</span>        <span class="k">return</span> <span class="n">action</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">m</span><span class="p">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">compute_returns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.99</span><span class="p">):</span>
+        <span class="s">"""
+        Compute the return R(τ) for each time step in a trajectory. This involves
+        calculating the cumulative discounted reward.
+
+        Args:
+        - rewards: List of rewards obtained during the episode.
+        - gamma: Discount factor.
+
+        Returns:
+        - returns: List of discounted returns for each time step.
+        """</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">returns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Iterate over rewards in reverse order to calculate returns
+</span>        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">rewards</span><span class="p">):</span>
+            <span class="n">R</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">R</span>
+            <span class="n">returns</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>  <span class="c1"># Insert at the beginning
+</span>        <span class="k">return</span> <span class="n">returns</span>  <span class="c1"># This is R(τ) in the theory
+</span>
+<span class="c1"># Set up the environment
+</span><span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="p">.</span><span class="n">make</span><span class="p">(</span><span class="s">'CartPole-v1'</span><span class="p">)</span>
+
+<span class="c1"># Set the seed for reproducibility
+</span><span class="n">torch</span><span class="p">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Initialize the policy network with state and action dimensions
+</span><span class="n">state_dim</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">observation_space</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">action_dim</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">action_space</span><span class="p">.</span><span class="n">n</span>
+<span class="n">policy_net</span> <span class="o">=</span> <span class="n">PolicyNetwork</span><span class="p">(</span><span class="n">state_dim</span><span class="p">,</span> <span class="n">action_dim</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">num_episodes</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.99</span><span class="p">):</span>
+    <span class="s">"""
+    Train the policy network using the REINFORCE algorithm.
+
+    Args:
+    - policy_net: The policy network to be trained.
+    - optimizer: The optimizer to update the network parameters.
+    - num_episodes: Number of episodes to train the network.
+    - gamma: Discount factor for future rewards.
+    """</span>
+    <span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
+        <span class="c1"># Reset the environment to get the initial state
+</span>        <span class="n">state</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">reset</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">log_probs</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Store log π_θ(a | s)
+</span>        <span class="n">rewards</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Store rewards
+</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1500</span><span class="p">):</span>  <span class="c1"># Cap episode length
+</span>            <span class="c1"># Select action and get its log-probability
+</span>            <span class="n">action</span><span class="p">,</span> <span class="n">log_prob</span> <span class="o">=</span> <span class="n">policy_net</span><span class="p">.</span><span class="n">select_action</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+            <span class="c1"># Take the action in the environment
+</span>            <span class="n">state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="o">*</span><span class="n">res</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+            <span class="c1"># Store log-probability and reward
+</span>            <span class="n">log_probs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_prob</span><span class="p">)</span>
+            <span class="n">rewards</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">reward</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">done</span><span class="p">:</span>
+                <span class="k">break</span>  <span class="c1"># End episode if done
+</span>
+        <span class="c1"># Compute returns R(τ) from rewards
+</span>        <span class="n">returns</span> <span class="o">=</span> <span class="n">policy_net</span><span class="p">.</span><span class="n">compute_returns</span><span class="p">(</span><span class="n">rewards</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+        <span class="n">returns</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
+
+        <span class="c1"># Normalize returns (optional but helps with stability)
+</span>        <span class="n">returns</span> <span class="o">=</span> <span class="p">(</span><span class="n">returns</span> <span class="o">-</span> <span class="n">returns</span><span class="p">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">returns</span><span class="p">.</span><span class="n">std</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the loss: -sum(log π_θ(a | s) * R(τ))
+</span>        <span class="c1"># MAXIMIZING SOMETHING = MINIMIZING ITS NEGATIVE 
+</span>        <span class="c1">#(hence we are still doing gradient ascent)
+</span>        <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">(</span><span class="n">log_probs</span><span class="p">)</span> <span class="o">*</span> <span class="n">returns</span><span class="p">)</span>
+
+        <span class="c1"># Perform backpropagation to compute gradients
+</span>        <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>  <span class="c1"># Clear existing gradients
+</span>        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>  <span class="c1"># Compute gradients w.r.t. policy parameters
+</span>        <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>  <span class="c1"># Update policy parameters θ
+</span>
+        <span class="c1"># Log progress every 100 episodes
+</span>        <span class="k">if</span> <span class="n">episode</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Episode </span><span class="si">{</span><span class="n">episode</span><span class="si">}</span><span class="s">, Total Reward: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="c1"># Save the trained policy network
+</span>    <span class="n">torch</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">policy_net</span><span class="p">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s">'policy_net.pth'</span><span class="p">)</span>
+    
+
+<span class="c1"># Initialize optimizer (Adam) with learning rate
+</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">policy_net</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c1"># Train the policy network using REINFORCE
+</span><span class="n">train</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">num_episodes</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_policy</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">num_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="s">"""
+    Test the trained policy network by running it in the environment.
+
+    Args:
+    - policy_net: The trained policy network.
+    - env: The environment to test in.
+    - num_episodes: Number of episodes to run the policy.
+    """</span>
+    <span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
+        <span class="c1"># Reset environment for each episode
+</span>        <span class="n">state</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">reset</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">total_reward</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">.</span><span class="n">render</span><span class="p">()</span>  <span class="c1"># Render the environment
+</span>            <span class="c1"># Select action based on the trained policy
+</span>            <span class="n">action</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">policy_net</span><span class="p">.</span><span class="n">select_action</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+            <span class="c1"># Take the action and observe the outcome
+</span>            <span class="n">state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+            <span class="n">total_reward</span> <span class="o">+=</span> <span class="n">reward</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Test Episode </span><span class="si">{</span><span class="n">episode</span><span class="si">}</span><span class="s">, Total Reward: </span><span class="si">{</span><span class="n">total_reward</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="n">env</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># Reinitialize the environment for testing with rendering
+</span><span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="p">.</span><span class="n">make</span><span class="p">(</span><span class="s">'CartPole-v1'</span><span class="p">,</span> <span class="n">render_mode</span><span class="o">=</span><span class="s">'human'</span><span class="p">)</span>
+<span class="n">test_policy</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+</code></pre></div></div>
+<!-- gif of the trained model that can balance cartpole -->
+<figure class="styled-figure">
+  <img src="/assets/images/reinforce/cartpole.gif" height="400" />
+  <figcaption>The neural network manages to learn a policy to map state into actions that can balance the CartPole</figcaption>
+</figure>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#ai" class="page__taxonomy-item p-category" rel="tag">AI</a><span class="sep">, </span>
+    
+      <a href="/tags/#deep-learning" class="page__taxonomy-item p-category" rel="tag">Deep Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#machine-learning" class="page__taxonomy-item p-category" rel="tag">Machine Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#monte-carlo-methods" class="page__taxonomy-item p-category" rel="tag">Monte Carlo Methods</a><span class="sep">, </span>
+    
+      <a href="/tags/#policy-gradients" class="page__taxonomy-item p-category" rel="tag">Policy Gradients</a><span class="sep">, </span>
+    
+      <a href="/tags/#reinforce" class="page__taxonomy-item p-category" rel="tag">REINFORCE</a><span class="sep">, </span>
+    
+      <a href="/tags/#reinforcement-learning" class="page__taxonomy-item p-category" rel="tag">Reinforcement Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#stochastic-gradient-ascent" class="page__taxonomy-item p-category" rel="tag">Stochastic Gradient Ascent</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#educational" class="page__taxonomy-item p-category" rel="tag">Educational</a><span class="sep">, </span>
+    
+      <a href="/categories/#reinforcement-learning" class="page__taxonomy-item p-category" rel="tag">Reinforcement Learning</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-08-30T00:00:00+00:00">August 30, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=Policy+Optimization+with+REINFORCE%3A+A+Deep+Dive+into+Policy+Gradients+and+related+concepts%20https%3A%2F%2Fsnawarhussain.com%2Feducational%2Freinforcement%2520learning%2FPolicy-Gradient-Methods-in-ReInforcement-Learning-Log-trick-for-gradient-computation%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsnawarhussain.com%2Feducational%2Freinforcement%2520learning%2FPolicy-Gradient-Methods-in-ReInforcement-Learning-Log-trick-for-gradient-computation%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://snawarhussain.com/educational/reinforcement%20learning/Policy-Gradient-Methods-in-ReInforcement-Learning-Log-trick-for-gradient-computation/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/educational/llms/Taming-the-LLaMA-3.1/" class="pagination--pager" title="Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You May Also Enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/llms/Taming-the-LLaMA-3.1/" rel="permalink">Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Exploring the different methods to load and work with the LLaMA 3.1 model using Hugging Face’s APIs and Meta’s original implementation. Learn which approach ...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/" rel="permalink">GPT model Causal Multi-Head Attention Mechanism: Pure and Simple
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          14 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How does the multi-head attention mechanism work in transformers? Let’s break it down step-by-step, starting from the input sequence and moving through the e...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" rel="permalink">Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Guide to set-up TensorFlow to use GPU in a Conda environment.Follow these steps to ensure TensorFlow leverages CUDA and cuDNN installed in your Conda environ...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/mri%20technology/Kspace-walk-using-encoding-gradients-in-MRI/" rel="permalink">Navigating K-space in MRI: The Role of Gradient Fields
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Exploring the crucial role of gradient fields in MRI for stepping through K-space.
+</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="https://snawarhussain.com">Snawar Hussain</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+  </body>
+</html>

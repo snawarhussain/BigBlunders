@@ -1,4 +1,434 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://snawarhussain.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://snawarhussain.com/" rel="alternate" type="text/html" /><updated>2024-08-14T13:13:42+00:00</updated><id>https://snawarhussain.com/feed.xml</id><title type="html">Snawar Hussain</title><subtitle></subtitle><author><name>Snawar Hussain</name></author><entry><title type="html">Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face</title><link href="https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1/" rel="alternate" type="text/html" title="Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face" /><published>2024-08-14T00:00:00+00:00</published><updated>2024-08-14T00:00:00+00:00</updated><id>https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1</id><content type="html" xml:base="https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1/"><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://snawarhussain.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://snawarhussain.com/" rel="alternate" type="text/html" /><updated>2024-08-30T13:13:21+00:00</updated><id>https://snawarhussain.com/feed.xml</id><title type="html">Snawar Hussain</title><subtitle></subtitle><author><name>Snawar Hussain</name></author><entry><title type="html">Policy Optimization with REINFORCE: A Deep Dive into Policy Gradients and related concepts</title><link href="https://snawarhussain.com/educational/reinforcement%20learning/Policy-Gradient-Methods-in-ReInforcement-Learning-Log-trick-for-gradient-computation/" rel="alternate" type="text/html" title="Policy Optimization with REINFORCE: A Deep Dive into Policy Gradients and related concepts" /><published>2024-08-30T00:00:00+00:00</published><updated>2024-08-30T00:00:00+00:00</updated><id>https://snawarhussain.com/educational/reinforcement%20learning/Policy-Gradient-Methods-in-ReInforcement-Learning-Log-trick-for-gradient-computation</id><content type="html" xml:base="https://snawarhussain.com/educational/reinforcement%20learning/Policy-Gradient-Methods-in-ReInforcement-Learning-Log-trick-for-gradient-computation/"><![CDATA[<h2 id="introduction">Introduction</h2>
+
+<p>The REINFORCE algorithm is a classic method in policy gradient reinforcement learning. It directly optimizes the policy by maximizing the expected cumulative reward. To understand how REINFORCE uses stochastic gradient ascent to update policy parameters, we need to delve into the problem of computing gradients of the expected reward and the derivation of the policy gradient theorem.</p>
+
+<p>The development of the REINFORCE algorithm and the associated policy gradient theorem was driven by a need to optimize policies in reinforcement learning (RL) environments where the outcome (reward) is uncertain and depends on a sequence of actions. The challenges in computing gradients directly from the expected reward and the eventual adoption of the log-derivative trick stem from deep insights into how learning from rewards works in probabilistic environments.</p>
+
+<h2 id="historical-context-and-intuition">Historical Context and Intuition</h2>
+
+<h3 id="the-challenge-of-policy-optimization-in-rl">The Challenge of Policy Optimization in RL</h3>
+
+<p>Before policy gradient methods like REINFORCE were developed, many reinforcement learning approaches focused on value-based methods, like Q-learning, where the objective is to learn a value function that estimates the expected reward for a given state-action pair. However, these methods don’t directly optimize the policy itself.</p>
+
+<p>Researchers realized that directly optimizing the policy—learning the parameters that dictate which actions to take—could offer a more direct approach to solving RL problems. The policy \(\pi_\theta(a \mid s)\) is a function that gives the probability of taking action \(a\) given state \(s\), and it is parameterized by \(\theta\).</p>
+
+<p>The goal is to find the optimal policy parameters \(\theta^*\) that maximize the expected cumulative reward:</p>
+
+\[J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ R(\tau) \right]\]
+
+<p>Where:</p>
+
+<ul>
+  <li>\(\tau\) represents a trajectory (sequence of states, actions, and rewards).</li>
+  <li>\(R(\tau)\) is the total reward of the trajectory \(\tau\).</li>
+  <li>\(\pi_\theta\) is the policy parameterized by \(\theta\).</li>
+  <li>\(\mathbb{E}_{\tau \sim \pi_\theta}\) denotes the expectation over trajectories sampled from the policy \(\pi_\theta\).</li>
+</ul>
+
+<p>The challenge is that \(J(\theta)\) is an expectation, and directly computing its gradient \(\nabla_\theta J(\theta)\) is difficult because the expectation involves a distribution over trajectories, which depends on the policy parameters \(\theta\). The trajectory distribution itself is a complex, implicit function of \(\theta\), making it non-trivial to compute the gradient directly.</p>
+
+<p><a href="/gif/why-why-oh-thats-why-meme-sheldon-NLL1QB" title="why why oh that's why meme sheldon"><img src="https://i.makeagif.com/media/6-29-2021/NLL1QB.gif" alt="why why oh that's why meme sheldon" /></a></p>
+
+<p>Ok, here I said a lot of things regarding the challenges of computing gradients of an expectation but what does it actually mean? Let’s break it down.</p>
+
+<h2 id="but-why-is-computing-the-gradient-of-the-expected-reward-difficult">But Why is Computing the Gradient of the Expected Reward Difficult?</h2>
+
+<p>The primary challenge is that the expected reward \(J(\theta)\) is an expectation over a distribution of trajectories, which are indirectly dependent on the policy parameters \(\theta\).</p>
+
+<ol>
+  <li><strong>Complex Dependency</strong>:
+    <ul>
+      <li>The expectation \(\mathbb{E}_{\tau \sim \pi_\theta}\) involves summing over all possible trajectories \(\tau\), each of which is a sequence of states and actions influenced by the policy \(\pi_\theta\).</li>
+      <li>The distribution over trajectories itself depends on the policy parameters \(\theta\), making the expectation highly non-linear and difficult to differentiate directly.</li>
+    </ul>
+  </li>
+  <li><strong>Infeasibility of Direct Differentiation</strong>:
+    <ul>
+      <li>To compute the gradient \(\nabla_\theta J(\theta)\) directly, you would need to compute how changes in \(\theta\) affect the entire distribution of trajectories and how these changes in turn affect the expected reward.</li>
+      <li>For most practical problems, directly calculating this gradient is infeasible due to the combinatorial explosion of possible trajectories and the implicit, complex relationship between the policy parameters and the trajectories.</li>
+    </ul>
+  </li>
+</ol>
+
+<!-- gif centered -->
+<iframe src="https://giphy.com/embed/3ELtfmA4Apkju" width="330" style="align-items: center;
+justify-content: center" frameborder="0"></iframe>
+<p>Okkkk….? But let’s take another step back and try to understand in more depth:</p>
+
+<h3 id="understanding-the-infeasibility-of-direct-gradient-calculation">Understanding the Infeasibility of Direct Gradient Calculation</h3>
+
+<h4 id="1-combinatorial-explosion-of-trajectories">1. Combinatorial Explosion of Trajectories</h4>
+
+<p>Just as mentioned earlier, in reinforcement learning, a trajectory \(\tau\) refers to a sequence of states, actions, and rewards experienced by the agent from the start to the end of an episode. For example, a trajectory might look like this:</p>
+
+\[\tau = (s_0, a_0, r_0, s_1, a_1, r_1, \dots, s_T, a_T, r_T).\]
+
+<ul>
+  <li>
+    <p><strong>Combinatorial Explosion</strong>: The number of possible trajectories grows exponentially with the length of the episode and the number of possible actions at each state. If an environment has \(S\) states, \(A\) actions, and episodes of length \(T\), the number of possible trajectories could be as large as \((S \times A)^T\). This rapid growth in the number of trajectories is what we mean by combinatorial explosion.</p>
+
+    <ul>
+      <li><strong>Example</strong>: Suppose an environment has 100 states, 10 possible actions per state, and an episode length of 50 steps. The number of possible trajectories is \((100 \times 10)^{50} = 10^{100}\), an astronomically large number.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Implicit Dependence on Policy Parameters</strong>: Each trajectory’s probability depends on the policy parameters \(\theta\). Changing \(\theta\) alters the probabilities of taking specific actions in given states, which in turn alters the distribution of trajectories. The relationship between \(\theta\) and the trajectories is implicit and complex because small changes in \(\theta\) can lead to different sequences of states and actions, which accumulate over time.</p>
+
+    <ul>
+      <li><strong>Implication</strong>: Calculating the gradient of the expected reward directly would require summing over all possible trajectories, each weighted by its probability under the current policy. This would involve evaluating and differentiating an enormous number of terms, which is computationally infeasible.</li>
+    </ul>
+  </li>
+</ul>
+
+<iframe src="https://giphy.com/embed/3CXVJrUB2cJfbDi7DF" width="400" height="480" style="" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>
+<!-- put png image -->
+<p>Now… I hope things are a bit more clear as to why computing the gradient of the expected reward is difficult. But how do we actually go about solving this problem? This is where the log-derivative trick and the REINFORCE algorithm come into play.</p>
+
+<h2 id="the-log-derivative-trick">The Log-Derivative Trick</h2>
+
+<p>When early researchers realized the challenge of directly computing \(\nabla_\theta J(\theta)\), they sought an alternative way to express the gradient that would be easier to work with. They turned to the field of statistical estimation, where the log-derivative (likelihood ratio) trick was already known.</p>
+
+<iframe src="https://giphy.com/embed/iNQ2cIve8rUqI" width="400" style="" frameborder="0" class="giphy-embed" allowfullscreen=""></iframe>
+
+<h3 id="derivation-of-the-log-derivative-trick">Derivation of the Log-Derivative Trick</h3>
+
+<p>We’re starting with the goal of computing the gradient of the expected reward \(\mathbb{E}[R_t \mid \pi_\theta]\) with respect to the policy parameters \(\theta\).</p>
+
+<p>The key steps in the derivation are:</p>
+
+<ol>
+  <li><strong>Expectation of the Reward</strong>:
+    <ul>
+      <li>
+\[\nabla_\theta \mathbb{E}[R_t \mid \pi_\theta] = \nabla_\theta \sum_a \pi_\theta(a) \mathbb{E}[R_t \mid A_t = a]\]
+      </li>
+      <li>This expression shows the expectation as a sum over all possible actions \(a\), weighted by the probability \(\pi_\theta(a)\) of taking action \(a\) under the current policy.</li>
+    </ul>
+  </li>
+  <li><strong>Introducing the \(q(a)\) Function</strong>:
+    <ul>
+      <li>\(q(a) = \mathbb{E}[R_t \mid A_t = a]\) is the expected reward when taking action \(a\).</li>
+      <li>Substituting this into the original expression gives us:</li>
+    </ul>
+
+\[\nabla_\theta \sum_a \pi_\theta(a) q(a)\]
+  </li>
+  <li><strong>Gradient Expansion</strong>:
+    <ul>
+      <li>Using the product rule (since \(\pi_\theta(a)\) depends on \(\theta\)), we expand the gradient:
+\(\nabla_\theta \sum_a \pi_\theta(a) q(a) = \sum_a q(a) \nabla_\theta \pi_\theta(a)\)</li>
+    </ul>
+  </li>
+  <li><strong>Rewriting the Gradient Using \(\pi_\theta(a)\)</strong>:
+    <ul>
+      <li>Notice that \(\nabla_\theta \pi_\theta(a) = \pi_\theta(a) \frac{\nabla_\theta \pi_\theta(a)}{\pi_\theta(a)}\).</li>
+      <li>This allows us to rewrite the gradient as:
+ \(\sum_a q(a) \nabla_\theta \pi_\theta(a) = \sum_a \pi_\theta(a) q(a) \frac{\nabla_\theta \pi_\theta(a)}{\pi_\theta(a)}\)</li>
+    </ul>
+  </li>
+  <li><strong>Factoring out \(\pi_\theta(a)\)</strong>:
+    <ul>
+      <li>The expression simplifies to:
+\(\sum_a \pi_\theta(a) q(a) \frac{\nabla_\theta \pi_\theta(a)}{\pi_\theta(a)}\)</li>
+      <li>
+        <p>Here, we can see that \(\frac{\nabla_\theta \pi_\theta(a)}{\pi_\theta(a)}\) is the score function, often denoted as \(\nabla_\theta \log \pi_\theta(a)\).</p>
+      </li>
+      <li>This is still a sum over all possible actions \(a\). The term \(\pi_\theta(a) q(a)\) represents the contribution of action \(a\) to the expected reward, weighted by the likelihood of taking that action under the policy \(\pi_\theta\).</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Transition to Expectation</strong>:</p>
+
+    <ul>
+      <li>Recognize that \(\pi_\theta(a)\) is the probability of taking action \(a\). Therefore, summing over all actions can be viewed as taking an expectation over actions sampled from the policy distribution \(\pi_\theta\).</li>
+      <li>We replace the sum with an expectation over the distribution of actions \(A_t\) under policy \(\pi_\theta\):
+  \(\sum_a \pi_\theta(a) \left[ q(a) \frac{\nabla_\theta \pi_\theta(a)}{\pi_\theta(a)} \right] = \mathbb{E}_{A_t \sim \pi_\theta} \left[ q(A_t) \frac{\nabla_\theta \pi_\theta(A_t)}{\pi_\theta(A_t)} \right]\)
+      - Here, \(q(A_t) = R_t\) is the reward associated with taking action \(A_t\).</li>
+    </ul>
+  </li>
+  <li><strong>Finally:</strong>
+\(\mathbb{E}_{A_t \sim \pi_\theta} \left[ R_t \frac{\nabla_\theta \pi_\theta(A_t)}{\pi_\theta(A_t)} \right]\)</li>
+</ol>
+
+<p>The log-derivative trick allows us to express the gradient of the expectation in a different form that is more tractable:</p>
+
+\[\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ R(\tau) \nabla_\theta \log \pi_\theta(\tau) \right]\]
+
+<h3 id="benefits-of-this-transformation">Benefits of This Transformation</h3>
+
+<ol>
+  <li><strong>Sampling-Based Estimation</strong>:
+    <ul>
+      <li><strong>Original Problem</strong>: Directly computing \(\nabla_\theta J(\theta)\) would require summing over all possible trajectories and computing their derivatives, which is infeasible.</li>
+      <li>
+        <p><strong>Transformed Problem</strong>: The new expression is an expectation that we can estimate by sampling trajectories from the policy. Instead of needing to consider all possible trajectories, we can generate a few sample trajectories \(\tau \sim \pi_\theta\) and use these samples to approximate the gradient. We turn the problem of computing a complicated expectation over an enormous set into a simpler problem of estimating that expectation by sampling. This is much more feasible in practice, especially in environments where the state and action spaces are large.</p>
+      </li>
+      <li><strong>Formally</strong>: By expressing the gradient as an expectation, we can approximate it using Monte Carlo methods. We only need to sample actions from the policy, compute the reward, and update the policy based on those samples.</li>
+    </ul>
+  </li>
+  <li><strong>Gradient Computation Becomes Tractable</strong>:
+    <ul>
+      <li>The transformed expression \(\mathbb{E}_{\tau \sim \pi_\theta} \left[ R(\tau) \nabla_\theta \log \pi_\theta(\tau) \right]\) can be computed using the chain rule on the policy network. This is because \(\nabla_\theta \log \pi_\theta(\tau)\) is just the gradient of the log-probability of the trajectory, which is directly computable if we know the policy \(\pi_\theta\).
+Therefore, we can do <strong>stochastic gradient ascent</strong> in the space of policy parameters.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="bonus-lesson-on-monte-carlo-and-gradient-estimation">Bonus Lesson on Monte Carlo and Gradient Estimation</h2>
+
+<p>Monte Carlo (MC) methods are a broad class of computational algorithms that rely on repeated random sampling to obtain numerical results. In the context of reinforcement learning (RL) and specifically in policy gradient methods like REINFORCE, Monte Carlo methods are used to estimate the expectation of a function with respect to a probability distribution.</p>
+
+<h3 id="what-happens-when-you-sample">What Happens When You Sample?</h3>
+
+<ol>
+  <li><strong>Expectation of a Function</strong>:
+    <ul>
+      <li>Suppose you have a random variable \(X\) with a probability distribution \(p(X)\), and you want to compute the expected value of a function \(f(X)\) under this distribution:
+\(\mathbb{E}_{X \sim p(X)}[f(X)] = \int f(X) p(X) dX\)</li>
+      <li>In practice, for complex functions or high-dimensional spaces, computing this expectation analytically is difficult or impossible.</li>
+    </ul>
+  </li>
+  <li><strong>Monte Carlo Estimation</strong>:
+    <ul>
+      <li>Instead of calculating the integral directly, you can estimate the expectation by taking random samples \(X_i\) from the distribution \(p(X)\) and averaging the function values:
+\(\mathbb{E}_{X \sim p(X)}[f(X)] \approx \frac{1}{N} \sum_{i=1}^N f(X_i)\)</li>
+      <li>As \(N\) (the number of samples) increases, the average converges to the true expectation due to the Law of Large Numbers.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="applying-this-to-policy-gradients">Applying This to Policy Gradients</h3>
+
+<p>In the context of the policy gradient theorem:</p>
+
+<ol>
+  <li><strong>Gradient of the Expected Reward</strong>:
+    <ul>
+      <li>The gradient of the expected reward can be expressed as:
+\(\nabla_\theta J(\theta) = \mathbb{E}_{A_t \sim \pi_\theta} \left[ R_t \frac{\nabla_\theta \pi_\theta(A_t)}{\pi_\theta(A_t)} \right]\)</li>
+      <li>This expectation is over the distribution of actions \(A_t\) given by the policy \(\pi_\theta\).</li>
+    </ul>
+  </li>
+  <li><strong>Sampling from the Policy</strong>:
+    <ul>
+      <li>To estimate this gradient, you don’t need to evaluate every possible action (which would be computationally infeasible in large or continuous action spaces).</li>
+      <li>Instead, you draw samples of actions \(A_t\) from the policy \(\pi_\theta\), compute the associated reward \(R_t\) for those actions, and then compute the policy gradient for those specific samples.</li>
+    </ul>
+  </li>
+  <li><strong>Monte Carlo Estimation of the Gradient</strong>:
+    <ul>
+      <li>The policy gradient can be approximated by averaging the gradients computed for each sample:
+\(\nabla_\theta J(\theta) \approx \frac{1}{N} \sum_{i=1}^N R_{t,i} \frac{\nabla_\theta \pi_\theta(A_{t,i})}{\pi_\theta(A_{t,i})}\)</li>
+      <li>Here, \(A_{t,i}\) are the actions sampled from the policy \(\pi_\theta\), and \(R_{t,i}\) are the corresponding rewards.</li>
+      <li>As you draw more samples, the average of these gradients converges to the true gradient of the expected reward, allowing you to use this approximation to update the policy parameters \(\theta\).</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="key-takeaways">Key Takeaways:</h2>
+<ul>
+  <li>
+    <p><strong>Why It Works</strong>: By expressing the gradient as an expectation, you transform a potentially intractable sum (over all possible actions) into something you can approximate using a manageable number of samples. The Monte Carlo method is powerful because it allows you to estimate this expectation (and thus the gradient) by averaging over a relatively small number of samples from the policy.</p>
+  </li>
+  <li>
+    <p><strong>Key Insight</strong>: The crucial insight is that you don’t need to consider every possible action at every step. Instead, by randomly sampling actions according to the policy and averaging the results, you get an unbiased estimate of the true gradient. This is what enables policy gradient methods to scale to complex, high-dimensional action spaces.</p>
+  </li>
+  <li>
+    <p><strong>Implication for Learning</strong>: This approach is why we can effectively use stochastic gradient ascent to optimize policies in reinforcement learning. Even though each step in the optimization process is based on a noisy estimate of the gradient, as long as you sample enough and follow the gradient on average, the policy will improve over time.</p>
+  </li>
+</ul>
+
+<h2 id="code-implementation">Code Implementation</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">gymnasium</span> <span class="k">as</span> <span class="n">gym</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+<span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">Categorical</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span><span class="p">,</span> <span class="n">relu</span><span class="p">,</span> <span class="n">softmax</span>
+<span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">Categorical</span>
+
+
+<span class="k">class</span> <span class="nc">PolicyNetwork</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="s">"""
+    Policy Network that defines the policy π_θ(a | s) as a neural network.
+    This network takes in the state as input and outputs a probability distribution
+    over actions.
+    
+    Args:
+    - state_dim: Dimensionality of the state space.
+    - action_dim: Dimensionality of the action space.
+    - hidden_dim: Number of hidden units in the hidden layer.
+    """</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dim</span><span class="p">,</span> <span class="n">action_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PolicyNetwork</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="c1"># First fully connected layer
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">state_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">)</span>
+        <span class="c1"># Second fully connected layer (output layer)
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">action_dim</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="s">"""
+        Forward pass through the network. The output is a probability distribution
+        over actions, given the input state.
+
+        This corresponds to computing π_θ(a | s).
+        """</span>
+        <span class="c1"># Apply ReLU activation to the first layer's output
+</span>        <span class="n">x</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="c1"># Compute action probabilities using softmax
+</span>        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Output π_θ(a | s)
+</span>
+    <span class="k">def</span> <span class="nf">select_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy_net</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="s">"""
+        Select an action based on the current policy. This involves sampling from the
+        distribution π_θ(a | s) and returning both the action and its log-probability.
+
+        Args:
+        - policy_net: The policy network (self).
+        - state: The current state of the environment.
+
+        Returns:
+        - action: The action sampled from the policy.
+        - log_prob: The log-probability of the selected action.
+        """</span>
+        <span class="c1"># Convert state to tensor
+</span>        <span class="n">state</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">state</span><span class="p">).</span><span class="nb">float</span><span class="p">()</span>
+        <span class="c1"># Get action probabilities from the policy network
+</span>        <span class="n">probs</span> <span class="o">=</span> <span class="n">policy_net</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="c1"># Create a categorical distribution over actions
+</span>        <span class="n">m</span> <span class="o">=</span> <span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span>
+        <span class="c1"># Sample an action from the distribution
+</span>        <span class="n">action</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="n">sample</span><span class="p">()</span>
+        <span class="c1"># Return the action and its log-probability (log π_θ(a | s))
+</span>        <span class="k">return</span> <span class="n">action</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">m</span><span class="p">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">compute_returns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.99</span><span class="p">):</span>
+        <span class="s">"""
+        Compute the return R(τ) for each time step in a trajectory. This involves
+        calculating the cumulative discounted reward.
+
+        Args:
+        - rewards: List of rewards obtained during the episode.
+        - gamma: Discount factor.
+
+        Returns:
+        - returns: List of discounted returns for each time step.
+        """</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">returns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Iterate over rewards in reverse order to calculate returns
+</span>        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">rewards</span><span class="p">):</span>
+            <span class="n">R</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">R</span>
+            <span class="n">returns</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>  <span class="c1"># Insert at the beginning
+</span>        <span class="k">return</span> <span class="n">returns</span>  <span class="c1"># This is R(τ) in the theory
+</span>
+<span class="c1"># Set up the environment
+</span><span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="p">.</span><span class="n">make</span><span class="p">(</span><span class="s">'CartPole-v1'</span><span class="p">)</span>
+
+<span class="c1"># Set the seed for reproducibility
+</span><span class="n">torch</span><span class="p">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Initialize the policy network with state and action dimensions
+</span><span class="n">state_dim</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">observation_space</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">action_dim</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">action_space</span><span class="p">.</span><span class="n">n</span>
+<span class="n">policy_net</span> <span class="o">=</span> <span class="n">PolicyNetwork</span><span class="p">(</span><span class="n">state_dim</span><span class="p">,</span> <span class="n">action_dim</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">num_episodes</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.99</span><span class="p">):</span>
+    <span class="s">"""
+    Train the policy network using the REINFORCE algorithm.
+
+    Args:
+    - policy_net: The policy network to be trained.
+    - optimizer: The optimizer to update the network parameters.
+    - num_episodes: Number of episodes to train the network.
+    - gamma: Discount factor for future rewards.
+    """</span>
+    <span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
+        <span class="c1"># Reset the environment to get the initial state
+</span>        <span class="n">state</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">reset</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">log_probs</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Store log π_θ(a | s)
+</span>        <span class="n">rewards</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Store rewards
+</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1500</span><span class="p">):</span>  <span class="c1"># Cap episode length
+</span>            <span class="c1"># Select action and get its log-probability
+</span>            <span class="n">action</span><span class="p">,</span> <span class="n">log_prob</span> <span class="o">=</span> <span class="n">policy_net</span><span class="p">.</span><span class="n">select_action</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+            <span class="c1"># Take the action in the environment
+</span>            <span class="n">state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="o">*</span><span class="n">res</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+            <span class="c1"># Store log-probability and reward
+</span>            <span class="n">log_probs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_prob</span><span class="p">)</span>
+            <span class="n">rewards</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">reward</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">done</span><span class="p">:</span>
+                <span class="k">break</span>  <span class="c1"># End episode if done
+</span>
+        <span class="c1"># Compute returns R(τ) from rewards
+</span>        <span class="n">returns</span> <span class="o">=</span> <span class="n">policy_net</span><span class="p">.</span><span class="n">compute_returns</span><span class="p">(</span><span class="n">rewards</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+        <span class="n">returns</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span>
+
+        <span class="c1"># Normalize returns (optional but helps with stability)
+</span>        <span class="n">returns</span> <span class="o">=</span> <span class="p">(</span><span class="n">returns</span> <span class="o">-</span> <span class="n">returns</span><span class="p">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">returns</span><span class="p">.</span><span class="n">std</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the loss: -sum(log π_θ(a | s) * R(τ))
+</span>        <span class="c1"># MAXIMIZING SOMETHING = MINIMIZING ITS NEGATIVE 
+</span>        <span class="c1">#(hence we are still doing gradient ascent)
+</span>        <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">(</span><span class="n">log_probs</span><span class="p">)</span> <span class="o">*</span> <span class="n">returns</span><span class="p">)</span>
+
+        <span class="c1"># Perform backpropagation to compute gradients
+</span>        <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>  <span class="c1"># Clear existing gradients
+</span>        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>  <span class="c1"># Compute gradients w.r.t. policy parameters
+</span>        <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>  <span class="c1"># Update policy parameters θ
+</span>
+        <span class="c1"># Log progress every 100 episodes
+</span>        <span class="k">if</span> <span class="n">episode</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Episode </span><span class="si">{</span><span class="n">episode</span><span class="si">}</span><span class="s">, Total Reward: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    
+    <span class="c1"># Save the trained policy network
+</span>    <span class="n">torch</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">policy_net</span><span class="p">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s">'policy_net.pth'</span><span class="p">)</span>
+    
+
+<span class="c1"># Initialize optimizer (Adam) with learning rate
+</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">policy_net</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c1"># Train the policy network using REINFORCE
+</span><span class="n">train</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">num_episodes</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_policy</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">num_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="s">"""
+    Test the trained policy network by running it in the environment.
+
+    Args:
+    - policy_net: The trained policy network.
+    - env: The environment to test in.
+    - num_episodes: Number of episodes to run the policy.
+    """</span>
+    <span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
+        <span class="c1"># Reset environment for each episode
+</span>        <span class="n">state</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">reset</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">total_reward</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+            <span class="n">env</span><span class="p">.</span><span class="n">render</span><span class="p">()</span>  <span class="c1"># Render the environment
+</span>            <span class="c1"># Select action based on the trained policy
+</span>            <span class="n">action</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">policy_net</span><span class="p">.</span><span class="n">select_action</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+            <span class="c1"># Take the action and observe the outcome
+</span>            <span class="n">state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+            <span class="n">total_reward</span> <span class="o">+=</span> <span class="n">reward</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Test Episode </span><span class="si">{</span><span class="n">episode</span><span class="si">}</span><span class="s">, Total Reward: </span><span class="si">{</span><span class="n">total_reward</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="n">env</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># Reinitialize the environment for testing with rendering
+</span><span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="p">.</span><span class="n">make</span><span class="p">(</span><span class="s">'CartPole-v1'</span><span class="p">,</span> <span class="n">render_mode</span><span class="o">=</span><span class="s">'human'</span><span class="p">)</span>
+<span class="n">test_policy</span><span class="p">(</span><span class="n">policy_net</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+</code></pre></div></div>
+<!-- gif of the trained model that can balance cartpole -->
+<figure class="styled-figure">
+  <img src="/assets/images/reinforce/cartpole.gif" height="400" />
+  <figcaption>The neural network manages to learn a policy to map state into actions that can balance the CartPole</figcaption>
+</figure>]]></content><author><name>Snawar Hussain</name></author><category term="Educational" /><category term="Reinforcement Learning" /><category term="REINFORCE" /><category term="Policy Gradients" /><category term="Monte Carlo Methods" /><category term="Stochastic Gradient Ascent" /><category term="Reinforcement Learning" /><category term="Machine Learning" /><category term="Deep Learning" /><category term="AI" /><summary type="html"><![CDATA[Discover how the REINFORCE algorithm leverages policy gradients, the log-trick, and Monte Carlo sampling to optimize decision-making in reinforcement learning environments. This guide offers a detailed walkthrough for understanding and implementing REINFORCE with Python and PyTorch.]]></summary></entry><entry><title type="html">Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face</title><link href="https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1/" rel="alternate" type="text/html" title="Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face" /><published>2024-08-14T00:00:00+00:00</published><updated>2024-08-14T00:00:00+00:00</updated><id>https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1</id><content type="html" xml:base="https://snawarhussain.com/educational/llms/Taming-the-LLaMA-3.1/"><![CDATA[<h2 id="introduction">Introduction</h2>
 <p>The Meta Llama 3.1 is a collection of pretrained and instruction tuned generative models in 8B, 70B and 405B sizes (text in/text out).</p>
 
 <p><strong>Model Release Date:</strong> July 23, 2024.</p>
@@ -2018,195 +2448,4 @@ In other words, since computing the latent \(z\) involve sampling from a (multiv
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>The reparameterization trick is a powerful method that makes the training of VAEs possible and efficient. By cleverly separating the random and deterministic elements of the sampling operation in the VAE, it allows us to leverage the power of backpropagation while maintaining the stochastic nature of the model. Understanding this trick is key to gaining a deeper insight into the workings of VAEs and their various applications in machine learning.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Genrative Models" /><category term="Python" /><category term="VAE" /><category term="Tutorial" /><category term="Machine Learning" /><category term="Python3" /><category term="Math for AI" /><category term="VAE" /><category term="Variational Autoencoder" /><category term="Generative Models" /><category term="3D Visualization" /><category term="Motion Capture" /><category term="Animation" /><category term="High FPS 3D plotting" /><summary type="html"><![CDATA[Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ingenious technique circumvents the challenges posed by stochastic sampling operations, paving the way for the application of backpropagation and gradient-based optimization methods.]]></summary></entry><entry><title type="html">Visualizing and Animating 3D Motion Capture Data with PyVista</title><link href="https://snawarhussain.com/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/" rel="alternate" type="text/html" title="Visualizing and Animating 3D Motion Capture Data with PyVista" /><published>2023-07-13T00:00:00+00:00</published><updated>2023-07-13T00:00:00+00:00</updated><id>https://snawarhussain.com/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista</id><content type="html" xml:base="https://snawarhussain.com/blog/data%20visualization/python/tutorial/3D-motion-capture-data-animation-with-pyvista/"><![CDATA[<h1 id="visualizing-and-animating-3d-motion-capture-data-with-pyvista">Visualizing and Animating 3D Motion Capture Data with PyVista</h1>
-
-<p>3D visualization is crucial for understanding complex data structures and models, especially in the realm of physics, engineering, and computer graphics. Motion capture data, in particular, is heavily used in film industry, game development, biomedical research, computational ethology and sports science. Matplotlib has been the go-to library for many Python users due to its simplicity and extensive features. However, for 3D visualization, particularly for rendering and animating motion capture data, we hit a snag. The rendering process in Matplotlib is quite slow and often becomes impractical when dealing with a large number of frames. This is where PyVista comes into play.</p>
-
-<p>PyVista is a 3D visualization and analysis library that provides a streamlined, Pythonic interface to the Visualization Toolkit (VTK). It is capable of creating high quality 3D visualizations and animations with high frame rates, making it an excellent choice for visualizing motion capture data.</p>
-
-<h2 id="1-setting-up-the-scene">1. Setting Up The Scene</h2>
-
-<p>The first step in visualizing 3D motion capture data is to set up the scene. This involves creating the 3D body parts and skeleton connections, and initializing the plotter.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="n">pv</span>
-
-<span class="k">def</span> <span class="nf">create_body_part_mesh</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">pv</span><span class="p">.</span><span class="n">Sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
-
-<span class="k">def</span> <span class="nf">create_skeleton_line</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">pv</span><span class="p">.</span><span class="n">Line</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">))</span>
-
-<span class="n">plotter</span> <span class="o">=</span> <span class="n">pv</span><span class="p">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">notebook</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">off_screen</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h2 id="2-loading-motion-capture-data">2. Loading Motion Capture Data</h2>
-
-<p>Next, we load the motion capture data and add each body part and skeleton connection to the plotter. The data usually comes in a structured format where each row represents a frame and each column represents a body part or a skeleton connection.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frame_rate</span> <span class="o">=</span> <span class="mi">30</span>
-<span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_frames</span><span class="p">):</span>
-    <span class="n">plotter</span><span class="p">.</span><span class="n">clear</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">body_part</span> <span class="ow">in</span> <span class="n">body_parts</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_x'</span><span class="p">]</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_y'</span><span class="p">]</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
-        <span class="n">mesh</span> <span class="o">=</span> <span class="n">create_body_part_mesh</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-        <span class="n">plotter</span><span class="p">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"red"</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">connection</span> <span class="ow">in</span> <span class="n">skeleton</span><span class="p">:</span>
-        <span class="n">part1</span> <span class="o">=</span> <span class="n">connection</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">part2</span> <span class="o">=</span> <span class="n">connection</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_x'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_y'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
-        <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_x'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_y'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
-        <span class="n">skl_mesh</span> <span class="o">=</span> <span class="n">create_skeleton_line</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">)</span>
-        <span class="n">plotter</span><span class="p">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">skl_mesh</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"blue"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h2 id="3-animating-the-scene">3. Animating the Scene</h2>
-
-<p>To animate the motion capture data, we loop over each frame and update the points of each mesh. We then render the plotter and write the current frame to a file.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_frames</span><span class="p">):</span>
-    <span class="n">mean_position</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">body_part</span><span class="p">,</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">body_parts</span><span class="p">,</span> <span class="n">body_part_meshes</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_x'</span><span class="p">]</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_y'</span><span class="p">]</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">body_part</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
-        <span class="n">mesh</span><span class="p">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">pv</span><span class="p">.</span><span class="n">Sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)).</span><span class="n">points</span>
-        <span class="n">mean_position</span> <span class="o">+=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
-    <span class="n">mean_position</span> <span class="o">/=</span> <span class="nb">len</span><span class="p">(</span><span class="n">body_parts</span><span class="p">)</span>
-    <span class="n">plotter</span><span class="p">.</span><span class="n">camera</span><span class="p">.</span><span class="n">focal_point</span> <span class="o">=</span> <span class="n">mean_position</span><span class="p">.</span><span class="n">tolist</span><span class="p">()</span>
-
-    <span class="k">for</span> <span class="n">connection</span><span class="p">,</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">skeleton</span><span class="p">,</span> <span class="n">skeleton_line_meshes</span><span class="p">):</span>
-        <span class="n">part1</span> <span class="o">=</span> <span class="n">connection</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">part2</span> <span class="o">=</span> <span class="n">connection</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_x'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_y'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part1</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
-        <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_x'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_y'</span><span class="p">],</span> <span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">num</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">part2</span><span class="si">}</span><span class="s">_z'</span><span class="p">]</span>
-        <span class="n">mesh</span><span class="p">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">pv</span><span class="p">.</span><span class="n">Line</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">z1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">z2</span><span class="p">)).</span><span class="n">points</span>
-
-    <span class="n">plotter</span><span class="p">.</span><span class="n">write_frame</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h2 id="4-putting-it-all-together">4. Putting It All Together</h2>
-
-<p>Finally, we put all the code together and run the script. The script will generate a series of PNG files in the current directory. We can then use FFmpeg to convert the PNG files into a video file.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="nb">df</span> <span class="o">=</span> pd.read_csv<span class="o">(</span>r<span class="s1">'C:\Users\pc\PycharmProjects\RWKV_for_rat\notebooks\mocap_data_interpolated_mod.csv'</span><span class="o">)</span>
-body_parts <span class="o">=</span> list<span class="o">(</span><span class="nb">set</span><span class="o">(</span>col.split<span class="o">(</span><span class="s1">'_'</span><span class="o">)[</span>0] <span class="k">for </span>col <span class="k">in </span>df.columns <span class="k">if</span> <span class="s1">'_'</span> <span class="k">in </span>col<span class="o">))</span>
-num_frames <span class="o">=</span> len<span class="o">(</span><span class="nb">df</span><span class="o">)</span>
-skeleton <span class="o">=</span> <span class="o">[</span>                    <span class="c">#defining the skeletal structure for plotting skeletal lines.</span>
-    <span class="o">[</span><span class="s1">'HeadF'</span>, <span class="s1">'HeadB'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'HeadB'</span>, <span class="s1">'HeadL'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'HeadF'</span>, <span class="s1">'HeadL'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'HeadF'</span>, <span class="s1">'SpineF'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'HeadB'</span>, <span class="s1">'SpineF'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'HeadL'</span>, <span class="s1">'SpineF'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'SpineF'</span>, <span class="s1">'SpineM'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'SpineM'</span>, <span class="s1">'SpineL'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'SpineF'</span>, <span class="s1">'Offset1'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'Offset1'</span>, <span class="s1">'Offset2'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'Offset1'</span>, <span class="s1">'SpineM'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'Offset2'</span>, <span class="s1">'SpineL'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'Offset2'</span>, <span class="s1">'SpineM'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'SpineF'</span>, <span class="s1">'ShoulderL'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'SpineF'</span>, <span class="s1">'ShoulderR'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'ShoulderL'</span>, <span class="s1">'ElbowL'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'ArmL'</span>, <span class="s1">'ElbowL'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'ShoulderR'</span>, <span class="s1">'ElbowR'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'ArmR'</span>, <span class="s1">'ElbowR'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'SpineL'</span>, <span class="s1">'HipL'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'SpineL'</span>, <span class="s1">'HipR'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'HipL'</span>, <span class="s1">'KneeL'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'KneeL'</span>, <span class="s1">'ShinL'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'HipR'</span>, <span class="s1">'KneeR'</span><span class="o">]</span>,
-    <span class="o">[</span><span class="s1">'KneeR'</span>, <span class="s1">'ShinR'</span><span class="o">]</span>
-<span class="o">]</span>
-
-<span class="c"># Assuming that our data is in a csv file wiht the following format:</span>
-<span class="c"># Each row represents a frame and we have 3 columns for each body part (x, y, z)</span>
-
-import pyvista as pv
-import numpy as np
-import <span class="nb">time
-</span>from matplotlib.cm import get_cmap
-
-def create_body_part_mesh<span class="o">(</span>x, y, z, <span class="nv">radius</span><span class="o">=</span>5<span class="o">)</span>:
-    <span class="s2">"""Create a sphere mesh representing a body part."""</span>
-    <span class="k">return </span>pv.Sphere<span class="o">(</span><span class="nv">radius</span><span class="o">=</span>radius, <span class="nv">center</span><span class="o">=(</span>x, y, z<span class="o">))</span>
-
-def create_skeleton_line<span class="o">(</span>x1, y1, z1, x2, y2, z2<span class="o">)</span>:
-    <span class="s2">"""Create a line mesh representing a skeleton connection."""</span>
-    <span class="k">return </span>pv.Line<span class="o">((</span>x1, y1, z1<span class="o">)</span>, <span class="o">(</span>x2, y2, z2<span class="o">))</span>
-
-<span class="c">#Initialize the plotter</span>
-plotter <span class="o">=</span> pv.Plotter<span class="o">(</span><span class="nv">notebook</span><span class="o">=</span>False, <span class="nv">off_screen</span><span class="o">=</span>False<span class="o">)</span>
-plotter.open_gif<span class="o">(</span><span class="s2">"rat.gif"</span><span class="o">)</span>
-<span class="c"># Assuming you have a suitable frame rate for your data</span>
-frame_rate <span class="o">=</span> 30
-
-body_part_meshes <span class="o">=</span> <span class="o">[]</span>
-skeleton_line_meshes <span class="o">=</span> <span class="o">[]</span>
-
-
-<span class="c"># Get a color map</span>
-colormap <span class="o">=</span> get_cmap<span class="o">(</span><span class="s2">"tab20"</span><span class="o">)</span>
-
-<span class="c"># Normalize the colormap from 0 to 1</span>
-normalize <span class="o">=</span> lambda val: <span class="o">(</span>val - 0<span class="o">)</span> / <span class="o">(</span>1 - 0<span class="o">)</span>
-
-<span class="c"># Assuming min_val and max_val are the minimum and maximum values for the data range</span>
-<span class="c"># If your data ranges from 0 to N (where N &gt; 0), you can set min_val = 0 and max_val = N</span>
-
-body_part_colors <span class="o">=</span> <span class="o">[</span>colormap<span class="o">(</span>i<span class="o">)</span> <span class="k">for </span>i <span class="k">in </span>range<span class="o">(</span>len<span class="o">(</span>body_parts<span class="o">))]</span>
-
-
-<span class="c"># Create initial meshes</span>
-<span class="k">for </span>body_part, color <span class="k">in </span>zip<span class="o">(</span>body_parts, body_part_colors<span class="o">)</span>:
-    x <span class="o">=</span> df.loc[0, f<span class="s1">'{body_part}_x'</span><span class="o">]</span>
-    y <span class="o">=</span> df.loc[0, f<span class="s1">'{body_part}_y'</span><span class="o">]</span>
-    z <span class="o">=</span> df.loc[0, f<span class="s1">'{body_part}_z'</span><span class="o">]</span>
-    mesh <span class="o">=</span> create_body_part_mesh<span class="o">(</span>x, y, z<span class="o">)</span>
-    plotter.add_mesh<span class="o">(</span>mesh, <span class="nv">color</span><span class="o">=</span>color<span class="o">)</span>
-    body_part_meshes.append<span class="o">(</span>mesh<span class="o">)</span>
-    
-<span class="k">for </span>connection <span class="k">in </span>skeleton:
-    part1 <span class="o">=</span> connection[0]
-    part2 <span class="o">=</span> connection[1]
-    x1, y1, z1 <span class="o">=</span> df.loc[0, f<span class="s1">'{part1}_x'</span><span class="o">]</span>, df.loc[0, f<span class="s1">'{part1}_y'</span><span class="o">]</span>, df.loc[0, f<span class="s1">'{part1}_z'</span><span class="o">]</span>
-    x2, y2, z2 <span class="o">=</span> df.loc[0, f<span class="s1">'{part2}_x'</span><span class="o">]</span>, df.loc[0, f<span class="s1">'{part2}_y'</span><span class="o">]</span>, df.loc[0, f<span class="s1">'{part2}_z'</span><span class="o">]</span>
-    skl_mesh <span class="o">=</span> create_skeleton_line<span class="o">(</span>x1, y1, z1, x2, y2, z2<span class="o">)</span>
-    plotter.add_mesh<span class="o">(</span>skl_mesh, <span class="nv">color</span><span class="o">=</span><span class="s2">"black"</span>, <span class="nv">line_width</span><span class="o">=</span>2<span class="o">)</span>
-    skeleton_line_meshes.append<span class="o">(</span>skl_mesh<span class="o">)</span>
-
-<span class="c"># Loop over each frame</span>
-<span class="k">for </span>num <span class="k">in </span>range<span class="o">(</span>1, num_frames<span class="o">)</span>: <span class="c"># start from 1 as we already plotted the first frame</span>
-    <span class="c"># Update each body part</span>
-    mean_position <span class="o">=</span> np.array<span class="o">([</span>0.0, 0.0, 0.0]<span class="o">)</span>
-    <span class="k">for </span>body_part, mesh <span class="k">in </span>zip<span class="o">(</span>body_parts, body_part_meshes<span class="o">)</span>:
-        x <span class="o">=</span> df.loc[num, f<span class="s1">'{body_part}_x'</span><span class="o">]</span>
-        y <span class="o">=</span> df.loc[num, f<span class="s1">'{body_part}_y'</span><span class="o">]</span>
-        z <span class="o">=</span> df.loc[num, f<span class="s1">'{body_part}_z'</span><span class="o">]</span>
-        mesh.points <span class="o">=</span> pv.Sphere<span class="o">(</span><span class="nv">radius</span><span class="o">=</span>5, <span class="nv">center</span><span class="o">=(</span>x, y, z<span class="o">))</span>.points  <span class="c"># Update points of existing mesh</span>
-        mean_position +<span class="o">=</span> np.array<span class="o">([</span>x, y, z]<span class="o">)</span>
-
-    mean_position /<span class="o">=</span> len<span class="o">(</span>body_parts<span class="o">)</span>  <span class="c"># Calculate mean position of all body parts</span>
-    plotter.camera.focal_point <span class="o">=</span> mean_position.tolist<span class="o">()</span>  <span class="c"># Update the camera focal point</span>
-
-    <span class="c"># Update each skeleton connection</span>
-    <span class="k">for </span>connection, mesh <span class="k">in </span>zip<span class="o">(</span>skeleton, skeleton_line_meshes<span class="o">)</span>:
-        part1 <span class="o">=</span> connection[0]
-        part2 <span class="o">=</span> connection[1]
-        x1, y1, z1 <span class="o">=</span> df.loc[num, f<span class="s1">'{part1}_x'</span><span class="o">]</span>, df.loc[num, f<span class="s1">'{part1}_y'</span><span class="o">]</span>, df.loc[num, f<span class="s1">'{part1}_z'</span><span class="o">]</span>
-        x2, y2, z2 <span class="o">=</span> df.loc[num, f<span class="s1">'{part2}_x'</span><span class="o">]</span>, df.loc[num, f<span class="s1">'{part2}_y'</span><span class="o">]</span>, df.loc[num, f<span class="s1">'{part2}_z'</span><span class="o">]</span>
-        mesh.points <span class="o">=</span> pv.Line<span class="o">((</span>x1, y1, z1<span class="o">)</span>, <span class="o">(</span>x2, y2, z2<span class="o">))</span>.points  <span class="c"># Update points of existing mesh</span>
-
-    plotter.write_frame<span class="o">()</span>  <span class="c"># Write the current frame</span>
-plotter.close<span class="o">()</span>
-</code></pre></div></div>
-<!-- add mocap viz .GIF -->
-<p><img src="/assets/images/mocap/mocap.gif" alt="mocap viz" /></p>
-
-<h2 id="5-conclusion">5. Conclusion</h2>
-
-<p>In this post, we’ve explored how to use PyVista to visualize and animate 3D motion capture data with high frame rate. By leveraging the power of PyVista, we can create compelling visualizations that not only bring our data to life but also provide deep insights into the underlying dynamicsand animations with high frame rates, making it an excellent choice for visualizing motion capture data.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Data Visualization" /><category term="Python" /><category term="Tutorial" /><category term="Python3" /><category term="PyVista" /><category term="3D Visualization" /><category term="Motion Capture" /><category term="Animation" /><category term="High FPS 3D plotting" /><summary type="html"><![CDATA[A comprehensive Python tutorial on visualizing and animating 3D motion capture data using PyVista with high frame rate.]]></summary></entry></feed>
+<p>The reparameterization trick is a powerful method that makes the training of VAEs possible and efficient. By cleverly separating the random and deterministic elements of the sampling operation in the VAE, it allows us to leverage the power of backpropagation while maintaining the stochastic nature of the model. Understanding this trick is key to gaining a deeper insight into the workings of VAEs and their various applications in machine learning.</p>]]></content><author><name>Snawar Hussain</name></author><category term="Blog" /><category term="Genrative Models" /><category term="Python" /><category term="VAE" /><category term="Tutorial" /><category term="Machine Learning" /><category term="Python3" /><category term="Math for AI" /><category term="VAE" /><category term="Variational Autoencoder" /><category term="Generative Models" /><category term="3D Visualization" /><category term="Motion Capture" /><category term="Animation" /><category term="High FPS 3D plotting" /><summary type="html"><![CDATA[Explore the intricacies of Variational Autoencoders (VAEs) and the pivotal role of the reparameterization trick in their training process. Learn how this ingenious technique circumvents the challenges posed by stochastic sampling operations, paving the way for the application of backpropagation and gradient-based optimization methods.]]></summary></entry></feed>

@@ -130,4 +130,10 @@ var store = [{
         "tags": ["LLaMA","Generative Models","Model Loading","Hugging Face","Transformers","Causal Attention","Self-Attention","Machine Learning","Deep Learning","AI"],
         "url": "/educational/llms/Taming-the-LLaMA-3.1/",
         "teaser": "/assets/images/coding_stock.jpg"
+      },{
+        "title": "Policy Optimization with REINFORCE: A Deep Dive into Policy Gradients and related concepts",
+        "excerpt":"Introduction The REINFORCE algorithm is a classic method in policy gradient reinforcement learning. It directly optimizes the policy by maximizing the expected cumulative reward. To understand how REINFORCE uses stochastic gradient ascent to update policy parameters, we need to delve into the problem of computing gradients of the expected reward...","categories": ["Educational","Reinforcement Learning"],
+        "tags": ["REINFORCE","Policy Gradients","Monte Carlo Methods","Stochastic Gradient Ascent","Reinforcement Learning","Machine Learning","Deep Learning","AI"],
+        "url": "/educational/reinforcement%20learning/Policy-Gradient-Methods-in-ReInforcement-Learning-Log-trick-for-gradient-computation/",
+        "teaser": "/assets/images/coding_stock.jpg"
       }]
