@@ -1,0 +1,847 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Navigating K-space in MRI: The Role of Gradient Fields - Snawar Hussain</title>
+<meta name="description" content="Exploring the crucial role of gradient fields in MRI for stepping through K-space.">
+
+
+  <meta name="author" content="Snawar Hussain">
+  
+  <meta property="article:author" content="Snawar Hussain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Snawar Hussain">
+<meta property="og:title" content="Navigating K-space in MRI: The Role of Gradient Fields">
+<meta property="og:url" content="https://snawarhussain.com/educational/mri%20technology/EPGs-For_Dummies/">
+
+
+  <meta property="og:description" content="Exploring the crucial role of gradient fields in MRI for stepping through K-space.">
+
+
+
+  <meta property="og:image" content="https://snawarhussain.com/assets/images/2D_FT/mri_cover.webp">
+
+
+
+
+
+  <meta property="article:published_time" content="2024-04-12T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://snawarhussain.com/educational/mri%20technology/EPGs-For_Dummies/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/BB.png" alt="Snawar Hussain"></a>
+        
+        <a class="site-title" href="/">
+          Snawar Hussain
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/"
+                
+                
+              >Home</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/blog/"
+                
+                
+              >Blog</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/posts/"
+                
+                
+              >Posts</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags/"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/cv/"
+                
+                
+              >CV</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/2D_FT/mri_cover.webp');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Navigating K-space in MRI: The Role of Gradient Fields
+
+        
+      </h1>
+      
+        <p class="page__lead">Exploring the crucial role of gradient fields in MRI for stepping through K-space.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="https://snawarhussain.com/">
+        <img src="/assets/images/snawarhussain.webp" alt="Snawar Hussain" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="https://snawarhussain.com/" itemprop="url">Snawar Hussain</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>PhD fellow @ Fraunhofer <br />Research Areas: Computational MRI, AI for Science</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Bremen, Germany</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Navigating K-space in MRI: The Role of Gradient Fields">
+    <meta itemprop="description" content="Exploring the crucial role of gradient fields in MRI for stepping through K-space.">
+    <meta itemprop="datePublished" content="2024-04-12T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-cog"></i> Guide Overview</h4></header>
+              <ul class="toc__menu"><li><a href="#introduction">Introduction</a></li><li><a href="#mathematical-relationship-between-k-space-and-gradient-fields">Mathematical relationship between K-space and Gradient fields</a></li><li><a href="#rotating-vs-labratory-frame-of-reference">Rotating vs Labratory Frame of reference</a></li><li><a href="#gradient-fields-and-spin-magnetic-moments">Gradient Fields and Spin Magnetic Moments</a></li><li><a href="#2d-fourier-transform-and-mri">2D Fourier Transform and MRI</a></li><li><a href="#stepping-through-k-space-using-gradients">Stepping Through K-space using Gradients</a><ul><li><a href="#the-influence-of-k_x-and-k_y-on-sinusoidal-patterns">The Influence of \(k_x\) and \(k_y\) on Sinusoidal Patterns</a></li></ul></li><li><a href="#conclusion">Conclusion</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="introduction">Introduction</h2>
+
+<p>In Magnetic Resonance Imaging (MRI), gradient fields, among many other things, are used to encode spatial information. This post aims to clarify the connection between gradient fields and spatial frequencies in the K-space, and how gradients walks us through K-space. Blending mathematical theory with practical code examples, the goal is to enhance basic understanding of MR Physics and Simulation.</p>
+
+<h2 id="mathematical-relationship-between-k-space-and-gradient-fields">Mathematical relationship between K-space and Gradient fields</h2>
+
+<p>Recall from MRI theory that the gradients are used to change the mangetic field strenght of the B0 field in a particular direction. 
+For example a gradient in the x direction will change the magnetic field strength in the x direction.And similar is the case with gradients in the y or z direction.This change in magnetic field strength is represented by the following equation:</p>
+
+\[B(x,y,z) = (B_0 + G_x.x + G_z.y+ G_z.z)_z\]
+
+<p>It is important to note that the overall magnetic field  is still pointing in the z direction. The gradients only change the strenght of magnetic field in space and not the direction. That is why the right side of the above equation is subscripted with z.
+visually we can represent this change in magnetic field strength as shown in the following interactive plot:
+by changing slider values we can change the magnetic field strength in the x, y and z directions. the overall magnetic field is still pointing in the z direction. The gradients only change the strenght of magnetic field shown in colorcoded arrows all pointing in the z direction.</p>
+
+<div class="container">
+<!-- add heigh and width to the div cube -->
+    <div id="grid"></div>
+    <input type="range" id="gx-slider" min="-100" max="100" value="0" />
+    <input type="range" id="gy-slider" min="-100" max="100" value="0" />
+    <input type="range" id="gz-slider" min="-100" max="100" value="0" />
+</div>
+
+<h2 id="rotating-vs-labratory-frame-of-reference">Rotating vs Labratory Frame of reference</h2>
+<p>Consider a simple scenario where follwing an RF field and a slice selection gradient, we have a 2D slice of the spin magnetic moments knocked into the transverse plane all rotating at larmor frequency in phase.</p>
+
+<!-- <div class="frames-container">
+    <div class="frame" id="lab-frame">
+        <h2>Labratory Frame</h2>
+        <div class="arrow_grid" id="lab-cube"></div>
+    </div>
+    <div class="frame" id="rotational-frame">
+        <h2>Rotational Frame</h2>
+        <div class="arrow_grid" id="rotational-cube"></div>
+    </div>
+</div> -->
+
+<p align="center">
+<img src="/assets/images/ks_grad/lab_rotat.gif" height="300" />
+ <figcaption>Fig 1: Labratory vs Rotational Frame of reference</figcaption>
+</p>
+
+<p>In the laboratory frame of reference, the spin magnetic moments are precessing at the Larmor frequency and are initially in phase. However, when we shift our perspective to the rotating frame of reference, these spin magnetic moments appear stationary. This stationary appearance results from the rotating frame moving synchronously with the spins’ Larmor precession. This concept is at the core of what we call the rotating frame of reference.</p>
+
+<p>Opting for the rotating frame of reference in our subsequent discussions offers a significant advantage. It simplifies the visualization of gradient effects on spin magnetic moments, allowing us to observe these effects without the complexity introduced by their rapid precession in the laboratory frame. Essentially, it provides a clearer and more stable viewpoint, making it easier to comprehend the changes induced by the gradients without the ‘dizzying’ effects of spin motion seen in the lab frame.</p>
+
+<h2 id="gradient-fields-and-spin-magnetic-moments">Gradient Fields and Spin Magnetic Moments</h2>
+
+<p>When a gradient field is introduced in any direction, it alters the magnetic field strength along that direction. This variation in magnetic field strength causes the spin magnetic moments to precess at different frequencies in that specific direction. The reason for this is that the precession frequency of spin magnetic moments is directly proportional to the magnetic field strength, as described by the equation:</p>
+
+\[\omega = \gamma B\]
+
+<p>Here, \(\omega\) represents the precession frequency, \(\gamma\) is the gyromagnetic ratio, and \(B\) signifies the magnetic field strength.</p>
+
+<p>In a rotating frame of reference, this differential in precession frequencies translates to spin dephasing along the spatial gradient. This dephasing occurs because spins are not precessing synchronously with the rotating frame.</p>
+
+<p>For instance, a Gx gradient introduces spin magnetic moment dephasing along the x-axis. Spins located on one side of the x-axis origin dephase in the opposite direction to those on the other side, while spins precisely at the x-axis origin do not dephase. Analogous effects occur with Gy and Gz gradients, affecting spin dephasing along the y-axis and z-axis, respectively.</p>
+
+<h2 id="2d-fourier-transform-and-mri">2D Fourier Transform and MRI</h2>
+
+<p>In our previous discussion on <a href="/educational/mri%20technology/data%20analysis/2D-Fourier-Transform-K-space-and-MRI/">2D Fourier Transform</a> we simplified the concept of image decomposition using the principles of the 2D Fourier Transform. To avoid the complexities of mathematical rigor, let’s recall the key idea: any two-dimensional (2D) spatial signal, such as an image, can be decomposed into components resembling 2D sinusoids. These sinusoidal patterns represent variations in both spatial frequency and phase orientation. By gathering enough amount of these 2D sinusoids, varying in their spatial frequencies and orientations, we can reconstruct the original image. This process forms the crux of the inverse 2D Fourier Transform.</p>
+
+<p>Each of these 2D sinusoids, characterized by specific oscillations along the x and y axes, correlates to a unique point in the 2D Fourier Transform plane, denoted as \(F(k_x, k_y)\). This plane is, in fact, what is known in MRI terminology as the K-space. K-space is a conceptual framework used for understanding and processing the data acquired by MRI scanners to produce images. It represents the spatial frequencies of the object being imaged, with each point in K-space contributing to the overall image’s formation.</p>
+
+<h2 id="stepping-through-k-space-using-gradients">Stepping Through K-space using Gradients</h2>
+
+<p>The role of gradients in MRI is pivotal for navigating through K-space, and to demonstrate this, I have created an interactive graph. Imagine a 2D slice with spin magnetic moments initially aligned in the transverse plane and rotating at the Larmor frequency, in phase within the rotating frame of reference.</p>
+
+<p>In our interactive plot, you’ll find horizontal and vertical sliders representing the application of gradient fields. As you adjust these sliders, you are effectively changing the frequency and phase of the spin magnetic moments. This adjustment simulates the effects of frequency and phase encoding in MRI.</p>
+
+<p>The horizontal slider corresponds to the frequency encoding gradient. Moving this slider alters the precession frequency of the spins along one axis, thus varying their position along the frequency-encoded direction in K-space.</p>
+
+<p>The vertical slider, on the other hand, represents the phase encoding gradient. Adjusting this slider changes the phase of the spins, thereby moving them along the phase-encoded direction in K-space.</p>
+
+<p>As you interact with these sliders, observe the changes in a 2D grid of arrows on the plot. These arrows symbolize the spin magnetic moments and their orientation in response to the applied gradients. Were you able to see it ??</p>
+
+<div class="threejs">
+<!-- add heigh and width to the div cube -->
+    <div id="cube"></div>
+    <input type="range" id="horizontal-slider" min="-360" max="360" value="0" />
+    <input type="range" id="vertical-slider" min="-360" max="360" value="0" />
+
+</div>
+
+<p>By turing on the gradients in the x and y direction we are varying the frequency and phase of the spins in the x and y direction based on
+their location in space and in-turn creating our own 2D sinosoids corresponding to a certain point in the 2D K-space.</p>
+
+<p>This is exactly what we do in MRI. We collect 2D sinosoids (of spin magnetic moments of different tissues) varying in spatial frequency and phase and once we have collected enough of them we can reconstruct the original image back using the inverse Fourier Transform.</p>
+
+<p>Mathematically, the relationship between the gradient fields and their representation in K-space can be expressed as follows:</p>
+
+\[k(x,y,z) = \gamma \int G(x,y,z) dt\]
+
+<p>In this equation, \(k(x,y,z)\) represents the position in K-space , \(\gamma\) is the gyromagnetic ratio, \(G(x,y,z)\) is the gradient applied, and \(dt\) denotes the integration over time. This formulation illustrates that the position in K-space is directly proportional to the time integral of the gradient field applied in a arbitrary direction.</p>
+
+<h3 id="the-influence-of-k_x-and-k_y-on-sinusoidal-patterns">The Influence of \(k_x\) and \(k_y\) on Sinusoidal Patterns</h3>
+
+<p>Recall that the number of wiggles or oscillations in 2D sinosoid in x and y direction correlates directly to a specific point in the \(F(k_x, k_y)\) plane aka K-space. For instance, a sinusoid with 3 complete cycles  in the x-direction and 3 in the y-direction would correspond to a point in \(F(k_x, k_y)\) with \(k_x =3\) value and \(k_y =3\) value. This mapping is fundamental to how spatial frequencies are represented and manipulated in the Fourier Transform, particularly in applications like MRI, where precise spatial information is crucial.</p>
+
+<p>Here’s a part of animation that demonstrates the relation between point in K-Space and the 2D sinosoid it generates and the effect of phasor assosiated with each of the 2D sinosoid (spatical frequency) and how it scales and shifts it.</p>
+
+<p align="center">
+<img src="/assets/images/2D_FT/FT_2D.gif" height="600" />
+ <figcaption>Fig 2: 2D Sinosoid with changing phase  </figcaption>
+</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In summary, the intricacies of MRI technology, particularly the role of gradient fields in navigating through K-space, underscore the sophistication of this imaging modality. Through the careful manipulation of gradients, MRI is capable of encoding spatial information into the spin magnetic moments, which are then mapped onto K-space. The fundamental equation \(k = \gamma \int G dt\) elegantly captures this relationship, demonstrating how the position in K-space is determined by the integrated effect of the applied gradients over time.</p>
+
+<p>This deep interplay between physical principles and technological implementation not only facilitates the creation of detailed anatomical images but also opens avenues for advanced imaging techniques. The interactive tools and visualizations we discussed serve as potent means for understanding these complex concepts, making the abstract principles of MRI more tangible and comprehensible.</p>
+
+<p>As we continue to refine and advance MRI technology, the potential for improved diagnostics and research expands. The journey through K-space, facilitated by gradient fields, is not just a cornerstone of MRI but a testament to the ingenuity and continual evolution of medical imaging technology.</p>
+
+<!-- Include necessary scritps -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+
+<!-- Include OrbitControls.js from jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.121.0/examples/js/controls/OrbitControls.js"></script>
+
+<script src="/assets/js/arrowgrid.js"></script>
+
+<link rel="stylesheet" href="/assets/css/arrowgrid.css" />
+
+<script src="https://cdn.jsdelivr.net/npm/chroma-js@2.1.0/chroma.min.js"></script>
+
+<script src="/assets/js/threejs.js"></script>
+
+<link rel="stylesheet" href="/assets/css/threejs.css" />
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#fourier-transform" class="page__taxonomy-item p-category" rel="tag">Fourier Transform</a><span class="sep">, </span>
+    
+      <a href="/tags/#gradient-fields" class="page__taxonomy-item p-category" rel="tag">Gradient Fields</a><span class="sep">, </span>
+    
+      <a href="/tags/#image-reconstruction" class="page__taxonomy-item p-category" rel="tag">Image Reconstruction</a><span class="sep">, </span>
+    
+      <a href="/tags/#k-space" class="page__taxonomy-item p-category" rel="tag">K-space</a><span class="sep">, </span>
+    
+      <a href="/tags/#medical-imaging" class="page__taxonomy-item p-category" rel="tag">Medical Imaging</a><span class="sep">, </span>
+    
+      <a href="/tags/#mri" class="page__taxonomy-item p-category" rel="tag">MRI</a><span class="sep">, </span>
+    
+      <a href="/tags/#spin-magnetic-moments" class="page__taxonomy-item p-category" rel="tag">Spin Magnetic Moments</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#educational" class="page__taxonomy-item p-category" rel="tag">Educational</a><span class="sep">, </span>
+    
+      <a href="/categories/#mri-technology" class="page__taxonomy-item p-category" rel="tag">MRI Technology</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-04-12T00:00:00+00:00">April 12, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=Navigating+K-space+in+MRI%3A+The+Role+of+Gradient+Fields%20https%3A%2F%2Fsnawarhussain.com%2Feducational%2Fmri%2520technology%2FEPGs-For_Dummies%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsnawarhussain.com%2Feducational%2Fmri%2520technology%2FEPGs-For_Dummies%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://snawarhussain.com/educational/mri%20technology/EPGs-For_Dummies/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/educational/mri%20technology/Kspace-walk-using-encoding-gradients-in-MRI/" class="pagination--pager" title="Navigating K-space in MRI: The Role of Gradient Fields">Previous</a>
+    
+    
+      <a href="/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" class="pagination--pager" title="Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+      
+        <p>
+          Comments are configured with provider: <strong>facebook</strong>,
+          but are disabled in non-production environments.
+        </p>
+      
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You May Also Enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/reinforcement%20learning/Policy-Gradient-Methods-in-ReInforcement-Learning-Log-trick-for-gradient-computation/" rel="permalink">Policy Optimization with REINFORCE: A Deep Dive into Policy Gradients and related concepts
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          20 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Discover how the REINFORCE algorithm leverages policy gradients, the log-trick, and Monte Carlo sampling to optimize decision-making in reinforcement learnin...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/llms/Taming-the-LLaMA-3.1/" rel="permalink">Taming the LLaMA: A Guide to Herding LLaMA 3.1 with Hugging Face
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Exploring the different methods to load and work with the LLaMA 3.1 model using Hugging Face’s APIs and Meta’s original implementation. Learn which approach ...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/educational/llms/Causal-Attention-Mechanism-Pure-and-Simple/" rel="permalink">GPT model Causal Multi-Head Attention Mechanism: Pure and Simple
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          14 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How does the multi-head attention mechanism work in transformers? Let’s break it down step-by-step, starting from the input sequence and moving through the e...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/coding_stock.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/linux/linux-tensorflow-with-cuda-in-conda-environment/" rel="permalink">Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Guide to set-up TensorFlow to use GPU in a Conda environment.Follow these steps to ensure TensorFlow leverages CUDA and cuDNN installed in your Conda environ...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://twitter.com/SnawarHussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+        
+      
+        
+          <li><a href="https://github.com/snawarhussain" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://snawarhussain.com">Snawar Hussain</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=405037007406322";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+
+
+
+  </body>
+</html>

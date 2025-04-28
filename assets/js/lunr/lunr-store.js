@@ -113,6 +113,12 @@ var store = [{
         "url": "/educational/mri%20technology/Kspace-walk-using-encoding-gradients-in-MRI/",
         "teaser": "/assets/images/coding_stock.jpg"
       },{
+        "title": "Navigating K-space in MRI: The Role of Gradient Fields",
+        "excerpt":"Introduction In Magnetic Resonance Imaging (MRI), gradient fields, among many other things, are used to encode spatial information. This post aims to clarify the connection between gradient fields and spatial frequencies in the K-space, and how gradients walks us through K-space. Blending mathematical theory with practical code examples, the goal...","categories": ["Educational","MRI Technology"],
+        "tags": ["MRI","K-space","Gradient Fields","Fourier Transform","Spin Magnetic Moments","Image Reconstruction","Medical Imaging"],
+        "url": "/educational/mri%20technology/EPGs-For_Dummies/",
+        "teaser": "/assets/images/coding_stock.jpg"
+      },{
         "title": "Getting TensorFlow to Work with GPU in Conda Environment on Linux or WSL",
         "excerpt":"Let’s admit it, installing TensorFlow with CUDA support is a pain in the neck and doesn’t work right away on the first attempt 99% of the time. Many of us have faced the frustration of seeing TensorFlow fail to utilize the GPU even though nvidia-smi confirms it’s there. If you’re...","categories": ["Blog","Linux"],
         "tags": ["TensorFlow","GPU","CUDA","cuDNN","Conda","Linux","WSL2","WSL","Deep Learning","AI"],

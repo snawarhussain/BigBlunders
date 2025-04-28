@@ -1,0 +1,21 @@
+{
+  "name": "blog_site",
+  "version": "1.0.0",
+  "main": "_js/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run _js/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snawarhussain/Blog_Site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/snawarhussain/Blog_Site/issues"
+  },
+  "homepage": "https://github.com/snawarhussain/Blog_Site#readme",
+  "description": ""
+}

@@ -1,0 +1,58 @@
+/** @format */
+/* .jekyll-test-container {
+  width: 80vw;
+  height: 80vh;
+  margin: 2rem auto;
+  background-color: #1a1a1a;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+} */
+.custom-landing-wrapper {
+    width: 65vw;
+    /* height: 100vh; */
+    margin: 2rem auto;
+    /* background-color: #769ae7; */
+    overflow: hidden;
+    /* border-radius: 10px; */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    font-size: 0.5vw; /* NEW! */
+    /* left: 50%; */
+
+  .landing-container {
+    
+    width: 100%;
+    /* max-width: 1200px; */
+    height: 700px;
+    /* background-color: #2b2c37; slightly lighter dark to give a soft box effect */
+    border-radius: 0.2rem;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    /* margin-bottom: 3rem; */
+    position: relative;
+  }
+
+  .blog-posts-container {
+    width: 100%;
+    /* max-width: 900px; */
+    background: #2b2c37;
+    padding: 2rem;
+    /* border-radius: 1rem; */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: white;
+    /* center in horizontal */
+    position: relative;
+    left: center;
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    a {
+      color: #82aaff;
+      text-decoration: underline;
+    }
+  }
+}
