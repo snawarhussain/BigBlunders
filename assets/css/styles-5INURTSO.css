@@ -10,7 +10,8 @@
   position: relative;
 } */
 .custom-landing-wrapper {
-    width: 65vw;
+    width: 100%;
+    min-width: 55vw;
     height: 65vh;
     margin: 2rem auto;
     /* background-color: #769ae7; */
