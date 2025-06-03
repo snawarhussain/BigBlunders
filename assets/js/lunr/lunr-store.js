@@ -142,4 +142,10 @@ var store = [{
         "tags": ["REINFORCE","Policy Gradients","Monte Carlo Methods","Stochastic Gradient Ascent","Reinforcement Learning","Machine Learning","Deep Learning","AI"],
         "url": "/educational/reinforcement%20learning/Policy-Gradient-Methods-in-ReInforcement-Learning-Log-trick-for-gradient-computation/",
         "teaser": "/assets/images/coding_stock.jpg"
+      },{
+        "title": "Simulating RF Pulses and Rotating B₁ Fields in MRI: From Biot–Savart to Quadrature Coils",
+        "excerpt":"all_things_rf_pulse All Things RF Pulse: From Single Wire to Birdcage Coil Simulation¶ The Magnetic Field Around a Wire: Biot–Savart’s Discovery¶ In 1820, a simple classroom demonstration changed science: Hans Christian Ørsted noticed a compass needle jump when he switched on an electric current in a wire. This surprise revelation –...","categories": [],
+        "tags": ["RF Coil Design","MRI","Biot–Savart","B₁ Field","Quadrature Excitation","PyVista","RF Pulse","Biophysics","Complex Field Decomposition","B1+"],
+        "url": "/All-Things-Radio-Frequency-Pulse/",
+        "teaser": "/assets/images/coding_stock.jpg"
       }]
