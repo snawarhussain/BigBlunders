@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MRI Game — Build k‑space & Reconstruct (fixed)</title>
+    <style>
+        :root {
+            --bg: #0c1117;
+            --panel: #0f1720;
+            --ink: #e8eef4;
+            --muted: #9bb0c3;
+            --line: #1e2a3a;
+            --accent: #7fc0ff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+                Helvetica, Arial;
+        }
+
+        header {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--line);
+            background: #0f1521;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .controls .group {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .controls label {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .controls input[type="range"] {
+            width: 180px;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid #223246;
+            background: #151e2b;
+            color: var(--ink);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        select,
+        .btn,
+        input[type="range"] {
+            accent-color: var(--accent);
+        }
+
+        main {
+            height: calc(100vh - 58px);
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 12px;
+            padding: 12px;
+            min-height: 560px;
+        }
+
+        .panel {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--panel);
+        }
+
+        .panel .phead {
+            padding: 8px 10px;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #a9bfd4;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .panel .body {
+            position: relative;
+            flex: 1;
+            min-height: 260px;
+        }
+
+
+
+
+        .panel .body>canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .panel .recon_body {
+            position: relative;
+            flex: 1;
+            min-height: 260px;
+            display: grid;
+            /* easy centering */
+            place-items: center;
+            /* center both axes */
+            /* optional breathing room */
+            background: #070707;
+            /* slightly different bg */
+            border-radius: 2px;
+        }
+
+        /* keep the canvas square, centered, with a max width */
+        #recon {
+            position: relative;
+            /* override absolute */
+            width: min(100%, 600px);
+            /* max width cap */
+            aspect-ratio: 1 / 1;
+            /* preserve square shape */
+            height: auto;
+            /* let aspect-ratio control height */
+            display: block;
+            border-radius: 2px;
+        }
+
+        .legend {
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            font-size: 11px;
+            color: var(--muted);
+            background: rgba(0, 0, 0, 0.25);
+            padding: 4px 6px;
+            border-radius: 6px;
+            border: 1px solid #23354c;
+        }
+
+        #klegend {
+            right: 8px;
+            left: auto;
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .pill {
+            padding: 4px 8px;
+            border: 1px solid #2a3a52;
+            border-radius: 999px;
+            color: #bcd;
+        }
+
+        @media (max-width: 1200px) {
+            main {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(5, minmax(260px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>MRI Game — k‑space builder</h1>
+        <div class="controls">
+            <div class="group">
+                <label>N (phantom size)</label>
+                <select id="size" class="btn">
+                    <option value="16">16×16</option>
+                    <option value="32" selected>32×32</option>
+                    <option value="64">64×64</option>
+                </select>
+            </div>
+            <div class="group"><button id="reset" class="btn">Reset</button></div>
+            <div class="group">
+                <button id="rf" class="btn">RF 90° (tip)</button>
+            </div>
+            <div class="group">
+                <label>k<sub>x</sub>: <span id="kxVal">0</span></label>
+                <input id="kx" type="range" min="-16" max="16" step="1" value="0" />
+            </div>
+            <div class="group">
+                <label>k<sub>y</sub>: <span id="kyVal">0</span></label>
+                <input id="ky" type="range" min="-16" max="16" step="1" value="0" />
+            </div>
+            <div class="group">
+                <button id="capture" class="btn">⏺ Capture wave (ADC)</button>
+            </div>
+            <div class="group">
+                <label>Auto path</label>
+                <select id="path" class="btn">
+                    <option value="none">—</option>
+                    <option value="epi">EPI (zig‑zag)</option>
+                    <option value="gre">GRE line scan</option>
+                    <option value="spiral">Spiral</option>
+                </select>
+                <button id="autorun" class="btn">▶︎ Auto‑scan</button>
+            </div>
+            <div class="group">
+                <button id="reconBtn" class="btn">🧼 Clear sum</button>
+            </div>
+            <div class="group" style="
+            border-left: 1px solid #23354c;
+            padding-left: 10px;
+            margin-left: 4px;
+          ">
+                <label>Load phantom (CSV: x,y,z,pd)</label>
+                <input id="phantomCSV" type="file" accept=".csv" />
+                <button id="loadCSV" class="btn">Load CSV</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="panel" style="grid-row: 1 / span 2">
+            <div class="phead">
+                Phantom & Spins <span class="pill">no relaxation</span>
+            </div>
+            <div class="body">
+                <canvas id="spins"></canvas>
+                <div class="legend">
+                    Blue arrows = spins (Mz → RF → Mxy). Phase from k·r rotates arrows
+                    in‑plane after tip.
+                </div>
+            </div>
+        </section>
+        <section class="panel">
+            <div class="phead">k‑space</div>
+            <div class="body">
+                <canvas id="kspace"></canvas>
+                <div id="klegend" class="legend">Click a cell to set (kx,ky)</div>
+            </div>
+        </section>
+        <section class="panel">
+            <div class="phead">Surface: cos(k·x)</div>
+            <div class="body"><canvas id="surface"></canvas></div>
+        </section>
+        <section class="panel">
+            <div class="phead">Binary stripes: sign(cos(k·x))</div>
+            <div class="body"><canvas id="stripes"></canvas></div>
+        </section>
+        <section class="panel">
+            <div class="phead">Reconstruction (running sum)</div>
+            <div class="recon_body">
+                <canvas id="recon"></canvas>
+                <div class="legend">Adds waves in capture order</div>
+            </div>
+        </section>
+    </main>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/"
+        }
+      }
+    </script>
+
+    <script type="module">
+        import * as THREE from "three";
+        import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+        // ---------- utils ----------
+        const TAU = Math.PI * 2;
+        const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+
+        // ---------- phantom ----------
+        function makePhantom(N) {
+            const img = new Float32Array(N * N).fill(0);
+            const es = [
+                { a: 0.9, b: 0.9, x: 0, y: 0, val: 0.9 },
+                { a: 0.25, b: 0.18, x: -0.18, y: 0.05, val: -0.3 },
+                { a: 0.25, b: 0.18, x: 0.18, y: 0.05, val: -0.3 },
+                { a: 0.7, b: 0.1, x: 0, y: -0.35, val: 0.2 },
+            ];
+            for (let j = 0; j < N; j++) {
+                const y = (j / (N - 1)) * 2 - 1;
+                for (let i = 0; i < N; i++) {
+                    const x = (i / (N - 1)) * 2 - 1;
+                    let v = 0;
+                    for (const e of es) {
+                        const dx = x - e.x,
+                            dy = y - e.y;
+                        const r = (dx * dx) / (e.a * e.a) + (dy * dy) / (e.b * e.b);
+                        if (r <= 1) v += e.val;
+                    }
+                    img[j * N + i] = v;
+                }
+            }
+            let mn = Infinity,
+                mx = -Infinity;
+            for (const v of img) {
+                mn = Math.min(mn, v);
+                mx = Math.max(mx, v);
+            }
+            const rng = mx - mn || 1;
+            for (let k = 0; k < img.length; k++) {
+                img[k] = (img[k] - mn) / rng;
+            }
+            return img;
+        }
+
+        // ---------- Spin view (ArrowHelper, animated tip) ----------
+        class SpinView {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+                this.renderer.setPixelRatio(
+                    Math.min(2, window.devicePixelRatio || 1)
+                );
+                this.scene = new THREE.Scene();
+                this.scene.background = new THREE.Color(0x0f1720);
+                this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+                this.camera.position.set(0.4, 2.4, 3.8);
+                this.camera.lookAt(0, 0, 0);
+                this.controls = new OrbitControls(
+                    this.camera,
+                    this.renderer.domElement
+                );
+                this.controls.enableDamping = true;
+                this.controls.dampingFactor = 0.08;
+                this.controls.minDistance = 1;
+                this.controls.maxDistance = 10;
+                this.scene.add(new THREE.HemisphereLight(0xffffff, 0x223044, 0.9));
+                const dl = new THREE.DirectionalLight(0xffffff, 0.8);
+                dl.position.set(2, 3, 2);
+                this.scene.add(dl);
+                const grid = new THREE.GridHelper(2.6, 13, 0x21415f, 0x15283c);
+                grid.position.y = 0.0;
+                this.scene.add(grid);
+                this.group = new THREE.Group();
+                this.scene.add(this.group);
+                this.N = 0;
+                this.positions = [];
+                this.pd = null;
+                this.arrows = [];
+                this.isTipped = false;
+                this.tipping = false;
+                this.tipStart = 0;
+                this.tipDur = 600;
+                this.kx = 0;
+                this.ky = 0;
+            }
+            build(N, pd) {
+                for (const a of this.arrows) {
+                    this.group.remove(a);
+                }
+                this.arrows = [];
+                this.positions = [];
+                this.N = N;
+                this.pd = pd;
+                let idx = 0;
+                for (let j = 0; j < N; j++) {
+                    const z = (j / (N - 1)) * 2 - 1;
+                    for (let i = 0; i < N; i++) {
+                        const x = (i / (N - 1)) * 2 - 1;
+                        const pos = new THREE.Vector3(x, 0, z);
+                        this.positions[idx] = pos;
+                        const len = 0.2 * (pd[idx] || 0) + 0.0001;
+                        const dir = new THREE.Vector3(0, 1, 0);
+                        const arrow = new THREE.ArrowHelper(
+                            dir,
+                            pos,
+                            len,
+                            0x62a9ff,
+                            0.22 * len,
+                            0.08 * len
+                        );
+                        this.group.add(arrow);
+                        this.arrows[idx] = arrow;
+                        idx++;
+                    }
+                }
+                this.isTipped = false;
+                this.tipping = false;
+            }
+            reset() {
+                for (let k = 0; k < this.arrows.length; k++) {
+                    const len = 0.2 * (this.pd[k] || 0) + 0.0001;
+                    const a = this.arrows[k];
+                    a.setDirection(new THREE.Vector3(0, 1, 0));
+                    a.setLength(len, 0.22 * len, 0.08 * len);
+                }
+                this.isTipped = false;
+                this.tipping = false;
+            }
+            startTip() {
+                if (this.isTipped) return;
+                this.isTipped = true;
+                this.tipping = true;
+                this.tipStart = performance.now();
+            }
+            setK(kx, ky) {
+                this.kx = kx;
+                this.ky = ky;
+                if (this.isTipped && !this.tipping) this.applyPhase();
+            }
+            applyPhase() {
+                for (let k = 0; k < this.arrows.length; k++) {
+                    const pos = this.positions[k];
+                    const len = 0.2 * (this.pd[k] || 0) + 0.0001;
+                    const phi = this.kx * pos.x + this.ky * pos.z;
+                    const dir = new THREE.Vector3(Math.cos(phi), 0, Math.sin(phi));
+                    const a = this.arrows[k];
+                    a.setDirection(dir.normalize());
+                    a.setLength(len, 0.22 * len, 0.08 * len);
+                }
+            }
+            resize() {
+                const w = this.canvas.clientWidth,
+                    h = this.canvas.clientHeight;
+                this.renderer.setSize(w, h, false);
+                this.camera.aspect = w / h;
+                this.camera.updateProjectionMatrix();
+            }
+            render() {
+                this.controls.update();
+                if (this.tipping) {
+                    const now = performance.now();
+                    const t = clamp((now - this.tipStart) / this.tipDur, 0, 1);
+                    const angle = t * (Math.PI / 2);
+                    const up = new THREE.Vector3(0, 1, 0);
+                    for (let k = 0; k < this.arrows.length; k++) {
+                        const pos = this.positions[k];
+                        const len = 0.2 * (this.pd[k] || 0) + 0.0001;
+                        const phi = this.kx * pos.x + this.ky * pos.z;
+                        const target = new THREE.Vector3(Math.cos(phi), 0, Math.sin(phi));
+                        const axis = new THREE.Vector3()
+                            .crossVectors(up, target)
+                            .normalize();
+                        const q = new THREE.Quaternion().setFromAxisAngle(axis, angle);
+                        const dir = up.clone().applyQuaternion(q);
+                        const a = this.arrows[k];
+                        a.setDirection(dir.normalize());
+                        a.setLength(len, 0.22 * len, 0.08 * len);
+                    }
+                    if (t >= 1) {
+                        this.tipping = false;
+                    }
+                }
+                this.renderer.render(this.scene, this.camera);
+            }
+        }
+
+        // ---------- 2D helpers ----------
+        function ensureSize(canvas) {
+            const dpr = Math.max(1, window.devicePixelRatio || 1);
+            const w = canvas.clientWidth * dpr,
+                h = canvas.clientHeight * dpr;
+            if (canvas.width !== w || canvas.height !== h) {
+                canvas.width = w;
+                canvas.height = h;
+            }
+            return { w, h, dpr };
+        }
+
+        // ---------- K-space panel ----------
+        class KSpace {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext("2d");
+                this.N = 32;
+                this.center = 16;
+                this.samplesRe = null;
+                this.samplesIm = null;
+                this.visited = new Set();
+                this.order = [];
+                this.onCellClick = null;
+            }
+            build(N) {
+                this.N = N;
+                this.center = (N / 2) | 0;
+                this.samplesRe = new Float32Array(N * N);
+                this.samplesIm = new Float32Array(N * N);
+                this.visited.clear();
+                this.order.length = 0;
+                this.draw(0, 0);
+            }
+            toIndexX(kx) {
+                return clamp(kx + this.center, 0, this.N - 1);
+            }
+            toIndexY(ky) {
+                return clamp(this.center - ky, 0, this.N - 1);
+            }
+            toKX(ix) {
+                return ix - this.center;
+            }
+            toKY(iy) {
+                return this.center - iy;
+            }
+            index(ix, iy) {
+                return iy * this.N + ix;
+            }
+            draw(kx, ky) {
+                const { w: W, h: H } = ensureSize(this.canvas);
+                const ctx = this.ctx;
+                const N = this.N;
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, W, H);
+                ctx.fillStyle = "#0f1720";
+                ctx.fillRect(0, 0, W, H);
+                ctx.strokeStyle = "#1c2a3a";
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                for (let i = 0; i <= N; i++) {
+                    const x = Math.round((i * W) / N);
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, H);
+                    const y = Math.round((i * H) / N);
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(W, y);
+                }
+                ctx.stroke();
+                ctx.strokeStyle = "#2a4361";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, H / 2);
+                ctx.lineTo(W, H / 2);
+                ctx.moveTo(W / 2, 0);
+                ctx.lineTo(W / 2, H);
+                ctx.stroke();
+                ctx.fillStyle = "#79c0ff";
+                for (const key of this.visited) {
+                    const [ix, iy] = key.split(",").map(Number);
+                    const x = (ix * W) / N + W / (2 * N);
+                    const y = (iy * H) / N + H / (2 * N);
+                    ctx.beginPath();
+                    ctx.arc(x, y, Math.max(3, W / (N * 10)), 0, TAU);
+                    ctx.fill();
+                }
+                const ix = this.toIndexX(kx),
+                    iy = this.toIndexY(ky);
+                const cx = (ix * W) / N + W / (2 * N),
+                    cy = (iy * H) / N + H / (2 * N);
+                ctx.strokeStyle = "#b8d7ff";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(cx, cy, Math.max(6, W / (N * 8)), 0, TAU);
+                ctx.stroke();
+            }
+            mark(ix, iy) {
+                const key = `${ix},${iy}`;
+                if (!this.visited.has(key)) {
+                    this.visited.add(key);
+                    this.order.push([ix, iy]);
+                }
+            }
+            setSample(ix, iy, re, im) {
+                this.samplesRe[this.index(ix, iy)] = re;
+                this.samplesIm[this.index(ix, iy)] = im;
+            }
+            click(evt) {
+                const rect = this.canvas.getBoundingClientRect();
+                const x = evt.clientX - rect.left;
+                const y = evt.clientY - rect.top;
+                const { w: W, h: H } = ensureSize(this.canvas);
+                const N = this.N;
+                const ix = clamp(Math.floor((x / W) * N), 0, N - 1);
+                const iy = clamp(Math.floor((y / H) * N), 0, N - 1);
+                if (this.onCellClick) this.onCellClick(ix, iy);
+            }
+        }
+
+        // ---------- stripes ----------
+        class StripesPanel {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext("2d");
+                this.Nvis = 384;
+                this.off = document.createElement("canvas");
+                this.off.width = this.Nvis;
+                this.off.height = this.Nvis;
+                this.octx = this.off.getContext("2d", { willReadFrequently: true });
+            }
+            draw(kx, ky) {
+                const N = this.Nvis;
+                const id = this.octx.createImageData(N, N);
+                const d = id.data;
+                for (let j = 0; j < N; j++) {
+                    const y = (j / (N - 1)) * TAU - Math.PI;
+                    for (let i = 0; i < N; i++) {
+                        const x = (i / (N - 1)) * TAU - Math.PI;
+                        //map s to 0 to 255 values
+                        const s = Math.round((Math.cos(kx * x + ky * y) + 1) * 127.5);
+                        const k = (j * N + i) * 4;
+                        d[k] = s;
+                        d[k + 1] = s;
+                        d[k + 2] = s;
+                        d[k + 3] = 255;
+                    }
+                }
+                this.octx.putImageData(id, 0, 0);
+                const { w, h } = ensureSize(this.canvas);
+                const ctx = this.ctx;
+                ctx.clearRect(0, 0, w, h);
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(this.off, 0, 0, w, h);
+            }
+        }
+
+        // ---------- surface ----------
+        class SurfacePanel {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+                this.renderer.setPixelRatio(
+                    Math.min(2, window.devicePixelRatio || 1)
+                );
+                this.scene = new THREE.Scene();
+                this.scene.background = new THREE.Color(0x0f1720);
+                this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+                this.camera.position.set(0, 2.5, 4.6);
+                this.controls = new OrbitControls(
+                    this.camera,
+                    this.renderer.domElement
+                );
+                this.controls.enableDamping = true;
+                this.controls.minDistance = 1.2;
+                this.controls.maxDistance = 10;
+                const seg = 512;
+                const geo = new THREE.PlaneGeometry(TAU, TAU, seg, seg);
+                geo.rotateX(-Math.PI / 2);
+                this.uniforms = { u_kx: { value: 0 }, u_ky: { value: 0 } };
+                const mat = new THREE.ShaderMaterial({
+                    uniforms: this.uniforms,
+                    vertexShader: `uniform float u_kx; uniform float u_ky; varying float v_h; void main(){ vec3 p=position; float h=cos(u_kx*p.x + u_ky*p.z); p.y+=h; v_h=h; gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0); }`,
+                    fragmentShader: `varying float v_h; void main(){ float t=(v_h+1.0)*0.5; vec3 blue=vec3(0.28,0.55,0.95); vec3 white=vec3(1.0); vec3 red=vec3(0.98,0.45,0.45); vec3 col=mix(blue,white,smoothstep(0.0,0.6,t)); col=mix(col,red,smoothstep(0.6,1.0,t)); gl_FragColor=vec4(col,1.0);} `,
+                    side: THREE.DoubleSide,
+                });
+                this.mesh = new THREE.Mesh(geo, mat);
+                this.scene.add(this.mesh);
+                this.scene.add(new THREE.HemisphereLight(0xffffff, 0x223344, 0.9));
+                const dl = new THREE.DirectionalLight(0xffffff, 0.8);
+                dl.position.set(2, 3, 2);
+                this.scene.add(dl);
+            }
+            resize() {
+                const w = this.canvas.clientWidth,
+                    h = this.canvas.clientHeight;
+                this.renderer.setSize(w, h, false);
+                this.camera.aspect = w / h;
+                this.camera.updateProjectionMatrix();
+            }
+            setK(kx, ky) {
+                this.uniforms.u_kx.value = kx;
+                this.uniforms.u_ky.value = ky;
+            }
+            render() {
+                this.controls.update();
+                this.renderer.render(this.scene, this.camera);
+            }
+        }
+
+        // ---------- recon panel ----------
+        class ReconPanel {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext("2d");
+                this.N = 32;
+                this.current = new Float32Array(32 * 32);
+            }
+            build(N) {
+                this.N = N;
+                this.current = new Float32Array(N * N);
+                this.draw(this.current);
+            }
+            draw(img) {
+                const { w, h } = ensureSize(this.canvas);
+                const N = this.N;
+                const tmp = document.createElement("canvas");
+                tmp.width = N;
+                tmp.height = N;
+                const tctx = tmp.getContext("2d");
+                const id = tctx.createImageData(N, N);
+                const d = id.data;
+                let mn = Infinity,
+                    mx = -Infinity;
+                for (const v of img) {
+                    if (v < mn) mn = v;
+                    if (v > mx) mx = v;
+                }
+                const range = mx - mn || 1;
+                const inv = 255 / range;
+                for (let j = 0; j < N; j++)
+                    for (let i = 0; i < N; i++) {
+                        const v = img[j * N + i];
+                        const g = Math.round((v - mn) * inv);
+                        const k = (j * N + i) * 4;
+                        d[k] = d[k + 1] = d[k + 2] = g;
+                        d[k + 3] = 255;
+                    }
+                tctx.putImageData(id, 0, 0);
+                const ctx = this.ctx;
+                ctx.imageSmoothingEnabled = false;
+                ctx.clearRect(0, 0, w, h);
+                ctx.drawImage(tmp, 0, 0, w, h);
+            }
+        }
+
+        // ---------- DFT helpers (signed k coords) ----------
+        function dftSample(pd, N, kx, ky) {
+            let re = 0,
+                im = 0;
+            const c = TAU / N;
+            for (let y = 0; y < N; y++) {
+                for (let x = 0; x < N; x++) {
+                    const w = pd[y * N + x];
+                    const a = -c * (kx * x + ky * y);
+                    re += w * Math.cos(a);
+                    im += w * Math.sin(a);
+                }
+            }
+            return { re, im };
+        }
+        function idftFromSpectra(re, im, N) {
+            const out = new Float32Array(N * N);
+            const c = TAU / N;
+            const center = (N / 2) | 0;
+            for (let y = 0; y < N; y++) {
+                for (let x = 0; x < N; x++) {
+                    let sRe = 0,
+                        sIm = 0;
+                    for (let iy = 0; iy < N; iy++) {
+                        const ky = center - iy;
+                        for (let ix = 0; ix < N; ix++) {
+                            const kx = ix - center;
+                            const a = c * (kx * x + ky * y);
+                            const id = iy * N + ix;
+                            sRe += re[id] * Math.cos(a) - im[id] * Math.sin(a);
+                        }
+                    }
+                    out[y * N + x] = sRe / (N * N);
+                }
+            }
+            return out;
+        }
+
+        // Incrementally add one k-space sample into a running spatial image
+        function addSampleToReconImage(img, kx, ky, re, im, N) {
+            const c = TAU / N;
+            const inv = 1 / (N * N);
+            for (let y = 0; y < N; y++) {
+                for (let x = 0; x < N; x++) {
+                    const a = c * (kx * x + ky * y);
+                    img[y * N + x] += (re * Math.cos(a) - im * Math.sin(a)) * inv;
+                }
+            }
+        }
+
+        // ---------- Phantom loading from CSV (x,y,z,pd) ----------
+        function rasterizeXYPhantom(pos, pd, N, opts = {}) {
+            const cfg = {
+                space: "auto",
+                kernel: "bilinear",
+                normalize: "p99",
+                ...opts,
+            };
+
+            const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+            const M = pd.length;
+
+            // Extract x,y from pos (ignore z)
+            const xs = new Float32Array(M);
+            const ys = new Float32Array(M);
+            for (let m = 0; m < M; m++) {
+                xs[m] = pos[3 * m + 0];
+                ys[m] = pos[3 * m + 1];
+            }
+
+            // --- coordinate-space detection ---
+            function detect(vals) {
+                let min = Infinity,
+                    max = -Infinity,
+                    ints = 0;
+                const n = vals.length;
+                for (let k = 0; k < n; k++) {
+                    const v = vals[k];
+                    if (v < min) min = v;
+                    if (v > max) max = v;
+                    if (Math.abs(v - Math.round(v)) < 1e-6) ints++;
+                }
+                const intRatio = ints / n;
+                if (min >= -1.2 && max <= 1.2) return "normalized";
+                if (min >= -0.5 && max <= N - 0.5 && intRatio > 0.7) return "pixels";
+                return "world";
+            }
+
+            let mode = cfg.space;
+            if (mode === "auto") {
+                const dx = detect(xs);
+                const dy = detect(ys);
+                mode =
+                    dx === "normalized" && dy === "normalized"
+                        ? "normalized"
+                        : dx === "pixels" && dy === "pixels"
+                            ? "pixels"
+                            : "world";
+            }
+
+            // Min–max for world mapping (handle degenerate spans)
+            let minX = 0,
+                maxX = 1,
+                minY = 0,
+                maxY = 1;
+            if (mode === "world") {
+                minX = Math.min(...xs);
+                maxX = Math.max(...xs);
+                minY = Math.min(...ys);
+                maxY = Math.max(...ys);
+                if (Math.abs(maxX - minX) < 1e-12) {
+                    minX -= 0.5;
+                    maxX += 0.5;
+                }
+                if (Math.abs(maxY - minY) < 1e-12) {
+                    minY -= 0.5;
+                    maxY += 0.5;
+                }
+            }
+
+            // Map value -> fractional grid index in [0, N-1]
+            const toIdxX = (x) => {
+                if (mode === "normalized") return (x + 1) * 0.5 * (N - 1); // [-1,1] → [0..N-1]
+                if (mode === "pixels") return clamp(x, 0, N - 1); // already indices
+                return ((x - minX) / (maxX - minX)) * (N - 1); // world → [0..N-1]
+            };
+            const toIdxY = (y) => {
+                if (mode === "normalized") return (y + 1) * 0.5 * (N - 1);
+                if (mode === "pixels") return clamp(y, 0, N - 1);
+                return ((y - minY) / (maxY - minY)) * (N - 1);
+            };
+
+            // --- splat to grid ---
+            const grid = new Float32Array(N * N);
+            const add = (i, j, w) => {
+                i = clamp(i, 0, N - 1) | 0;
+                j = clamp(j, 0, N - 1) | 0;
+                grid[j * N + i] += w;
+            };
+
+            for (let m = 0; m < M; m++) {
+                const u = toIdxX(xs[m]);
+                const v = toIdxY(ys[m]);
+
+                if (cfg.kernel === "nearest") {
+                    add(Math.round(u), Math.round(v), pd[m]);
+                } else {
+                    // Bilinear: distribute to 4 neighbors
+                    const i0 = Math.floor(u),
+                        j0 = Math.floor(v);
+                    const di = u - i0,
+                        dj = v - j0;
+                    const w00 = (1 - di) * (1 - dj),
+                        w10 = di * (1 - dj),
+                        w01 = (1 - di) * dj,
+                        w11 = di * dj;
+                    add(i0, j0, pd[m] * w00);
+                    add(i0 + 1, j0, pd[m] * w10);
+                    add(i0, j0 + 1, pd[m] * w01);
+                    add(i0 + 1, j0 + 1, pd[m] * w11);
+                }
+            }
+
+            // --- normalization ---
+            if (cfg.normalize === "none") return grid;
+
+            if (cfg.normalize === "max") {
+                let mx = 0;
+                for (const v of grid) if (v > mx) mx = v;
+                const inv = mx ? 1 / mx : 1;
+                for (let k = 0; k < grid.length; k++)
+                    grid[k] = Math.max(0, grid[k] * inv);
+                return grid;
+            }
+
+            // 'p99' (default): robust to a single hot bin
+            const tmp = Array.from(grid).sort((a, b) => a - b);
+            const p99 = tmp[Math.floor(0.99 * tmp.length)] || 1;
+            const inv = p99 > 0 ? 1 / p99 : 1;
+            for (let k = 0; k < grid.length; k++)
+                grid[k] = Math.max(0, Math.min(1, grid[k] * inv));
+            return grid;
+        }
+        async function parsePhantomCSV(file) {
+            const text = await file.text();
+
+            // safer line split
+            const lines = text
+                .split(/\r\n|\n|\r/g)
+                .map((l) => l.trim())
+                .filter((l) => l && !l.startsWith("#"));
+
+            if (lines.length === 0) throw new Error("Empty CSV");
+
+            // detect header
+            const hasLetters = /[A-Za-z]/.test(lines[0]);
+            let col = { x: 0, y: 1, z: 2, pd: 3 };
+            let start = 0;
+
+            if (hasLetters) {
+                const heads = lines[0]
+                    .split(/[,;\t]+/)
+                    .map((s) => s.trim().toLowerCase());
+                const find = (keys) =>
+                    keys.map((k) => heads.indexOf(k)).find((i) => i >= 0);
+                const xi = find(["x"]),
+                    yi = find(["y"]),
+                    zi = find(["z"]);
+                const pi = find(["pd", "rho", "proton", "proton_density"]);
+                if ([xi, yi, zi, pi].some((i) => i == null || i < 0))
+                    throw new Error("CSV header must include x,y,z,pd");
+                col = { x: xi, y: yi, z: zi, pd: pi };
+                start = 1;
+            }
+
+            const rows = lines.slice(start);
+            const M = rows.length;
+            const pos = new Float32Array(M * 3);
+            const pd = new Float32Array(M);
+            let m = 0;
+
+            for (const line of rows) {
+                const parts = line.split(/[,;\t]+/);
+                if (parts.length < 4) continue;
+                const x = parseFloat(parts[col.x]);
+                const y = parseFloat(parts[col.y]);
+                const z = parseFloat(parts[col.z]);
+                const p = parseFloat(parts[col.pd]);
+                if (
+                    !Number.isFinite(x) ||
+                    !Number.isFinite(y) ||
+                    !Number.isFinite(z) ||
+                    !Number.isFinite(p)
+                )
+                    continue;
+                pos[3 * m + 0] = x;
+                pos[3 * m + 1] = y;
+                pos[3 * m + 2] = z;
+                pd[m] = p;
+                m++;
+            }
+            return { pos: pos.subarray(0, 3 * m), pd: pd.subarray(0, m) };
+        }
+
+        async function loadPhantomFromCSV() {
+            const file = phantomCSV.files && phantomCSV.files[0];
+            if (!file) {
+                alert("Choose a CSV file first");
+                return;
+            }
+            try {
+                const parsed = await parsePhantomCSV(file);
+                const newPD = rasterizeXYPhantom(parsed.pos, parsed.pd, N);
+                PD = newPD;
+                spinView.build(N, PD);
+                kspace.build(N);
+                recon.build(N); // reset k sliders
+                kxRange.max = kyRange.max = (N / 2) | 0;
+                kxRange.min = kyRange.min = -((N / 2) | 0);
+                kxRange.value = kyRange.value = "0";
+                updateKViews();
+                recon.draw(recon.current);
+            } catch (e) {
+                console.error(e);
+                alert("Failed to load CSV phantom: " + e.message);
+            }
+        }
+
+        // ---------- wire up ----------
+        const sizeSel = document.getElementById("size");
+        const kxRange = document.getElementById("kx");
+        const kyRange = document.getElementById("ky");
+        const kxVal = document.getElementById("kxVal");
+        const kyVal = document.getElementById("kyVal");
+        const rfBtn = document.getElementById("rf");
+        const resetBtn = document.getElementById("reset");
+        const captureBtn = document.getElementById("capture");
+        const reconBtn = document.getElementById("reconBtn");
+        const pathSel = document.getElementById("path");
+        const autorunBtn = document.getElementById("autorun");
+        const phantomCSV = document.getElementById("phantomCSV");
+        const loadCSV = document.getElementById("loadCSV");
+
+        const spinView = new SpinView(document.getElementById("spins"));
+        const kspace = new KSpace(document.getElementById("kspace"));
+        const stripes = new StripesPanel(document.getElementById("stripes"));
+        const surface = new SurfacePanel(document.getElementById("surface"));
+        const recon = new ReconPanel(document.getElementById("recon"));
+        let N = parseInt(sizeSel.value, 10);
+        let PD = makePhantom(N);
+        async function loadInitialCSVPhantom(N) {
+            try {
+                // Load initial CSV phantom from a local directory
+                const response = await fetch("/assets/data/phantom_64.csv");
+                if (!response.ok)
+                    throw new Error("Failed to fetch initial CSV phantom");
+                const csvText = await response.text();
+                const parsed = await parsePhantomCSV(
+                    new File([csvText], "initial.csv")
+                );
+                const newPD = rasterizeXYPhantom(parsed.pos, parsed.pd, N);
+                return newPD;
+            } catch (e) {
+                console.error(e);
+                alert("Failed to load initial CSV phantom: " + e.message);
+            }
+        }
+
+        async function buildAll() {
+            N = parseInt(sizeSel.value, 10);
+            PD = await loadInitialCSVPhantom(N);
+            spinView.build(N, PD);
+            kspace.build(N);
+            recon.build(N);
+            kxRange.max = kyRange.max = (N / 2) | 0;
+            kxRange.min = kyRange.min = -((N / 2) | 0);
+            kxRange.value = kyRange.value = 0;
+            updateKViews();
+            drawRecon();
+        }
+
+        function updateKViews() {
+            const kx = parseInt(kxRange.value, 10),
+                ky = parseInt(kyRange.value, 10);
+            kxVal.textContent = String(kx);
+            kyVal.textContent = String(ky);
+            stripes.draw(kx, ky);
+            surface.setK(kx, ky);
+            kspace.draw(kx, ky);
+            spinView.setK(kx, ky);
+        }
+
+        function drawRecon() {
+            recon.draw(recon.current);
+        }
+
+        function capture() {
+            const kx = parseInt(kxRange.value, 10),
+                ky = parseInt(kyRange.value, 10);
+            const ix = kspace.toIndexX(kx),
+                iy = kspace.toIndexY(ky);
+            const samp = dftSample(PD, N, kx, ky);
+            kspace.setSample(ix, iy, samp.re, samp.im);
+            kspace.mark(ix, iy);
+            kspace.draw(kx, ky);
+            addSampleToReconImage(recon.current, kx, ky, samp.re, samp.im, N);
+            recon.draw(recon.current);
+        }
+
+        async function reconstruct() {
+            const re = kspace.samplesRe.slice(),
+                im = kspace.samplesIm.slice();
+            const img = new Float32Array(N * N);
+            recon.draw(img);
+            const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+            for (const [ix, iy] of kspace.order) {
+                const r = new Float32Array(N * N),
+                    m = new Float32Array(N * N);
+                r[iy * N + ix] = re[iy * N + ix];
+                m[iy * N + ix] = im[iy * N + ix];
+                const part = idftFromSpectra(r, m, N);
+                for (let i = 0; i < img.length; i++) img[i] += part[i];
+                recon.draw(img);
+                await delay(40);
+            }
+            recon.current = img;
+            recon.draw(img);
+        }
+
+        // paths in signed k coords
+        function* epiPath() {
+            const half = (N / 2) | 0;
+            for (let ky = -half; ky < half; ky++) {
+                const forward = (ky + half) % 2 === 0;
+                if (forward) {
+                    for (let kx = -half; kx < half; kx++) yield { kx, ky };
+                } else {
+                    for (let kx = half - 1; kx >= -half; kx--) yield { kx, ky };
+                }
+            }
+        }
+        function* grePath() {
+            const half = (N / 2) | 0;
+            for (let ky = -half; ky < half; ky++)
+                for (let kx = -half; kx < half; kx++) yield { kx, ky };
+        }
+        function* spiralPath() {
+            const half = (N / 2) | 0;
+            const visited = new Set();
+            const total = N * N;
+            let t = 0;
+            while (visited.size < total) {
+                const r = (t / total) * half;
+                const a = (4.0 * t) / half;
+                const kx = Math.round(r * Math.cos(a));
+                const ky = Math.round(r * Math.sin(a));
+                if (kx >= -half && kx < half && ky >= -half && ky < half) {
+                    const ix = kspace.toIndexX(kx),
+                        iy = kspace.toIndexY(ky);
+                    const key = `${ix},${iy}`;
+                    if (!visited.has(key)) {
+                        visited.add(key);
+                        yield { kx, ky };
+                    }
+                }
+                t++;
+                if (t > total * 6) break;
+            }
+        }
+
+
+
+        function resizeAll() {
+            spinView.resize();
+            surface.resize();
+            kspace.draw(parseInt(kxRange.value, 10), parseInt(kyRange.value, 10));
+            stripes.draw(parseInt(kxRange.value, 10), parseInt(kyRange.value, 10));
+            recon.draw(recon.current || new Float32Array(N * N));
+        }
+
+        sizeSel.addEventListener("change", buildAll);
+        kxRange.addEventListener("input", updateKViews);
+        kyRange.addEventListener("input", updateKViews);
+        resetBtn.addEventListener("click", () => {
+            buildAll();
+        });
+        rfBtn.addEventListener("click", () => {
+            spinView.startTip();
+        });
+        captureBtn.addEventListener("click", capture);
+        reconBtn.addEventListener("click", () => {
+            recon.current = new Float32Array(N * N);
+            recon.draw(recon.current);
+        });
+        loadCSV.addEventListener("click", loadPhantomFromCSV);
+        autorunBtn.addEventListener("click", autoScan);
+        // --- Play/Pause/Restart logic for Auto-scan ---
+        let playing = false;
+        let t0 = performance.now();
+
+        autorunBtn.addEventListener("click", () => {
+            playing = !playing;
+            autorunBtn.textContent = playing ? "❚❚ Pause" : "▶︎ Play";
+            if (playing) {
+                t0 = performance.now();
+                // Resume scan if paused, or start if not started
+                if (!autoScanRunning) {
+                    autoScan();
+                }
+            }
+            // If paused, scan loop will halt until resumed
+        });
+
+        // --- Modify autoScan to support interruption ---
+        let autoScanRunning = false;
+        let autoScanGen = null;
+        async function autoScan() {
+            autoScanRunning = true;
+            const mode = pathSel.value;
+            if (mode === "none") {
+                autoScanRunning = false;
+                return;
+            }
+            if (!autoScanGen) {
+                autoScanGen =
+                    mode === "epi"
+                        ? epiPath()
+                        : mode === "gre"
+                            ? grePath()
+                            : spiralPath();
+            }
+            let step = autoScanGen.next();
+            while (!step.done) {
+                if (!playing) {
+                    autoScanRunning = false;
+                    return;
+                }
+                const { kx, ky } = step.value;
+                kxRange.value = String(kx);
+                kyRange.value = String(ky);
+                updateKViews();
+                const ix = kspace.toIndexX(kx),
+                    iy = kspace.toIndexY(ky);
+                const key = `${ix},${iy}`;
+                if (!kspace.visited.has(key)) capture();
+                await new Promise((r) => setTimeout(r, 5));
+                step = autoScanGen.next();
+            }
+            autoScanGen = null;
+            autoScanRunning = false;
+            playing = false;
+            autorunBtn.textContent = "▶︎ Play";
+        }
+        kspace.canvas.addEventListener("click", (e) => {
+            kspace.click(e);
+        });
+        kspace.onCellClick = (ix, iy) => {
+            const kx = kspace.toKX(ix),
+                ky = kspace.toKY(iy);
+            kxRange.value = String(kx);
+            kyRange.value = String(ky);
+            updateKViews();
+        };
+
+        function loop() {
+            spinView.render();
+            surface.render();
+            requestAnimationFrame(loop);
+        }
+
+        function init() {
+            buildAll();
+            updateKViews();
+            resizeAll();
+            loop();
+        }
+        if (
+            document.readyState === "complete" ||
+            document.readyState === "interactive"
+        )
+            init();
+        else window.addEventListener("DOMContentLoaded", init);
+    </script>
+</body>
+
+</html>

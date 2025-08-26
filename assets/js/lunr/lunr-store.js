@@ -148,4 +148,10 @@ var store = [{
         "tags": ["RF Coil Design","MRI","Biot–Savart","B₁ Field","Quadrature Excitation","PyVista","RF Pulse","Biophysics","Complex Field Decomposition","B1+"],
         "url": "/All-Things-Radio-Frequency-Pulse/",
         "teaser": "/assets/images/coding_stock.jpg"
+      },{
+        "title": "MRI Game — Build k-space & Reconstruct",
+        "excerpt":"MRI Game — Build k‑space & Reconstruct (fixed) MRI Game — k‑space builder N (phantom size) 16×16 32×32 64×64 Reset RF 90° (tip) kx: 0 ky: 0 ⏺ Capture wave (ADC) Auto path — EPI (zig‑zag) GRE line scan Spiral ▶︎ Auto‑scan 🧼 Clear sum Load phantom (CSV: x,y,z,pd) Load...","categories": [],
+        "tags": ["MRI","Fourier","Three.js","demo"],
+        "url": "/demos/mri-game/",
+        "teaser": "/assets/images/coding_stock.jpg"
       }]
