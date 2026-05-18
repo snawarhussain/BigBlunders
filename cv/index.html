@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <!--
   Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
@@ -6,7 +8,7 @@
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
 -->
 
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" dir="ltr">
   <head>
     <meta charset="utf-8">
 
@@ -80,7 +82,7 @@
 
   </head>
 
-  <body class="layout--single" dir="ltr">
+  <body class="layout--single">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -158,6 +160,8 @@
 
     <div class="initial-content">
       
+
+
 
 
 
@@ -276,7 +280,7 @@
 
 
 
-  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Curriculum Vitae">
     <meta itemprop="description" content="Showcasing an extraordinary journey of academic excellence and professional achievements">
     
@@ -285,7 +289,7 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
             <a href="https://snawarhussain.com/cv/" itemprop="url">Curriculum Vitae
 </a>
           </h1>
@@ -295,9 +299,153 @@
         </header>
       
 
-      <section class="page__content" itemprop="text">
+      <section class="page__content e-content" itemprop="text">
         
-        <h2 id="currently">Currently</h2>
+        <style>
+.cv-hero {
+  padding: 1.4rem 1.6rem;
+  margin: 0 0 2rem 0;
+  border: 1px solid rgba(120, 120, 120, 0.18);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(39, 174, 96, 0.10), rgba(41, 128, 185, 0.08)),
+    rgba(255, 255, 255, 0.02);
+}
+
+.cv-hero h2 {
+  margin: 0 0 0.45rem 0;
+  font-size: 1.55rem;
+  letter-spacing: -0.03em;
+}
+
+.cv-subtitle {
+  margin: 0 0 1.2rem 0;
+  max-width: 760px;
+  line-height: 1.55;
+  color: #667085;
+  font-size: 0.98rem;
+}
+
+.cv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.2rem;
+}
+
+.cv-card {
+  padding: 0.85rem 0.95rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(120, 120, 120, 0.16);
+}
+
+.cv-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7a7a7a;
+  margin-bottom: 0.25rem;
+}
+
+.cv-card strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.cv-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.8rem 0 1.1rem 0;
+}
+
+.cv-tag {
+  padding: 0.34rem 0.62rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #245b40;
+  background: rgba(39, 174, 96, 0.11);
+  border: 1px solid rgba(39, 174, 96, 0.18);
+}
+
+.cv-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  font-size: 0.88rem;
+}
+
+.cv-links a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cv-links a:hover {
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  .cv-subtitle { color: #a3a3a3; }
+  .cv-card { background: rgba(255, 255, 255, 0.045); }
+  .cv-card strong { color: #f3f4f6; }
+  .cv-label { color: #a1a1aa; }
+  .cv-tag {
+    color: #b7f5cf;
+    background: rgba(39, 174, 96, 0.13);
+  }
+}
+</style>
+
+<section class="cv-hero">
+  <h2>Snawar Hussain</h2>
+
+  <p class="cv-subtitle">
+    PhD researcher working at the intersection of AI, computational imaging,
+    numerical simulation, and physics. I build physics-aware and data-driven
+    methods for modeling complex systems, with broader interests in scientific
+    reinforcement learning, simulation, generative modeling, and computer vision.
+  </p>
+
+  <div class="cv-grid">
+    <div class="cv-card">
+      <div class="cv-label">Currently</div>
+      <strong>PhD candidate in Physics</strong>
+    </div>
+
+    <div class="cv-card">
+      <div class="cv-label">Affiliation</div>
+      <strong>Researcher at Fraunhofer</strong>
+    </div>
+
+    <div class="cv-card">
+      <div class="cv-label">Focus</div>
+      <strong>AI for imaging, simulation, and scientific computing</strong>
+    </div>
+  </div>
+
+  <div class="cv-tags">
+    <span class="cv-tag">Computational MRI</span>
+    <span class="cv-tag">Deep Learning</span>
+    <span class="cv-tag">Generative Modeling</span>
+    <span class="cv-tag">Computer Vision</span>
+    <span class="cv-tag">Numerical Simulation</span>
+    <span class="cv-tag">Image Processing</span>
+    <span class="cv-tag">Scientific ML</span>
+    <span class="cv-tag">MR Physics</span>
+  </div>
+
+  <div class="cv-links">
+    <a href="mailto:sanawar.hussain18@gmail.com">Email</a>
+    <a href="https://linkedin.com/in/snawarhussain">LinkedIn</a>
+    <a href="https://github.com/snawarhussain">GitHub</a>
+  </div>
+</section>
+
+<!-- ## Currently
 <div style="font-size: 0.9em; font-weight: bold; color: #99d98c; margin-bottom: 20px;">
     📘 Pursuing my PhD in Computational MRI
 </div>
@@ -306,22 +454,22 @@
     💻 Working as a Researcher at Fraunhofer
 </div>
 
-<h3 id="specialized-in">Specialized in</h3>
+### Specialized in
 <div style="font-size: 0.9; font-weight: bold; color: #27ae60; margin-bottom: 20px;">
     🔬 Representation Learning, Image processing, 2D/3D Pose Estimation 
 </div>
 
-<h3 id="research-interests">Research Interests</h3>
+### Research Interests
 <div style="font-size: 0.9; font-weight: bold; color: #2980b9; margin-bottom: 20px;">
     💡 Computer Vision, and Computational MRI
 </div>
 
-<h3 id="additional-expertise">Additional Expertise</h3>
+### Additional Expertise
 <div style="font-size: 0.9; font-weight: bold; color: #8e44ad; margin-bottom: 20px;">
     🧠 Probabilistic Generative Modelling, Deep Learning, and MR Physics
 </div>
 
-<h3 id="contact-information">Contact Information</h3>
+### Contact Information
 <div style="font-size: 0.7; font-weight: bold; color: #d35400; margin-bottom: 10px;">
     📧 Email: <a href="mailto:sanawar.hussain18@gmail.com" style="color: #d35400;">Snawar Hussain</a>
 </div>
@@ -330,80 +478,507 @@
 </div>
 <div style="font-size: 0.7; font-weight: bold; color: #d35400; margin-bottom: 10px;">
     💼 GitHub: <a href="https://github.com/snawarhussain" style="color: #d35400;">GitHub Profile</a>
-</div>
+</div> -->
 
-<h2 id="educationexperience">Education/Experience</h2>
+<style>
+.cv-section {
+  margin: 2rem 0;
+}
 
-<p><code class="language-plaintext highlighter-rouge">2022 - 2023</code>
-<strong>Zhejiang University</strong></p>
-<ul>
-  <li>Research Scholar in Computer Science</li>
-</ul>
+.cv-section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
 
-<p><code class="language-plaintext highlighter-rouge">2019 - 2022</code>
-<strong>Central South University</strong></p>
-<ul>
-  <li>Master’s of Control Science and Engineering (Intelligent Systems and Pattern Recognition)</li>
-</ul>
+.cv-timeline {
+  display: grid;
+  gap: 0.9rem;
+}
 
-<p><code class="language-plaintext highlighter-rouge">2015-2019</code>
-<strong>National University of Sciences and Technology</strong></p>
-<ul>
-  <li>Bachelors of Mechatronics Engineering</li>
-</ul>
+.cv-item {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(120, 120, 120, 0.16);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.45);
+}
 
-<h2 id="publications">Publications</h2>
+.cv-year {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #2563eb;
+  white-space: nowrap;
+}
 
-<p><a href="https://scholar.google.com/citations?user=XSaVXeoAAAAJ&amp;hl=en">Google Scholar</a></p>
+.cv-role {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+}
 
+.cv-place {
+  margin: 0.18rem 0 0.35rem 0;
+  font-size: 0.9rem;
+  color: #667085;
+}
+
+.cv-desc {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #475467;
+}
+
+.cv-pub-card {
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(120, 120, 120, 0.16);
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(39, 174, 96, 0.07)),
+    rgba(255, 255, 255, 0.35);
+}
+
+.cv-pub-card p {
+  margin: 0 0 0.65rem 0;
+  color: #667085;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.cv-pub-card a {
+  color: #2563eb;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cv-pub-card a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .cv-item {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .cv-item,
+  .cv-pub-card {
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  .cv-role {
+    color: #f3f4f6;
+  }
+
+  .cv-place,
+  .cv-desc,
+  .cv-pub-card p {
+    color: #a3a3a3;
+  }
+}
+</style>
+
+<!-- ## Education/Experience
+
+
+`2022 - 2023`
+__Zhejiang University__
+- Research Scholar in Computer Science  
+
+`2019 - 2022`
+__Central South University__
+- Master's of Control Science and Engineering (Intelligent Systems and Pattern Recognition)
+
+`2015-2019`
+__National University of Sciences and Technology__
+  - Bachelors of Mechatronics Engineering
+
+
+
+
+
+## Publications
+
+ [Google Scholar](https://scholar.google.com/citations?user=XSaVXeoAAAAJ&hl=en)
+ -->
 <!--- ### Patents
 
 `2012`
 Infinitesimal calculus for solutions to physics problems, [SMBC](http://www.techdirt.com/articles/20121011/09312820678/if-patents-had-been-around-time-newton.shtml) patent 001
 
 --->
-<h2 id="projects">Projects</h2>
 
-<p><strong>ROBUST: Rodent Observable Behavior Understanding and Study Toolkit</strong></p>
+<style>
+.projects-section {
+  margin: 2.2rem 0;
+}
 
-<p><a href="https://snawarhussain.github.io/robust_showcase/">Project Page</a></p>
+.projects-intro {
+  max-width: 760px;
+  margin: 0 0 1.2rem 0;
+  color: #667085;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
 
-<p><img src="\assets\robust.png" alt="ROBUST" /></p>
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
 
-<blockquote>
-  <p>A toolkit for Unsupervised Behavior Analysis of Rats using self-supervised Variational Autoencoder (VAE) based representation learning and Hidden Markov Model (HMM) clustering.</p>
-</blockquote>
+.project-card {
+  overflow: hidden;
+  border: 1px solid rgba(120, 120, 120, 0.16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.45);
+}
 
-<p><strong>2D/3D pose estimation</strong></p>
+.project-card.featured {
+  grid-column: 1 / -1;
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.09), rgba(39, 174, 96, 0.08)),
+    rgba(255, 255, 255, 0.38);
+}
 
-<p>3D pose esitmation using triangulation of multiple 2D views.</p>
-<blockquote>
-  <p>overall workflow</p>
-</blockquote>
+.project-body {
+  padding: 1rem 1.1rem 1.1rem 1.1rem;
+}
 
-<p><img src="/assets/3D_pose_pipeline.png" alt="Alt Text" /></p>
+.project-eyebrow {
+  margin-bottom: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #2563eb;
+}
 
-<blockquote>
-  <p>Results</p>
-</blockquote>
+.project-title {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 750;
+  color: #1f2937;
+  line-height: 1.3;
+}
 
-<p><img src="/assets/pose_est.gif" alt="Alt Text" /></p>
+.project-meta {
+  margin: 0.35rem 0 0.65rem 0;
+  font-size: 0.84rem;
+  color: #667085;
+}
 
-<p><strong>Retinal Blood Vessel Segmentation</strong></p>
+.project-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #475467;
+}
 
-<blockquote>
-  <p>Unet based architecure for segmentation</p>
-</blockquote>
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+}
 
-<p><a href="https://github.com/snawarhussain/segmentationUnet">Code</a></p>
+.project-tag {
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.73rem;
+  font-weight: 650;
+  color: #245b40;
+  background: rgba(39, 174, 96, 0.11);
+  border: 1px solid rgba(39, 174, 96, 0.16);
+}
 
-<p><img src="/assets/dilunet.jpg" width="480" height="360" /></p>
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 0.9rem;
+  font-size: 0.86rem;
+}
 
-<blockquote>
-  <p>Results</p>
-</blockquote>
+.project-links a {
+  color: #2563eb;
+  font-weight: 700;
+  text-decoration: none;
+}
 
-<p><img src="/assets/dilunet_results.jpg" width="520" height="360" /></p>
+.project-links a:hover {
+  text-decoration: underline;
+}
+
+.project-media {
+  width: 100%;
+  max-height: 260px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(120, 120, 120, 0.12);
+  background: rgba(120, 120, 120, 0.06);
+}
+
+.project-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.project-media.small img {
+  max-height: 240px;
+  object-fit: cover;
+}
+
+@media (prefers-color-scheme: dark) {
+  .projects-intro,
+  .project-meta,
+  .project-desc {
+    color: #a3a3a3;
+  }
+
+  .project-card {
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  .project-title {
+    color: #f3f4f6;
+  }
+
+  .project-tag {
+    color: #b7f5cf;
+    background: rgba(39, 174, 96, 0.13);
+  }
+}
+</style>
+
+<section class="projects-section">
+  <h2>Selected Projects</h2>
+
+  <p class="projects-intro">
+    Selected research and engineering projects across computational MRI,
+    AI-assisted imaging, computer vision, representation learning, and biomedical image analysis.
+  </p>
+
+  <div class="project-grid">
+
+    <article class="project-card featured">
+      <div class="project-body">
+        <div class="project-eyebrow">Fraunhofer MEVIS · U Bremen Research Alliance</div>
+        <h3 class="project-title">KIMBI: AI-Supported Intelligent Magnetic Resonance Imaging</h3>
+        <p class="project-meta">MRI simulation · gammaSTAR compatibility · sequence development · scientific computing</p>
+
+        <p class="project-desc">
+          Contributed to the KIMBI project in the context of Fraunhofer MEVIS and the U Bremen Research Alliance.
+          My work focused on MRI simulation components compatible with gammaSTAR, a vendor-agnostic MR sequence
+          development framework, supporting the connection between executable sequence descriptions, simulation,
+          and AI-assisted imaging workflows.
+        </p>
+
+        <div class="project-tags">
+          <span class="project-tag">Computational MRI</span>
+          <span class="project-tag">MRI Simulation</span>
+          <span class="project-tag">gammaSTAR</span>
+          <span class="project-tag">Sequence Modeling</span>
+          <span class="project-tag">Scientific ML</span>
+        </div>
+
+        <div class="project-links">
+          <a href="https://www.bremen-research.de/en/activities/artificial-intelligence/ai-center-for-health-care/kimbi">
+            Project Page
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card">
+      <div class="project-media">
+        <img src="/assets/robust.png" alt="ROBUST project preview" />
+      </div>
+
+      <div class="project-body">
+        <div class="project-eyebrow">Behavior Analysis</div>
+        <h3 class="project-title">ROBUST: Rodent Observable Behavior Understanding and Study Toolkit</h3>
+        <p class="project-meta">Self-supervised learning · VAE · HMM clustering</p>
+
+        <p class="project-desc">
+          A toolkit for unsupervised behavior analysis of rats using self-supervised representation learning
+          with variational autoencoders and Hidden Markov Model based behavioral state clustering.
+        </p>
+
+        <div class="project-tags">
+          <span class="project-tag">Representation Learning</span>
+          <span class="project-tag">Generative Modeling</span>
+          <span class="project-tag">Behavior Analysis</span>
+        </div>
+
+        <div class="project-links">
+          <a href="https://snawarhussain.github.io/robust_showcase/">Project Page</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card">
+      <div class="project-media small">
+        <img src="/assets/3D_pose_pipeline.png" alt="2D to 3D pose estimation workflow" />
+      </div>
+
+      <div class="project-body">
+        <div class="project-eyebrow">Computer Vision</div>
+        <h3 class="project-title">2D/3D Pose Estimation</h3>
+        <p class="project-meta">Multi-view geometry · triangulation · motion analysis</p>
+
+        <p class="project-desc">
+          Developed a multi-view pose estimation workflow that reconstructs 3D pose from multiple 2D camera views
+          using geometric triangulation and camera-view correspondence.
+        </p>
+
+        <div class="project-tags">
+          <span class="project-tag">Pose Estimation</span>
+          <span class="project-tag">Computer Vision</span>
+          <span class="project-tag">3D Reconstruction</span>
+        </div>
+
+        <div class="project-links">
+          <a href="/assets/pose_est.gif">View Results</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card">
+      <div class="project-media small">
+        <img src="/assets/dilunet_results.jpg" alt="Retinal blood vessel segmentation results" />
+      </div>
+
+      <div class="project-body">
+        <div class="project-eyebrow">Biomedical Image Analysis</div>
+        <h3 class="project-title">Retinal Blood Vessel Segmentation</h3>
+        <p class="project-meta">U-Net · medical image segmentation · retinal imaging</p>
+
+        <p class="project-desc">
+          Implemented a U-Net based segmentation pipeline for retinal blood vessel extraction, including model
+          training, evaluation, and qualitative visualization of segmentation results.
+        </p>
+
+        <div class="project-tags">
+          <span class="project-tag">U-Net</span>
+          <span class="project-tag">Segmentation</span>
+          <span class="project-tag">Medical Imaging</span>
+        </div>
+
+        <div class="project-links">
+          <a href="https://github.com/snawarhussain/segmentationUnet">Code</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section class="cv-section">
+  <h2>Education &amp; Research Experience</h2>
+
+  <div class="cv-timeline">
+
+    <div class="cv-item">
+      <div class="cv-year">2023 — Present</div>
+      <div>
+        <p class="cv-role">PhD Candidate in Physics</p>
+        <p class="cv-place">Fraunhofer MEVIS / University of Bremen</p>
+        <p class="cv-desc">
+          Working on physics-based simulation, AI-assisted computational imaging,
+          MRI sequence modeling, and efficient numerical methods for scientific computing.
+        </p>
+      </div>
+    </div>
+
+    <div class="cv-item">
+      <div class="cv-year">2022 — 2023</div>
+      <div>
+        <p class="cv-role">Research Scholar in Computer Science</p>
+        <p class="cv-place">Zhejiang University</p>
+        <p class="cv-desc">
+          Research experience in machine learning, computer vision, representation learning.
+        </p>
+      </div>
+    </div>
+
+    <div class="cv-item">
+      <div class="cv-year">2019 — 2022</div>
+      <div>
+        <p class="cv-role">M.Sc. in Control Science and Engineering</p>
+        <p class="cv-place">Central South University</p>
+        <p class="cv-desc">
+          Focused on intelligent systems, pattern recognition, machine learning,
+          and computational methods for biomedical imaging and image processing.
+        </p>
+      </div>
+    </div>
+
+    <div class="cv-item">
+      <div class="cv-year">2015 — 2019</div>
+      <div>
+        <p class="cv-role">B.Sc. in Mechatronics Engineering</p>
+        <p class="cv-place">National University of Sciences and Technology</p>
+        <p class="cv-desc">
+          Foundation in robotics, embedded systems, control,
+          electronics, and engineering computation.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cv-section">
+  <h2>Publications</h2>
+
+  <div class="cv-pub-card">
+    <p>
+      My research contributions span across simulation, computational imaging, scientific machine learning, and computer vision.
+    </p>
+    <a href="https://scholar.google.com/citations?user=XSaVXeoAAAAJ&amp;hl=en">
+      View Google Scholar
+    </a>
+  </div>
+</section>
+<!-- ## Projects
+
+__ROBUST: Rodent Observable Behavior Understanding and Study Toolkit__
+
+[Project Page](https://snawarhussain.github.io/robust_showcase/)
+
+![ROBUST](\assets\robust.png)
+
+> A toolkit for Unsupervised Behavior Analysis of Rats using self-supervised Variational Autoencoder (VAE) based representation learning and Hidden Markov Model (HMM) clustering.
+
+__2D/3D pose estimation__
+
+3D pose esitmation using triangulation of multiple 2D views.
+> overall workflow
+
+![Alt Text](/assets/3D_pose_pipeline.png)
+
+> Results
+
+![Alt Text](/assets/pose_est.gif)
+
+__Retinal Blood Vessel Segmentation__
+
+> Unet based architecure for segmentation
+
+[Code](https://github.com/snawarhussain/segmentationUnet)
+
+<img src="/assets/dilunet.jpg" width="480" height="360"/>
+
+> Results
+
+<img src="/assets/dilunet_results.jpg" width="520" height="360"/> -->
 
         
       </section>
@@ -471,7 +1046,7 @@ Infinitesimal calculus for solutions to physics problems, [SMBC](http://www.tech
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2025 <a href="https://snawarhussain.com">Snawar Hussain</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2026 <a href="https://snawarhussain.com">Snawar Hussain</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>
