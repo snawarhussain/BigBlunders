@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IrisDepth MRI — Facial Tracking for Motion Correction</title>
+  <meta name="description" content="Real-time face pose estimation with iris-based depth cues for MRI motion correction." />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="IrisDepth MRI home">
+      <span class="brand-mark"></span>
+      <span data-bind="projectName">IrisDepth MRI</span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#overview">Overview</a>
+      <a href="#method">Method</a>
+      <a href="#depth">Depth cue</a>
+      <a href="#demo">Demo</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero shell" id="overview">
+      <div class="hero-copy">
+        <p class="eyebrow">real-time tracking · scanner-side signal</p>
+        <h1 data-bind="headline">Facial Tracking for MRI Motion Correction</h1>
+        <p class="lead" data-bind="subheadline">
+          Real-time face pose estimation with iris-based depth cues for scanner-side motion correction.
+        </p>
+        <div class="metrics" id="metricCards" aria-label="Project metrics"></div>
+      </div>
+
+      <div class="hero-art card-soft" aria-label="Facial tracking to MRI motion correction illustration">
+        <img
+          id="heroIllustration"
+          class="hero-asset illustration-img"
+          src="./assets/hero-motion-correction.png"
+          alt="Camera-based facial landmark tracking feeding pose estimates to an MRI motion-correction system"
+        />
+      </div>
+    </section>
+
+    <section class="section shell" id="method">
+      <div class="section-heading">
+        <p class="eyebrow">pipeline</p>
+        <h2>Method</h2>
+      </div>
+      <div class="pipeline" id="pipelineCards"></div>
+    </section>
+
+    <section class="section shell two-col" id="depth">
+      <article class="card depth-card">
+        <div class="section-heading compact">
+          <p class="eyebrow">depth cue</p>
+          <h2>Depth from iris size</h2>
+        </div>
+        <p class="body-copy">
+          The apparent iris diameter in the image gives a weak depth cue when combined with a population-level visible iris diameter prior.
+          It is not meant as a calibrated range sensor; it is a practical scale cue for head-pose tracking.
+        </p>
+        <img
+          class="depth-asset illustration-img"
+          src="./assets/depth-from-iris-size.png"
+          alt="Conceptual diagram showing depth estimated from apparent iris diameter"
+        />
+      </article>
+
+      <article class="card output-card">
+        <div class="section-heading compact">
+          <p class="eyebrow">output</p>
+          <h2>Pose stream</h2>
+        </div>
+        <p class="body-copy">
+          A compact pose packet can be sent to the scanner-side correction logic.
+          Values shown here are placeholders for the layout.
+        </p>
+        <img
+          class="pose-asset illustration-img"
+          src="./assets/step-pose-depth-output.png"
+          alt="Yaw, pitch, roll, and depth output packet sent wirelessly"
+        />
+      </article>
+    </section>
+
+    <!-- <section class="section shell" id="demo">
+      <div class="media-card card">
+        <div class="media-placeholder">
+          <button class="play-button" aria-label="Demo video placeholder">
+            <span></span>
+          </button>
+          <p>Demo video placeholder</p>
+        </div>
+        <div class="media-note">
+          <p class="eyebrow">replace later</p>
+          <h2>Tracking demo</h2>
+          <p class="body-copy">
+            Drop in a short screen recording, camera overlay, or scanner-side pose trace here.
+            The placeholder is intentionally neutral so the page does not look like a product pitch.
+          </p>
+        </div>
+      </div>
+    </section> -->
+  </main>
+
+  <footer class="footer shell">
+    <span>Project Showcase Page</span>
+    <span class="dot">•</span>
+    <span>Facial tracking and iris-scale depth cue for MRI motion correction</span>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>

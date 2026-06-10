@@ -550,7 +550,7 @@
 }
 
 .cv-pub-card a {
-  color: #2563eb;
+  color: #1d4cb1;
   font-weight: 700;
   text-decoration: none;
 }
@@ -643,8 +643,34 @@ Infinitesimal calculus for solutions to physics problems, [SMBC](http://www.tech
 .project-card.featured {
   grid-column: 1 / -1;
   background:
-    linear-gradient(135deg, rgba(37, 99, 235, 0.09), rgba(39, 174, 96, 0.08)),
-    rgba(255, 255, 255, 0.38);
+    radial-gradient(circle at top left, rgba(71, 114, 255, 0.22), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(56, 189, 148, 0.16), transparent 38%),
+    linear-gradient(135deg, #111827 0%, #172033 45%, #0f172a 100%);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+}
+
+.project-card.featured .project-title {
+  color: #f8fafc;
+}
+
+.project-card.featured .project-meta,
+.project-card.featured .project-desc {
+  color: #cbd5e1;
+}
+
+.project-card.featured .project-eyebrow {
+  color: #93c5fd;
+}
+
+.project-card.featured .project-tag {
+  background: rgba(34, 197, 94, 0.13);
+  color: #dcfce7;
+  border: 1px solid rgba(34, 197, 94, 0.24);
+}
+
+.project-card.featured .project-links a {
+  color: #93c5fd;
 }
 
 .project-body {
@@ -678,7 +704,7 @@ Infinitesimal calculus for solutions to physics problems, [SMBC](http://www.tech
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.55;
-  color: #475467;
+  color: #a5c4f1;
 }
 
 .project-tags {
@@ -755,17 +781,210 @@ Infinitesimal calculus for solutions to physics problems, [SMBC](http://www.tech
     background: rgba(39, 174, 96, 0.13);
   }
 }
+
+
+.project-card.hero-project {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
+  gap: 2rem;
+  align-items: center;
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.24), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(20, 184, 166, 0.18), transparent 38%),
+    linear-gradient(135deg, #0f172a 0%, #172033 48%, #111827 100%);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+}
+
+.project-card.hero-project {
+  grid-column: 1 / -1;
+  display: block;
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.22), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(20, 184, 166, 0.16), transparent 38%),
+    linear-gradient(135deg, #0f172a 0%, #172033 52%, #111827 100%);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+  overflow: hidden;
+}
+
+.project-card.hero-project .video-banner {
+  width: min(100%, 520px);
+  aspect-ratio: 2 / 1;
+  margin: 1.4rem auto 0;
+  overflow: hidden;
+  background: #020617;
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.project-card.hero-project .video-banner video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-card.hero-project .project-body {
+  padding: 1.5rem 1.6rem 1.6rem;
+}
+
+.project-card.hero-project .project-title {
+  color: #f8fafc;
+  font-size: clamp(1.45rem, 2.3vw, 2rem);
+  margin-bottom: 0.45rem;
+}
+
+.project-card.hero-project .project-eyebrow {
+  color: #93c5fd;
+}
+
+.project-card.hero-project .project-meta,
+.project-card.hero-project .project-desc {
+  color: #cbd5e1;
+}
+
+.project-card.hero-project .project-desc {
+  max-width: 78ch;
+}
+
+.project-card.hero-project .project-tag {
+  background: rgba(20, 184, 166, 0.14);
+  color: #ccfbf1;
+  border: 1px solid rgba(20, 184, 166, 0.28);
+}
+
+.project-card.hero-project .project-links a {
+  color: #bfdbfe;
+}
+
+
 </style>
 
 <section class="projects-section">
   <h2>Selected Projects</h2>
 
   <p class="projects-intro">
-    Selected research and engineering projects across computational MRI,
-    AI-assisted imaging, computer vision, representation learning, and biomedical image analysis.
+    Selected research and engineering projects across computational Physics, Simulation
+    AI-assisted imaging, reconstruction, computer vision, representation learning, and biomedical image analysis.
   </p>
 
   <div class="project-grid">
+  <article class="project-card featured hero-project">
+
+  <div class="project-media video-banner">
+    <video class="project-video" autoplay="" muted="" loop="" playsinline="" preload="auto" poster="/MRTini/FLASH_poster.png" aria-label="Looping simulated MRI image slices">
+      <source src="/MRTini/FLASH.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+
+    <div class="project-body">
+      <div class="project-eyebrow">PhD Research · Computational MRI · Physics-Based Simulation</div>
+
+      <h3 class="project-title">Hybrid MRI Simulator for Physics-Based Image Formation</h3>
+
+      <p class="project-meta">
+        Bloch-resolved RF modeling · phase graphs · k-space simulation · PyTorch
+      </p>
+
+      <p class="project-desc">
+        Built a hybrid MRI simulator that combines efficient phase-graph propagation with
+        Bloch-resolved slice-selective RF operators. The framework simulates sequence-driven
+        signal evolution, relaxation, gradient encoding, and image formation, providing a
+        physics-based foundation for fast MRI experiments and AI-assisted sequence optimization.
+      </p>
+
+      <div class="project-tags">
+        <span class="project-tag">MRI Physics</span>
+        <span class="project-tag">Bloch Simulation</span>
+        <span class="project-tag">Phase Graphs</span>
+        <span class="project-tag">RF Slice Profiles</span>
+        <span class="project-tag">k-Space</span>
+        <span class="project-tag">PyTorch</span>
+      </div>
+
+      <div class="project-links">
+        <!-- <a href="https://github.com/YOUR_USERNAME/YOUR_REPO">Code</a> -->
+        <a href="https://arxiv.org/abs/2606.09233">Preprint</a>
+      </div>
+    </div>
+  </article>
+
+    <article class="project-card featured">
+      <div class="project-media">
+        <img src="/irisdepth_mri_site/assets/preview.png" alt="Facial landmark and depth estimation inside MRI scanner preview" />
+      </div>
+
+      <div class="project-body">
+        <div class="project-eyebrow">MRI-Compatible Vision · Facial Landmark Tracking</div>
+
+        <h3 class="project-title">Facial Landmark and Depth Estimation Inside the MRI Scanner</h3>
+
+        <p class="project-meta">
+          MRI environment · facial landmarks · depth estimation · occlusion-robust tracking
+        </p>
+
+        <p class="project-desc">
+          A computer vision project for estimating facial landmarks and depth information inside
+          the constrained MRI scanner environment. The system focuses on robust face-centered
+          tracking under partial occlusion, restricted viewpoints, and scanner-specific imaging
+          constraints, enabling motion-aware analysis during MRI acquisition.
+        </p>
+
+        <div class="project-tags">
+          <span class="project-tag">MRI-Compatible Vision</span>
+          <span class="project-tag">Facial Landmarks</span>
+          <span class="project-tag">Depth Estimation</span>
+          <span class="project-tag">Occlusion Robustness</span>
+          <span class="project-tag">Motion Analysis</span>
+        </div>
+
+        <div class="project-links">
+          <a href="/irisdepth_mri_site/">Project Page</a>
+          <!-- <a href="https://github.com/YOUR_USERNAME/YOUR_REPO">Code</a> -->
+        </div>
+      </div>
+    </article>
+
+
+
+    <article class="project-card featured">
+    <div class="project-media">
+      <img src="/gstar_interpretor/assets/preview_2.png" alt="gSTARparser project preview" />
+    </div>
+
+    <div class="project-body">
+      <div class="project-eyebrow">Computational MRI · Sequence Interpretation</div>
+
+      <h3 class="project-title">gSTARparser: Scanner-Runnable MRI Sequences for Simulation</h3>
+
+      <p class="project-meta">
+        gammaSTAR · MRI simulation · RF/ADC/gradient parsing · scientific computing
+      </p>
+
+      <p class="project-desc">
+        A project showcase for interpreting scanner-runnable gammaSTAR sequence programs into
+        simulator-ready blocks. The parser preserves RF events, gradient timing, ADC placement,
+        and execution structure, enabling direct use of vendor-agnostic sequence descriptions
+        inside MRI simulation workflows.
+      </p>
+
+      <div class="project-tags">
+        <span class="project-tag">Computational MRI</span>
+        <span class="project-tag">gammaSTAR</span>
+        <span class="project-tag">Sequence Parsing</span>
+        <span class="project-tag">MRI Simulation</span>
+        <span class="project-tag">Scientific Software</span>
+      </div>
+
+      <div class="project-links">
+        <a href="/gstar_interpretor/">Project Page</a>
+        <a href="https://github.com/YOUR_USERNAME/YOUR_REPO">Code</a>
+      </div>
+    </div>
+    </article>
 
     <article class="project-card featured">
       <div class="project-body">

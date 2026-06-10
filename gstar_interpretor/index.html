@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gSTARparser · Scanner-Runnable MRI Sequence Simulation</title>
+  <meta name="description" content="gSTARparser overview page for interpreting scanner-runnable gammaSTAR MRI sequences into simulation-ready spans." />
+  <style>
+    :root{
+      --ink:#13233f; --muted:#5d6b82; --soft:#eef7f6; --teal:#0b827b; --teal2:#0fa79e;
+      --line:#dce5ea; --card:#ffffff; --bg:#fbfdfd; --navy:#0d1730; --gold:#e7a70a;
+      --red:#ef5b43; --green:#58a84d; --violet:#7b61ff; --blue:#4c7dff;
+      --shadow:0 18px 45px rgba(15,35,65,.08);
+      --radius:26px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.55}
+    a{color:inherit;text-decoration:none}
+    .page{overflow:hidden;background:radial-gradient(circle at 20% 0%,rgba(15,167,158,.11),transparent 34rem),radial-gradient(circle at 88% 8%,rgba(19,35,63,.08),transparent 30rem),linear-gradient(#fff,#fbfdfd 30%,#fff)}
+    .container{width:min(1180px,calc(100% - 44px));margin:0 auto}
+
+    header{position:sticky;top:0;z-index:20;backdrop-filter:blur(18px);background:rgba(255,255,255,.78);border-bottom:1px solid rgba(220,229,234,.74)}
+    .nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:30px;letter-spacing:-.04em;color:#0b1020}
+    .brand-mark{width:28px;height:28px;border-radius:2px;background:linear-gradient(135deg,#0b827b,#12aa9f)}
+    .brand small{font-size:22px;font-weight:700;opacity:.9}
+    .nav-right{display:flex;align-items:center;gap:16px}
+    .overview-link{font-size:14px;font-weight:700;color:var(--teal);padding:8px 0;border-bottom:2px solid var(--teal)}
+    .github-btn{display:inline-flex;align-items:center;gap:9px;background:var(--navy);color:#fff;border-radius:13px;padding:11px 15px;font-size:13px;font-weight:800;box-shadow:0 10px 24px rgba(13,23,48,.18);transition:.2s ease}
+    .github-btn:hover{transform:translateY(-1px);background:#182541}
+    .github-btn svg{width:18px;height:18px}
+
+    .hero{display:grid;grid-template-columns:.95fr 1.15fr;align-items:center;gap:58px;padding:72px 0 44px}
+    .badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:#dff3f1;color:#096a65;font-size:12px;font-weight:800;letter-spacing:.04em;padding:7px 12px;text-transform:uppercase}
+    h1{font-size:clamp(44px,6vw,74px);line-height:.98;letter-spacing:-.065em;margin:22px 0 24px;color:#13233f}
+    .lead{font-size:18px;line-height:1.7;color:#4f5d74;max-width:560px;margin:0}
+    .mapping-pill{margin-top:26px;display:inline-flex;align-items:center;gap:10px;border:1px solid #b9e5df;background:#f1fbfa;color:#08746f;border-radius:12px;padding:11px 14px;font-size:13px;font-weight:800}
+    .mapping-pill svg{width:17px;height:17px}
+
+    .wave-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px 20px}
+    .wave-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:12px}
+    .wave-title{margin:0;font-size:15px;font-weight:850;color:#15243e}
+    .wave-copy{margin:3px 0 0;font-size:12px;color:#718096}
+    .mini-pill{white-space:nowrap;border-radius:999px;background:#f1f7f7;border:1px solid #d9e8e7;color:#0b827b;padding:6px 9px;font-size:11px;font-weight:800}
+    .chart-wrap{border:1px solid #e1e8ed;border-radius:18px;background:#fbfdff;overflow:hidden}
+    .chart{width:100%;display:block;height:auto}
+
+    .section{padding:46px 0}
+    .panel{background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 16px 42px rgba(15,35,65,.055);padding:30px}
+    .why-grid{display:grid;grid-template-columns:1.1fr .7fr .7fr;gap:28px;align-items:stretch}
+    .section-kicker{display:flex;align-items:center;gap:11px;margin:0 0 18px;color:var(--teal);font-weight:900;font-size:18px}
+    .icon-circle{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#e9f7f5;color:var(--teal)}
+    .why-text{margin:0;color:#24324b;font-size:15px;line-height:1.75}
+    .why-text strong{color:#0f223c}
+    .mini-card{border:1px solid #e2e9ee;background:#fff;border-radius:18px;padding:20px}
+    .mini-card h3{margin:0 0 13px;font-size:15px;color:#244fb8}
+    .mini-card.approach h3{color:var(--teal)}
+    .check-list{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:13px;color:#42506a}
+    .check-list li{display:flex;gap:9px;align-items:flex-start}.x{color:#6a7485}.ok{color:var(--teal);font-weight:900}
+
+    .center-title{text-align:center;margin:8px 0 28px;font-size:29px;letter-spacing:-.03em;color:#172742}
+    .pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;position:relative}
+    .step{position:relative;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 20px;min-height:245px;box-shadow:0 10px 30px rgba(15,35,65,.045)}
+    .step:not(:last-child)::after{content:"→";position:absolute;right:-19px;top:48%;font-size:28px;color:#aab8c5}
+    .step-no{position:absolute;left:14px;top:14px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--teal);color:white;font-size:12px;font-weight:850}
+    .step-icon{width:74px;height:74px;margin:22px auto 18px;border-radius:50%;display:grid;place-items:center;background:#eef8f7;color:var(--teal)}
+    .step svg{width:36px;height:36px}.step h3{margin:0 0 10px;font-size:15px;line-height:1.25;color:#14243e}.step p{margin:0;font-size:13px;line-height:1.52;color:#536177}
+
+    .defs{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .def-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:27px 28px;box-shadow:0 12px 34px rgba(15,35,65,.05)}
+    .def-head{display:flex;align-items:center;gap:16px;margin-bottom:16px}.def-icon{width:56px;height:56px;border-radius:50%;display:grid;place-items:center}.def-icon svg{width:31px;height:31px}
+    .gold{background:#fff2cd;color:#d58d00}.mint{background:#e7f5ec;color:#08806f}.def-card h3{margin:0;font-size:23px;letter-spacing:-.025em}.def-card .sub{margin:2px 0 0;font-size:13px;font-weight:800}.def-card ul{margin:15px 0 0;padding-left:18px;color:#40506a;font-size:14px;line-height:1.8}.def-card li::marker{color:var(--teal)}
+
+    .enables{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}.enable{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 16px;text-align:center;box-shadow:0 10px 28px rgba(15,35,65,.04)}
+    .enable svg{width:42px;height:42px;color:var(--teal);margin-bottom:13px}.enable h3{font-size:13px;margin:0 0 8px;color:#0a5f5a}.enable p{font-size:12px;line-height:1.45;margin:0;color:#58677c}
+
+    .footer-callout{margin:26px 0 18px;background:#ecfbf9;border:1px solid #c7e9e5;border-radius:18px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:28px}.call-left{display:flex;align-items:center;gap:22px}.call-brand{display:flex;align-items:center;gap:12px;font-size:31px;font-weight:850;letter-spacing:-.05em;color:#101820}.divider{width:1px;height:44px;background:#b7d8d5}.call-text{font-size:13px;color:#273750;max-width:380px;font-weight:650}
+    footer{padding:18px 0 34px;color:#596579;font-size:12px}.footer-row{border-top:1px solid #d7e2e8;padding-top:20px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}.footer-logo{font-weight:850;font-size:18px;color:#1c2a3e;text-align:right}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}.reveal.in{opacity:1;transform:none}
+
+    @media (max-width:980px){.hero,.why-grid,.defs{grid-template-columns:1fr}.pipeline{grid-template-columns:1fr 1fr}.step:not(:last-child)::after{display:none}.enables{grid-template-columns:1fr 1fr 1fr}.footer-callout,.call-left,.footer-row{align-items:flex-start;flex-direction:column}.divider{display:none}}
+    @media (max-width:620px){.container{width:min(100% - 28px,1180px)}.nav{height:auto;padding:14px 0}.brand{font-size:25px}.overview-link{display:none}.github-btn span{display:none}.hero{padding:46px 0 28px;gap:34px}h1{font-size:42px}.lead{font-size:16px}.panel{padding:22px}.pipeline,.enables{grid-template-columns:1fr}.wave-head{flex-direction:column}.footer-callout{padding:20px}.call-brand{font-size:26px}}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <nav class="container nav" aria-label="Main navigation">
+        <a class="brand" href="#overview" aria-label="gSTARparser overview"><span class="brand-mark"></span><span>gSTARparser</span><small>♢</small></a>
+        <div class="nav-right">
+          <a class="overview-link" href="#overview">Overview</a>
+          <a class="github-btn" href="https://github.com/FraunhoferMEVIS/gammaSTAR/tree/main/sequenceServer/" target="_blank" rel="noreferrer" aria-label="Open GitHub project">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A12 12 0 0 0 8.2 23.9c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.4-4-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 .1.7 2.1 2.8 1.5.1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.5 4.4 18.5 4.7 18.5 4.7c.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v4.1c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>
+            <span>GitHub</span>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="overview">
+      <section class="container hero reveal">
+        <div>
+          <div class="badge">Research work</div>
+          <h1>Interpreting Scanner-Runnable MRI Sequences for Simulation</h1>
+          <p class="lead">gammaSTAR sequence programs are parsed into simulator-ready spans, preserving timing, RF events, gradients, and ADC placement.</p>
+          <div class="mapping-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.1 0l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1"/><path d="M14 11a5 5 0 0 0-7.1 0l-2 2A5 5 0 0 0 12 20.1l1.1-1.1"/></svg>
+            1-to-1 mapping from executable sequence to simulation
+          </div>
+        </div>
+
+        <div class="wave-card">
+          <div class="wave-head">
+            <div><p class="wave-title">Scanner-runnable sequence block</p><p class="wave-copy">RF, ADC, gradients and timing are interpreted from the same program used for execution.</p></div>
+            <span class="mini-pill">gammaSTAR → simulator</span>
+          </div>
+          <div class="chart-wrap">
+            <svg class="chart" viewBox="0 0 720 460" role="img" aria-label="Typical GRE FLASH sequence with RF, slice-select gradient, rephasing, phase encoding, prephasing, and readout">
+  <defs>
+    <pattern id="grid" width="72" height="44" patternUnits="userSpaceOnUse">
+      <path d="M72 0H0V44" fill="none" stroke="#e6edf1" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- background -->
+  <rect width="720" height="460" fill="#fbfdff"/>
+  <rect x="118" y="34" width="120" height="386" fill="#f6d37a" opacity=".18"/>
+  <rect x="238" y="34" width="440" height="386" fill="#58b883" opacity=".08"/>
+  <rect x="92" y="34" width="586" height="386" fill="url(#grid)"/>
+
+  <!-- borders / region lines -->
+  <line x1="92" y1="34" x2="678" y2="34" stroke="#cfd9e2"/>
+  <line x1="92" y1="420" x2="678" y2="420" stroke="#cfd9e2"/>
+  <line x1="118" y1="34" x2="118" y2="420" stroke="#e7b333" stroke-dasharray="5 5"/>
+  <line x1="238" y1="34" x2="238" y2="420" stroke="#0b827b" stroke-dasharray="5 5"/>
+
+  <!-- labels -->
+  <text x="130" y="24" fill="#d38b00" font-size="13" font-weight="800">Bloch / RF-active span</text>
+  <text x="360" y="24" fill="#0b827b" font-size="13" font-weight="800">EPG / gradient-moment span</text>
+
+  <!-- time labels -->
+  <g fill="#26334b" font-size="12" font-weight="700">
+    <text x="92" y="50">0</text>
+    <text x="168" y="50">1</text>
+    <text x="244" y="50">2</text>
+    <text x="388" y="50">4</text>
+    <text x="532" y="50">6</text>
+    <text x="650" y="50">8 ms</text>
+  </g>
+
+  <!-- row labels -->
+  <g fill="#1a2945" font-size="15" font-weight="800">
+    <text x="30" y="100">RF (µT)</text>
+    <text x="30" y="176">ADC</text>
+    <text x="30" y="252">Gx</text>
+    <text x="30" y="328">Gy</text>
+    <text x="30" y="404">Gz</text>
+  </g>
+
+  <!-- row baselines -->
+  <g stroke="#c7d3dd" stroke-width="1">
+    <line x1="92" y1="102" x2="678" y2="102"/>
+    <line x1="92" y1="178" x2="678" y2="178"/>
+    <line x1="92" y1="254" x2="678" y2="254"/>
+    <line x1="92" y1="330" x2="678" y2="330"/>
+    <line x1="92" y1="406" x2="678" y2="406"/>
+  </g>
+
+  <!-- RF pulse -->
+  <path
+    d="M92 102
+       L124 102
+       C136 102 140 95 146 82
+       C154 58 166 50 176 82
+       C182 95 186 102 198 102
+       L678 102"
+    fill="none"
+    stroke="var(--gold)"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+
+  <!-- ADC during readout -->
+  <path
+    d="M92 178
+       L386 178
+       L386 154
+       L560 154
+       L560 178
+       L678 178"
+    fill="none"
+    stroke="var(--blue)"
+    stroke-width="3"
+  />
+  <rect
+    x="386" y="154" width="174" height="24"
+    fill="#5f8fff" opacity=".18"
+    stroke="var(--blue)" stroke-width="2"
+  />
+
+  <!-- Gx: trapezoidal prephaser, gap, trapezoidal readout -->
+  <path
+    d="M92 254
+       L286 254
+       L302 254
+       L320 286
+       L350 286
+       L368 254
+       L386 220
+       L572 220
+       L590 254
+       L678 254"
+    fill="none"
+    stroke="var(--red)"
+    stroke-width="3"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+
+  <!-- Gy: small trapezoidal phase-encode blip -->
+  <path
+    d="M92 330
+       L312 330
+       L328 302
+       L350 302
+       L366 330
+       L678 330"
+    fill="none"
+    stroke="var(--green)"
+    stroke-width="3"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+
+  <!-- Gz: slice-select trapezoid during RF, gap, then rephasing trapezoid -->
+  <path
+    d="M92 406
+       L130 406
+       L146 370
+       L192 370
+       L208 406
+       L208 406
+       L224 436
+       L266 436
+       L284 406
+       L678 406"
+    fill="none"
+    stroke="var(--violet)"
+    stroke-width="3"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+
+  <!-- annotations -->
+  <g fill="#5b6a7e" font-size="11" font-weight="700">
+    <text x="148" y="360">slice select</text>
+    <text x="264" y="450">rephase</text>
+    <text x="317" y="299">phase encode</text>
+    <text x="314" y="242">prephase</text>
+    <text x="490" y="214">readout</text>
+    <text x="494" y="148">ADC</text>
+  </g>
+</svg>
+          </div>
+        </div>
+      </section>
+
+      <section class="container section reveal">
+        <div class="panel why-grid">
+          <div>
+            <h2 class="section-kicker"><span class="icon-circle">◎</span>Why this matters</h2>
+            <p class="why-text">Sequence descriptions in papers and textbooks are often simplified or idealized. Real scans run on complex, scanner-executable sequence programs that include timing nuances, RF shapes, gradient details, and ADC placement that strongly influence the outcome.<br><br><strong>By interpreting the actual scanner-runnable program</strong>, the simulator gets a more faithful input for understanding, debugging, and method development.</p>
+          </div>
+          <div class="mini-card">
+            <h3>The gap</h3>
+            <ul class="check-list"><li><span class="x">×</span> Simplified diagrams omit timing details</li><li><span class="x">×</span> RF and gradient shapes are approximated</li><li><span class="x">×</span> ADC placement may be ambiguous</li><li><span class="x">×</span> Hard to reproduce scanner issues</li></ul>
+          </div>
+          <div class="mini-card approach">
+            <h3>Our approach</h3>
+            <ul class="check-list"><li><span class="ok">✓</span> Parse executable gammaSTAR program</li><li><span class="ok">✓</span> Detect RF events and ADC windows</li><li><span class="ok">✓</span> Collect overlapping gradients</li><li><span class="ok">✓</span> Preserve timing and event structure</li><li><span class="ok">✓</span> Provide spans for simulation backends</li></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="container section reveal">
+        <h2 class="center-title">Interpretation pipeline</h2>
+        <div class="pipeline">
+          <article class="step"><span class="step-no">1</span><div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M8 14h8M8 18h6"/></svg></div><h3>Parse sequence block</h3><p>Read gammaSTAR sequence blocks and extract events and timing.</p></article>
+          <article class="step"><span class="step-no">2</span><div class="step-icon"><svg viewBox="0 0 80 42" fill="none" stroke="#e3a100" stroke-width="3"><path d="M4 26 C18 26 18 7 31 7 C44 7 44 26 57 26 H76"/></svg></div><h3>Detect RF intervals</h3><p>Identify RF pulses and return start and end times for each RF-active span.</p></article>
+          <article class="step"><span class="step-no">3</span><div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16"/><path d="M7 12h13"/><path d="M4 17h16"/><circle cx="8" cy="7" r="1.8"/><circle cx="14" cy="12" r="1.8"/><circle cx="11" cy="17" r="1.8"/></svg></div><h3>Collect gradients & ADC</h3><p>Gather overlapping Gx, Gy, Gz and ADC events for the interval.</p></article>
+          <article class="step"><span class="step-no">4</span><div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="14" height="11"/><rect x="13" y="11" width="8" height="8"/></svg></div><h3>Split into spans</h3><p>Separate RF-active Bloch spans from EPG or gradient-moment spans.</p></article>
+          <article class="step"><span class="step-no">5</span><div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="13"/><path d="M8 21h8M12 17v4M6 12l3-3 3 2 3-5 3 4"/></svg></div><h3>Feed simulator</h3><p>Export spans to the simulation backend with exact timing and event parameters.</p></article>
+        </div>
+      </section>
+
+      <section class="container section reveal">
+        <h2 class="center-title">Two simulation definitions</h2>
+        <div class="defs">
+          <article class="def-card">
+            <div class="def-head"><div class="def-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 14h5l2-9 4 16 2-7h7"/></svg></div><div><h3>Hybrid Bloch + 3D EPG</h3><p class="sub" style="color:#cf8500">Slice-profile-aware RF, efficient non-RF propagation</p></div></div>
+            <ul><li>Bloch simulation for RF-active spans, including finite slice profile and off-resonance.</li><li>3D EPG-style propagation for gradient-moment spans.</li><li>Captures RF effects while keeping long sequence evolution tractable.</li><li>Useful for contrast studies and sequence behavior analysis.</li></ul>
+          </article>
+          <article class="def-card">
+            <div class="def-head"><div class="def-icon mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 18c3-8 7-8 11-4 2 2 4 2 7-2"/><path d="M4 5v14h17"/></svg></div><div><h3>Gradient-moment definition</h3><p class="sub" style="color:#0b827b">Fast trajectory view for validation and debugging</p></div></div>
+            <ul><li>Represents non-RF spans by their gradient moments.</li><li>Fast path for trajectory and k-space checks.</li><li>Helps validate geometry, timing, and ADC placement.</li><li>Well suited for conventional reconstruction pipelines.</li></ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="container section reveal">
+        <h2 class="center-title">What it enables</h2>
+        <div class="enables">
+          <article class="enable"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5M8 8l6 6M14 8l-6 6"/></svg><h3>Sequence debugging</h3><p>Localize unexpected behavior seen on the scanner.</p></article>
+          <article class="enable"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4v16M7 7l10 10M17 7 7 17"/></svg><h3>k-space validation</h3><p>Verify trajectories, coverage, and sampling density.</p></article>
+          <article class="enable"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 18h18M5 18c4-12 5-12 7 0 2-8 4-8 7-4"/></svg><h3>Contrast investigation</h3><p>Study parameter effects on contrast and signal evolution.</p></article>
+          <article class="enable"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12c4-6 6 6 10 0s6 6 8 0M4 18c3-4 7 4 11 0"/><circle cx="12" cy="12" r="2"/></svg><h3>Artifact reproduction</h3><p>Recreate distortions to understand their origin.</p></article>
+          <article class="enable"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="11" cy="17" r="2"/></svg><h3>Simulation-guided optimization</h3><p>Evaluate design choices before scanner execution.</p></article>
+          <article class="enable"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v5h5M8 13h8M8 17h6"/></svg><h3>Documentation</h3><p>Generate reproducible records of what was actually run.</p></article>
+        </div>
+      </section>
+
+      <section class="container reveal">
+        <div class="footer-callout">
+          <div class="call-left"><div class="call-brand"><span class="brand-mark"></span><span>gSTARparser</span><small>♢</small></div><div class="divider"></div><p class="call-text">Built as an interpreter layer between gammaSTAR sequence programs and MRI simulation backends.</p></div>
+          <a class="github-btn" href="https://github.com/FraunhoferMEVIS/gammaSTAR/tree/main/sequenceServer" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A12 12 0 0 0 8.2 23.9c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.4-4-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 .1.7 2.1 2.8 1.5.1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.5 4.4 18.5 4.7 18.5 4.7c.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v4.1c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg><span>Open-source project</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-row">
+        <div>Developed in the context of<br>Fraunhofer MEVIS & gammaSTAR.</div>
+        <div class="footer-logo">gSTARparser</div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('in'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
