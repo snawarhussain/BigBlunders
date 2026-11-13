@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Research Room · Snawar Hussain</title>
+<link rel="stylesheet" href="./room.css">
+</head>
+<body>
+<header><a class="portfolio-link" href="/portfolio/">Portfolio</a><div class="brand"><span aria-hidden="true">◈</span> Snawar Hussain <small> / Research Room</small></div><button id="orbit" aria-pressed="false" disabled>Free orbit</button></header>
+<main class="room">
+  <div id="viewport" aria-label="Interactive 3D research room"></div>
+  <canvas id="paper-pages" hidden aria-hidden="true"></canvas>
+  <template id="monitor-window"><div class="monitor-window" hidden><nav><span></span><a target="_blank" rel="noopener noreferrer">Open in tab ↗</a><button type="button" aria-label="Close monitor window">×</button></nav><iframe sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads" allow="fullscreen"></iframe></div></template>
+  <div class="veil"></div>
+  <div id="tour" tabindex="0" aria-label="Scroll through three desk views"></div>
+  <div id="markers"></div>
+  <div id="load" role="status">Loading the room…</div>
+  <aside class="story">
+    <div id="counter" aria-hidden="true"></div>
+    <h1 id="heading">The research desk</h1>
+    <p id="description"></p>
+    <button id="detail" class="action"></button>
+  </aside>
+  <footer>
+    <div id="hint">Scroll to move · Click a screen</div>
+    <nav id="navigation" aria-label="Room views"></nav>
+  </footer>
+  <div id="focus-controls" hidden>
+    <button id="back" type="button" title="Escape">← Back to room</button>
+    <a id="paper-link" class="action" href="https://arxiv.org/pdf/2606.09233" target="_blank" rel="noopener" hidden>Open full paper ↗</a>
+    <div id="paper-turn" hidden><button id="paper-prev" aria-label="Previous pages">‹</button><output id="paper-count"></output><button id="paper-next" aria-label="Next pages">›</button></div>
+    <span>Drag to look · Scroll to zoom · Esc to exit</span>
+  </div>
+</main>
+<details class="asset-credits"><summary>3D credits</summary><p><a href="https://sketchfab.com/3d-models/pc-desk-9a681713b7364dd38db2b15bcca645ae">PC Desk</a> by Ren Viro Store and <a href="https://sketchfab.com/3d-models/gaming-setup-v2-low-poly-c4aafe2ed67841b9b52e80e8e469dbb8">Gaming setup v2</a> by LagzDesign. Selected meshes adapted under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p><ul><li><a href="https://sketchfab.com/3d-models/3d-plant-model-indoor-decorative-plant-b20fc9c5a39948759ea4d1e9e46bda86">3D Plant Model | Indoor Decorative Plant</a> by 3D MODEL  Available • Custom Orders 👍</li><li><a href="https://sketchfab.com/3d-models/indoor-plant-1cc2b9b013fd4754bce74f5fa9783783">indoor plant</a> by shajutisayed</li><li><a href="https://sketchfab.com/3d-models/bird-of-paradise-plant-potted-indoor-plant-63355803f8ec4f4e84ebae2fb7d7265a">bird of paradise plant ( Potted Indoor Plant )</a> by ouadierifi</li><li><a href="https://sketchfab.com/3d-models/coffee-mug-school-project-5f5ccee1514c440887c072fae8e0d699">Coffee Mug (School Project)</a> by Ole Gunnar Isager</li><li><a href="https://sketchfab.com/3d-models/deskcalendar-8bf6cd3f54504302abad4e028863c94f">DeskCalendar</a> by XIN</li><li><a href="https://sketchfab.com/3d-models/digital-alarm-clock-ed977da6f8ee49f5ae7e1f5c642ba3b8">Digital Alarm Clock</a> by cmdigital888</li><li><a href="https://sketchfab.com/3d-models/notebook-995781841b9542b48b69a6bce359c361">notebook</a> by teacherap123</li><li><a href="https://sketchfab.com/3d-models/picture-frame-0ad9f5f4d1644317814a1c7934ff9624">Picture Frame</a> by Xander Morningstar</li><li><a href="https://sketchfab.com/3d-models/stablio-color-pen-high-quality-1743535b3d5e4cf5a897fa7b192e136c">Stablio Color Pen High Quality</a> by barsoomerian</li></ul></details>
+<script type="module" src="./room.js"></script>
+</body>
+</html>
